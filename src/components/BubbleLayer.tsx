@@ -1,6 +1,7 @@
 import type { Bubble } from '../scene/types'
 import { BUBBLE_RADIUS, bubbleInputPort, bubbleOutputPort } from '../scene/geometry'
 import { useRecipeStore } from '../recipes/store'
+import { useSceneStore } from '../scene/store'
 
 interface Props {
   bubbles: Bubble[]
@@ -12,12 +13,14 @@ interface Props {
  */
 export default function BubbleLayer({ bubbles }: Props) {
   const resolveRecipe = useRecipeStore(s => s.resolveRecipe)
+  const missingInputs = useSceneStore(s => s.missingInputs)
 
   return (
     <g className="bubble-layer">
       {bubbles.map(bubble => {
         const recipe = resolveRecipe(bubble.productId, bubble.recipeVariantId)
         const inputs = recipe?.inputs ?? []
+        const hasMissing = inputs.some(res => missingInputs.has(`${bubble.id}:${res}`))
 
         return (
           <BubbleNode
@@ -25,6 +28,7 @@ export default function BubbleLayer({ bubbles }: Props) {
             bubble={bubble}
             inputs={inputs}
             label={recipe?.label ?? bubble.productId}
+            hasMissing={hasMissing}
           />
         )
       })}
@@ -36,9 +40,10 @@ interface BubbleNodeProps {
   bubble: Bubble
   inputs: string[]
   label: string
+  hasMissing: boolean
 }
 
-function BubbleNode({ bubble, inputs, label }: BubbleNodeProps) {
+function BubbleNode({ bubble, inputs, label, hasMissing }: BubbleNodeProps) {
   const cx = bubble.position.x
   const cy = bubble.position.y
   const outputPort = bubbleOutputPort(bubble.position)
@@ -121,7 +126,7 @@ function BubbleNode({ bubble, inputs, label }: BubbleNodeProps) {
       })}
 
       {/* Missing-requirement badge (rendered when bubble has missing inputs) */}
-      <MissingBadge bubble={bubble} inputs={inputs} />
+      <MissingBadge bubble={bubble} hasMissing={hasMissing} />
 
       {/* Recipe variant dropdown affordance */}
       <text
@@ -140,18 +145,11 @@ function BubbleNode({ bubble, inputs, label }: BubbleNodeProps) {
 
 interface MissingBadgeProps {
   bubble: Bubble
-  inputs: string[]
+  hasMissing: boolean
 }
 
 /** Missing-requirement badge: red dot in top-right of bubble */
-function MissingBadge({ bubble, inputs: _inputs }: MissingBadgeProps) {
-  // The solver writes missing state into feeders; the badge is shown
-  // when any input has no resolved feeder. For now we render the badge
-  // conditionally — TASK-005 will wire the actual missing state.
-  // The badge renders if the bubble has a 'missing' marker in the store.
-  // For TASK-004 we just provide the visual — driven by a placeholder prop.
-  const hasMissing = false // Will be driven by solver output in TASK-006
-
+function MissingBadge({ bubble, hasMissing }: MissingBadgeProps) {
   if (!hasMissing) return null
 
   return (

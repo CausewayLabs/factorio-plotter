@@ -15,6 +15,11 @@ export interface AuthoredState {
 export interface DerivedState {
   /** Derived feeders — written by solver, read by renderer. Never persisted. */
   feeders: Feeder[]
+  /**
+   * Set of "bubbleId:resourceType" strings indicating missing inputs.
+   * Written by solver, read by renderer for missing-requirement badge.
+   */
+  missingInputs: Set<string>
 }
 
 export interface SceneStore extends AuthoredState, DerivedState {
@@ -34,7 +39,7 @@ export interface SceneStore extends AuthoredState, DerivedState {
   setRailSupply: (id: string, isSupply: boolean) => void
 
   // --- Derived state (solver writes here) ---
-  setFeeders: (feeders: Feeder[]) => void
+  setFeeders: (feeders: Feeder[], missingInputs: Set<string>) => void
 
   // --- Viewport ---
   setViewport: (vt: ViewportTransform) => void
@@ -78,6 +83,7 @@ export const useSceneStore = create<SceneStore>()((set, _get) => ({
 
   // Initial derived state
   feeders: [],
+  missingInputs: new Set<string>(),
 
   // Initial viewport
   viewport: { zoom: 1, pan: { x: 0, y: 0 } },
@@ -173,8 +179,8 @@ export const useSceneStore = create<SceneStore>()((set, _get) => ({
 
   // --- Derived state ---
 
-  setFeeders(feeders) {
-    set(() => ({ feeders }))
+  setFeeders(feeders, missingInputs) {
+    set(() => ({ feeders, missingInputs }))
   },
 
   // --- Viewport ---
