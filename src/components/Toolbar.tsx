@@ -4,7 +4,7 @@
 import { useState } from 'react'
 import { useEditingStore } from '../editing/store'
 import { useSceneStore } from '../scene/store'
-import { exportDiagramJson } from '../editing/persistence'
+import { exportDiagramJson, importDiagramJson } from '../editing/persistence'
 import { triggerManualRecompute } from '../solver/reactivity'
 import ProductPicker from './ProductPicker'
 import ResourcePicker from './ResourcePicker'
@@ -14,6 +14,7 @@ export default function Toolbar() {
   const setTool = useEditingStore(s => s.setTool)
   const setPendingProduct = useEditingStore(s => s.setPendingProduct)
   const setPendingRailType = useEditingStore(s => s.setPendingRailType)
+  const openRecipeEditor = useEditingStore(s => s.openRecipeEditor)
   const reset = useEditingStore(s => s.reset)
 
   const bubbles = useSceneStore(s => s.bubbles)
@@ -53,8 +54,7 @@ export default function Toolbar() {
   }
 
   async function handleImport() {
-    const { importDiagramJson: doImport } = await import('../editing/persistence')
-    const data = await doImport()
+    const data = await importDiagramJson()
     if (!data) return
     // Clear existing
     Object.keys(bubbles).forEach(id => deleteBubble(id))
@@ -123,6 +123,12 @@ export default function Toolbar() {
       </button>
       <button style={btnStyle(tool === 'draw-rail')} onClick={handleDrawRail} title="Draw Rail (R)">
         + Rail
+      </button>
+
+      <div style={sepStyle} />
+
+      <button style={btnStyle(false)} onClick={() => openRecipeEditor(null)} title="Create or edit products & recipes">
+        Recipes
       </button>
 
       <div style={sepStyle} />

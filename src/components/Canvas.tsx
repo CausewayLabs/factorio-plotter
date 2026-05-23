@@ -42,6 +42,7 @@ export default function Canvas() {
   const pendingRailResourceType = useEditingStore(s => s.pendingRailResourceType)
   const drawingPoints = useEditingStore(s => s.drawingPoints)
   const forkTarget = useEditingStore(s => s.forkTarget)
+  const openRecipeEditor = useEditingStore(s => s.openRecipeEditor)
   const addDrawingPoint = useEditingStore(s => s.addDrawingPoint)
   const clearDrawingPoints = useEditingStore(s => s.clearDrawingPoints)
   const resetEditing = useEditingStore(s => s.reset)
@@ -265,7 +266,11 @@ export default function Canvas() {
           bubble={contextMenu.entity as Bubble}
           screenPos={contextMenu.screenPos}
           onClose={() => setContextMenu(null)}
-          onOpenRecipeEditor={() => setContextMenu(null)}
+          onOpenRecipeEditor={() => {
+            const productId = (contextMenu.entity as Bubble).productId
+            setContextMenu(null)
+            openRecipeEditor(productId)
+          }}
         />
       )}
       {contextMenu?.kind === 'rail' && (

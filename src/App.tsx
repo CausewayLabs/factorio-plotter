@@ -1,7 +1,9 @@
 import { useEffect } from 'react'
 import Canvas from './components/Canvas'
 import Toolbar from './components/Toolbar'
+import RecipeEditor from './components/RecipeEditor'
 import { useSceneStore } from './scene/store'
+import { useEditingStore } from './editing/store'
 import { loadAutosave } from './editing/persistence'
 import { triggerManualRecompute } from './solver/reactivity'
 
@@ -13,6 +15,10 @@ function App() {
   const addBubble = useSceneStore(s => s.addBubble)
   const addRail = useSceneStore(s => s.addRail)
   const bubbles = useSceneStore(s => s.bubbles)
+
+  const recipeEditorOpen = useEditingStore(s => s.recipeEditorOpen)
+  const recipeEditorProduct = useEditingStore(s => s.recipeEditorProduct)
+  const closeRecipeEditor = useEditingStore(s => s.closeRecipeEditor)
 
   useEffect(() => {
     // Only load autosave if store is empty (first mount)
@@ -31,6 +37,12 @@ function App() {
     <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'relative' }}>
       <Canvas />
       <Toolbar />
+      {recipeEditorOpen && (
+        <RecipeEditor
+          editProduct={recipeEditorProduct ?? undefined}
+          onClose={closeRecipeEditor}
+        />
+      )}
     </div>
   )
 }
