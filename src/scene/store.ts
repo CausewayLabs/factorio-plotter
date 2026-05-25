@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { Bubble, Feeder, Point, Rail, ViewportTransform } from './types'
+import type { Bubble, Feeder, InputSlot, OutputConnector, Point, Rail, ViewportTransform } from './types'
 
 // ============================================================
 // Store shape
@@ -15,11 +15,18 @@ export interface AuthoredState {
 export interface DerivedState {
   /** Derived feeders — written by solver, read by renderer. Never persisted. */
   feeders: Feeder[]
+  /** Derived output connectors (bubble output → bound bus). Never persisted. */
+  outputConnectors: OutputConnector[]
   /**
    * Set of "bubbleId:resourceType" strings indicating missing inputs.
    * Written by solver, read by renderer for missing-requirement badge.
    */
   missingInputs: Set<string>
+  /**
+   * Per-bubble input tab layout (side assignment + per-side indices), written by
+   * the solver and read by the renderer so tab geometry matches feeder endpoints.
+   */
+  inputLayouts: Record<string, InputSlot[]>
 }
 
 export interface SceneStore extends AuthoredState, DerivedState {
@@ -31,15 +38,24 @@ export interface SceneStore extends AuthoredState, DerivedState {
   deleteBubble: (id: string) => void
   setBubbleRecipeVariant: (id: string, variantId: string | null) => void
   setBubblePrivate: (id: string, isPrivate: boolean) => void
+  /** Bind (or unbind, with null) a bubble's output to a bus. */
+  setBubbleOutputTarget: (id: string, railId: string | null) => void
 
   // --- Rail mutations ---
   addRail: (rail: Rail) => void
   updateRailPoints: (id: string, points: Point[]) => void
   deleteRail: (id: string) => void
   setRailSupply: (id: string, isSupply: boolean) => void
+  /** Replace the set of resource types a rail/bus carries (must keep ≥1). */
+  setRailResourceTypes: (id: string, resourceTypes: string[], label?: string) => void
 
   // --- Derived state (solver writes here) ---
-  setFeeders: (feeders: Feeder[], missingInputs: Set<string>) => void
+  setFeeders: (
+    feeders: Feeder[],
+    outputConnectors: OutputConnector[],
+    missingInputs: Set<string>,
+    inputLayouts: Record<string, InputSlot[]>
+  ) => void
 
   // --- Viewport ---
   setViewport: (vt: ViewportTransform) => void
@@ -83,7 +99,9 @@ export const useSceneStore = create<SceneStore>()((set, _get) => ({
 
   // Initial derived state
   feeders: [],
+  outputConnectors: [],
   missingInputs: new Set<string>(),
+  inputLayouts: {},
 
   // Initial viewport
   viewport: { zoom: 1, pan: { x: 0, y: 0 } },
@@ -141,6 +159,20 @@ export const useSceneStore = create<SceneStore>()((set, _get) => ({
     triggerSolverRecompute()
   },
 
+  setBubbleOutputTarget(id, railId) {
+    set(state => {
+      const bubble = state.bubbles[id]
+      if (!bubble) return state
+      return {
+        bubbles: {
+          ...state.bubbles,
+          [id]: { ...bubble, outputTarget: railId },
+        },
+      }
+    })
+    triggerSolverRecompute()
+  },
+
   // --- Rail mutations ---
 
   addRail(rail) {
@@ -161,7 +193,16 @@ export const useSceneStore = create<SceneStore>()((set, _get) => ({
     set(state => {
       const next = { ...state.rails }
       delete next[id]
-      return { rails: next }
+      // Clear any bubble output bindings pointing at the deleted rail.
+      let bubbles = state.bubbles
+      let rebound = false
+      for (const b of Object.values(state.bubbles)) {
+        if (b.outputTarget === id) {
+          if (!rebound) { bubbles = { ...state.bubbles }; rebound = true }
+          bubbles[b.id] = { ...b, outputTarget: null }
+        }
+      }
+      return rebound ? { rails: next, bubbles } : { rails: next }
     })
     triggerSolverRecompute()
   },
@@ -177,10 +218,23 @@ export const useSceneStore = create<SceneStore>()((set, _get) => ({
     triggerSolverRecompute()
   },
 
+  setRailResourceTypes(id, resourceTypes, label) {
+    set(state => {
+      const rail = state.rails[id]
+      if (!rail || resourceTypes.length === 0) return state
+      // Drop the explicit label once a bus collapses back to a single type.
+      const nextLabel = label !== undefined ? label : resourceTypes.length > 1 ? rail.label : undefined
+      return {
+        rails: { ...state.rails, [id]: { ...rail, resourceTypes, label: nextLabel } },
+      }
+    })
+    triggerSolverRecompute()
+  },
+
   // --- Derived state ---
 
-  setFeeders(feeders, missingInputs) {
-    set(() => ({ feeders, missingInputs }))
+  setFeeders(feeders, outputConnectors, missingInputs, inputLayouts) {
+    set(() => ({ feeders, outputConnectors, missingInputs, inputLayouts }))
   },
 
   // --- Viewport ---

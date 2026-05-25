@@ -15,8 +15,10 @@ export interface EditingState {
   pendingProductId: string | null
   /** For place-bubble: the recipe variant to use (null = default) */
   pendingVariantId: string | null
-  /** For draw-rail: the resource type of the rail being drawn */
-  pendingRailResourceType: string | null
+  /** For draw-rail: the resource types the bus being drawn carries (≥1). */
+  pendingRailResourceTypes: string[]
+  /** For draw-rail: optional bus label (e.g. "Scrap"). */
+  pendingRailLabel: string | null
   /** For draw-rail: points collected so far (world coords) */
   drawingPoints: { x: number; y: number }[]
   /** For fork-rail: the rail being forked and t value */
@@ -27,7 +29,8 @@ export const defaultEditingState: EditingState = {
   tool: 'select',
   pendingProductId: null,
   pendingVariantId: null,
-  pendingRailResourceType: null,
+  pendingRailResourceTypes: [],
+  pendingRailLabel: null,
   drawingPoints: [],
   forkTarget: null,
 }

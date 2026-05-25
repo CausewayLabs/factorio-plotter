@@ -2,11 +2,38 @@
  * Geometry helpers for bubble port positions, rail hit geometry, etc.
  */
 import type { Point } from './types'
-import type { Rail } from './types'
+import type { Rail, InputSide } from './types'
 
 export const BUBBLE_RADIUS = 36
 export const BUBBLE_OUTPUT_PORT_OFFSET = BUBBLE_RADIUS // right edge
 export const INPUT_PORT_RADIUS = 5
+
+// --- Input box layout ---
+// Each recipe input is drawn as a rectangular tab on the left of the bubble.
+// Tabs stack vertically AND stagger further left with each index, so the
+// vertical feeder drops (which land on each tab's left edge) never overlap.
+export const INPUT_BOX_HEIGHT = 18
+export const INPUT_BOX_VGAP = 6
+export const INPUT_BOX_BASE_WIDTH = 92
+export const INPUT_BOX_STAGGER = 22
+export const INPUT_BOX_LEAD = 12 // gap between a tab's right edge and the circle's leftmost x
+
+export interface InputBoxGeometry {
+  /** Left edge x. */
+  x: number
+  /** Top edge y. */
+  y: number
+  width: number
+  height: number
+  /** Vertical center of the box. */
+  centerY: number
+  /** Edge x toward the bubble (right edge for left-side tabs, left edge for right-side). */
+  innerX: number
+  /** Feeder attach point — outer-edge center (left edge for left tabs, right edge for right). */
+  port: Point
+  /** Which side of the bubble this tab sits on. */
+  side: InputSide
+}
 
 /**
  * The output port of a bubble is at its right edge center.
@@ -16,16 +43,114 @@ export function bubbleOutputPort(center: Point): Point {
 }
 
 /**
- * Input ports are arranged vertically on the left side of the bubble,
- * spaced evenly. Index 0 is topmost.
+ * Geometry of input box `index` of `total` on a given `side`.
+ * Boxes on each side are stacked vertically (centered on the bubble) and each
+ * successive box is wider — staggering outward from the bubble so the feeder
+ * drop points (the outer-edge `port`) never overlap. Left-side tabs stagger
+ * left and attach on their left edge; right-side tabs mirror this.
  */
-export function bubbleInputPort(center: Point, index: number, total: number): Point {
-  const spacing = total > 1 ? (BUBBLE_RADIUS * 1.6) / (total - 1) : 0
-  const startY = center.y - (BUBBLE_RADIUS * 0.8) + spacing * 0
-  return {
-    x: center.x - BUBBLE_RADIUS,
-    y: total === 1 ? center.y : startY + spacing * index,
+export function bubbleInputBox(
+  center: Point,
+  side: InputSide,
+  index: number,
+  total: number
+): InputBoxGeometry {
+  const n = Math.max(total, 1)
+  const pitch = INPUT_BOX_HEIGHT + INPUT_BOX_VGAP
+  const stackHeight = n * INPUT_BOX_HEIGHT + (n - 1) * INPUT_BOX_VGAP
+  const firstCenterY = center.y - stackHeight / 2 + INPUT_BOX_HEIGHT / 2
+  const centerY = firstCenterY + index * pitch
+  const width = INPUT_BOX_BASE_WIDTH + index * INPUT_BOX_STAGGER
+
+  if (side === 'left') {
+    const innerX = center.x - BUBBLE_RADIUS - INPUT_BOX_LEAD
+    const x = innerX - width
+    return {
+      x,
+      y: centerY - INPUT_BOX_HEIGHT / 2,
+      width,
+      height: INPUT_BOX_HEIGHT,
+      centerY,
+      innerX,
+      port: { x, y: centerY },
+      side,
+    }
   }
+
+  // Right side: mirror of the left layout.
+  const innerX = center.x + BUBBLE_RADIUS + INPUT_BOX_LEAD
+  const x = innerX
+  const outerX = innerX + width
+  return {
+    x,
+    y: centerY - INPUT_BOX_HEIGHT / 2,
+    width,
+    height: INPUT_BOX_HEIGHT,
+    centerY,
+    innerX,
+    port: { x: outerX, y: centerY },
+    side,
+  }
+}
+
+/**
+ * Input ports (feeder attach points) are the outer-edge center of each input
+ * box. Single source of truth shared by the renderer and the solver, so feeders
+ * always terminate exactly at the rendered tab.
+ */
+export function bubbleInputPort(center: Point, side: InputSide, index: number, total: number): Point {
+  return bubbleInputBox(center, side, index, total).port
+}
+
+/**
+ * Assign each item a per-side index and that side's total, preserving input
+ * order within each side. Shared by the solver (real sides) and the renderer's
+ * fallback (all-left) so tab indexing is computed in exactly one place.
+ */
+export function assignSideIndices<T extends { side: InputSide }>(
+  items: T[]
+): (T & { sideIndex: number; sideTotal: number })[] {
+  const leftTotal = items.reduce((n, it) => (it.side === 'left' ? n + 1 : n), 0)
+  const rightTotal = items.length - leftTotal
+  let li = 0
+  let ri = 0
+  return items.map(it =>
+    it.side === 'left'
+      ? { ...it, sideIndex: li++, sideTotal: leftTotal }
+      : { ...it, sideIndex: ri++, sideTotal: rightTotal }
+  )
+}
+
+/**
+ * Resolve a rail's world-space polyline, substituting a fork's first point with
+ * the live point on its parent (parametric origin). Shared by hit-testing,
+ * rendering, the solver, and endpoint editing so a fork's geometry is computed
+ * one way everywhere. Rails are never anchored to bubbles, so this depends only
+ * on rails.
+ */
+export function resolveRailPolyline(
+  rail: Rail,
+  rails: Record<string, Rail>
+): Point[] {
+  // Fork origin: first point slides along the parent rail.
+  if (rail.parametricOrigin) {
+    const parent = rails[rail.parametricOrigin.parentRailId]
+    if (!parent) return rail.points
+    const forkPoint = resolveParametricPoint(parent, rail.parametricOrigin.t)
+    return [forkPoint, ...rail.points.slice(1)]
+  }
+  return rail.points
+}
+
+/**
+ * Orthogonal (90°) connector polyline from `from` to `to`. Leaves `from`
+ * horizontally — matching a bubble output port's sideways emit — then turns once
+ * to reach `to`. Collapses to a single straight segment when already
+ * axis-aligned. Used for derived output connectors (bubble output → bus).
+ */
+export function orthogonalConnector(from: Point, to: Point): Point[] {
+  if (from.x === to.x || from.y === to.y) return [from, to]
+  return [from, { x: to.x, y: from.y }, to]
 }
 
 /**

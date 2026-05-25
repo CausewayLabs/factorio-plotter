@@ -11,10 +11,11 @@
  * - Feeders are derived output: never persisted, never selectable.
  */
 
-import type { Bubble, Feeder, FeederSource, Point, Rail } from '../scene/types'
+import type { Bubble, Feeder, FeederSource, InputSide, InputSlot, OutputConnector, Point, Rail } from '../scene/types'
 import type { RecipeVariant } from '../recipes/types'
-import { bubbleInputPort, bubbleOutputPort, nearestPointOnPolyline } from '../scene/geometry'
-import { resolveParametricPoint } from '../scene/geometry'
+import { assignSideIndices, bubbleInputBox, bubbleOutputPort, nearestPointOnPolyline, orthogonalConnector } from '../scene/geometry'
+import { resolveRailPolyline } from '../scene/geometry'
+import { canonicalProductKey } from '../recipes/normalize'
 
 // ============================================================
 // Public interface
@@ -28,13 +29,22 @@ export interface SolverInput {
 
 export interface SolverOutput {
   feeders: Feeder[]
+  /** Derived output connectors (bubble output → bound bus). Mirror of feeders. */
+  outputConnectors: OutputConnector[]
   /** Set of bubbleId+resourceType pairs that have no matching source */
   missingInputs: Set<string>
+  /** Per-bubble input tab layout (side assignment derived from feeder direction). */
+  inputLayouts: Record<string, InputSlot[]>
 }
 
 let _nextFeederId = 0
 function nextFeederId(): string {
   return `feeder-${++_nextFeederId}`
+}
+
+let _nextConnectorId = 0
+function nextConnectorId(): string {
+  return `outconn-${++_nextConnectorId}`
 }
 
 // ============================================================
@@ -44,15 +54,17 @@ function nextFeederId(): string {
 export function solveScene(input: SolverInput): SolverOutput {
   const { bubbles, rails, resolveRecipe } = input
   const feeders: Feeder[] = []
+  const outputConnectors: OutputConnector[] = []
   const missingInputs = new Set<string>()
+  const inputLayouts: Record<string, InputSlot[]> = {}
 
   const bubbleArray = Object.values(bubbles)
   const railArray = Object.values(rails)
 
-  // Resolve actual first point of each rail (accounting for parametric fork origin)
+  // Resolve actual first point of each rail (accounting for fork origin)
   const resolvedRailPoints = new Map<string, Point[]>()
   for (const rail of railArray) {
-    resolvedRailPoints.set(rail.id, resolveRailPoints(rail, rails))
+    resolvedRailPoints.set(rail.id, resolveRailPolyline(rail, rails))
   }
 
   // Supply rails available as sources
@@ -62,38 +74,99 @@ export function solveScene(input: SolverInput): SolverOutput {
     const recipe = resolveRecipe(bubble.productId, bubble.recipeVariantId)
     const inputs = recipe?.inputs ?? []
 
-    for (let idx = 0; idx < inputs.length; idx++) {
-      const resourceType = inputs[idx]
-      const inputPort = bubbleInputPort(bubble.position, idx, inputs.length)
-
+    // Pass 1: find the nearest source for each input using the bubble CENTER as
+    // the query point (side-agnostic). The source's horizontal position relative
+    // to the center then picks which side the tab snaps to — left when the feeder
+    // arrives from the left, right when from the right. Unmet inputs default left.
+    const resolved = inputs.map(resourceType => {
       const source = findNearestSource(
         resourceType,
-        inputPort,
+        bubble.position,
         supplyRails,
         resolvedRailPoints,
         bubbleArray,
         bubble.id
       )
+      const side: InputSide =
+        source && source.attachPoint.x >= bubble.position.x ? 'right' : 'left'
+      return { resourceType, source, side, satisfied: source !== null }
+    })
 
-      if (!source) {
-        missingInputs.add(`${bubble.id}:${resourceType}`)
+    // Pass 2: assign per-side indices, then place each tab and its feeder.
+    const slots = assignSideIndices(resolved)
+    inputLayouts[bubble.id] = slots.map(s => ({
+      resourceType: s.resourceType,
+      side: s.side,
+      sideIndex: s.sideIndex,
+      sideTotal: s.sideTotal,
+      satisfied: s.satisfied,
+    }))
+
+    for (const slot of slots) {
+      if (!slot.source) {
+        missingInputs.add(`${bubble.id}:${slot.resourceType}`)
         continue
       }
 
-      const pathPoints = routeOrthogonal(inputPort, source.attachPoint)
+      const inputPort = bubbleInputBox(
+        bubble.position,
+        slot.side,
+        slot.sideIndex,
+        slot.sideTotal
+      ).port
+
+      // Re-resolve the rail attach point against the actual port (rails attach
+      // at the nearest point on the polyline; bubble sources attach at center).
+      let attachPoint = slot.source.attachPoint
+      if (slot.source.feederSource.kind === 'rail') {
+        const pts = resolvedRailPoints.get(slot.source.feederSource.railId)
+        if (pts && pts.length >= 2) {
+          attachPoint = nearestPointOnPolyline(pts, inputPort).point
+        }
+      }
+
+      // Direct straight-line feeder from source to the bubble's input tab.
+      const feederSource: FeederSource =
+        slot.source.feederSource.kind === 'rail'
+          ? { ...slot.source.feederSource, attachPoint }
+          : slot.source.feederSource
 
       feeders.push({
         id: nextFeederId(),
         bubbleId: bubble.id,
-        resourceType,
-        source: source.feederSource,
-        pathPoints,
+        resourceType: slot.resourceType,
+        source: feederSource,
+        pathPoints: [attachPoint, inputPort],
         inputPort,
       })
     }
   }
 
-  return { feeders, missingInputs }
+  // Output connectors: each bubble bound to a bus emits a derived orthogonal
+  // line from its output port to the nearest point on that bus. The product is
+  // already present in the rail's resourceTypes (the binding gesture adds it), so
+  // downstream feeders tap it off the bus with no extra solver work here.
+  for (const bubble of bubbleArray) {
+    if (!bubble.outputTarget) continue
+    const rail = rails[bubble.outputTarget]
+    if (!rail) continue
+    const pts = resolvedRailPoints.get(rail.id) ?? rail.points
+    if (pts.length < 1) continue
+
+    const port = bubbleOutputPort(bubble.position)
+    const target =
+      pts.length >= 2 ? nearestPointOnPolyline(pts, port).point : pts[0]
+
+    outputConnectors.push({
+      id: nextConnectorId(),
+      bubbleId: bubble.id,
+      railId: rail.id,
+      resourceType: bubble.productId,
+      pathPoints: orthogonalConnector(port, target),
+    })
+  }
+
+  return { feeders, outputConnectors, missingInputs, inputLayouts }
 }
 
 // ============================================================
@@ -116,41 +189,44 @@ function findNearestSource(
 ): ResolvedSource | null {
   let best: ResolvedSource | null = null
 
-  // Check supply rails
+  // Feeders are direct lines now, so rank sources by straight-line (Euclidean)
+  // distance — the visual length of the connection. Resource identity is matched
+  // by canonical key (case- and hyphen-insensitive) so a rail carrying
+  // "Copper Plate" still feeds a bubble needing "copper-plate".
+  const wantKey = canonicalProductKey(resourceType)
+
+  // Check supply rails (a rail is a bus: it may carry several resource types)
   for (const rail of supplyRails) {
-    if (rail.resourceType !== resourceType) continue
+    if (!rail.resourceTypes.some(t => canonicalProductKey(t) === wantKey)) continue
     const pts = resolvedRailPoints.get(rail.id) ?? rail.points
     if (pts.length < 2) continue
 
-    const { point } = nearestPointOnPolyline(pts, queryPoint)
-    // Use Manhattan/orthogonal distance heuristic: dx + dy
-    const manhattan = manhattanDist(queryPoint, point)
-    const score = manhattan * manhattan // compare by manhattan^2 for consistency
+    const { point, distSq } = nearestPointOnPolyline(pts, queryPoint)
 
-    if (best === null || score < best.distSq) {
+    if (best === null || distSq < best.distSq) {
       best = {
         feederSource: { kind: 'rail', railId: rail.id, attachPoint: point },
         attachPoint: point,
-        distSq: score,
+        distSq,
       }
     }
   }
 
-  // Check non-private bubble outputs
+  // Check non-private bubble outputs — a bubble source attaches at its CENTER
+  // (the feeder renders behind the bubble, so it reads as emanating from it).
   for (const sourceBubble of allBubbles) {
     if (sourceBubble.id === queryBubbleId) continue
     if (sourceBubble.isPrivate) continue
-    if (sourceBubble.productId !== resourceType) continue
+    if (canonicalProductKey(sourceBubble.productId) !== wantKey) continue
 
-    const outputPort = bubbleOutputPort(sourceBubble.position)
-    const manhattan = manhattanDist(queryPoint, outputPort)
-    const score = manhattan * manhattan
+    const center = sourceBubble.position
+    const dSq = distSq(queryPoint, center)
 
-    if (best === null || score < best.distSq) {
+    if (best === null || dSq < best.distSq) {
       best = {
-        feederSource: { kind: 'bubble', bubbleId: sourceBubble.id, outputPort },
-        attachPoint: outputPort,
-        distSq: score,
+        feederSource: { kind: 'bubble', bubbleId: sourceBubble.id, attachPoint: center },
+        attachPoint: center,
+        distSq: dSq,
       }
     }
   }
@@ -158,47 +234,8 @@ function findNearestSource(
   return best
 }
 
-function manhattanDist(a: Point, b: Point): number {
-  return Math.abs(a.x - b.x) + Math.abs(a.y - b.y)
-}
-
-// ============================================================
-// Orthogonal feeder routing (L/Z shape)
-// ============================================================
-
-/**
- * Route an orthogonal path from sourcePoint to targetPoint.
- * Uses an L-shape: horizontal then vertical.
- * Collapses to a single segment if already aligned on one axis.
- */
-export function routeOrthogonal(target: Point, source: Point): Point[] {
-  if (Math.abs(source.x - target.x) < 0.5) {
-    // Already horizontally aligned — straight vertical segment
-    return [source, target]
-  }
-  if (Math.abs(source.y - target.y) < 0.5) {
-    // Already vertically aligned — straight horizontal segment
-    return [source, target]
-  }
-
-  // L-shape: go horizontally to target x, then vertically to target y
-  const corner: Point = { x: target.x, y: source.y }
-  return [source, corner, target]
-}
-
-// ============================================================
-// Resolve actual polyline points for a rail (handles fork origins)
-// ============================================================
-
-function resolveRailPoints(rail: Rail, allRails: Record<string, Rail>): Point[] {
-  if (!rail.parametricOrigin) {
-    return rail.points
-  }
-
-  const parent = allRails[rail.parametricOrigin.parentRailId]
-  if (!parent) return rail.points
-
-  const forkPoint = resolveParametricPoint(parent, rail.parametricOrigin.t)
-  // Replace first stored point with the resolved fork point
-  return [forkPoint, ...rail.points.slice(1)]
+function distSq(a: Point, b: Point): number {
+  const dx = a.x - b.x
+  const dy = a.y - b.y
+  return dx * dx + dy * dy
 }

@@ -1,8 +1,9 @@
-import type { Rail } from '../scene/types'
+import type { Rail, Point } from '../scene/types'
 import type { ViewportTransform } from '../scene/types'
-import { getResourceColor } from '../scene/colors'
-import { resolveParametricPoint } from '../scene/geometry'
+import { getRailColor } from '../scene/colors'
+import { resolveRailPolyline } from '../scene/geometry'
 import { useSceneStore } from '../scene/store'
+import { useEditingStore } from '../editing/store'
 
 interface Props {
   rails: Rail[]
@@ -14,26 +15,21 @@ interface Props {
  * Supply rails: solid, full opacity.
  * Non-supply rails: dashed, reduced opacity.
  */
-export default function RailLayer({ rails, viewport: _viewport }: Props) {
+export default function RailLayer({ rails, viewport }: Props) {
   const railsMap = useSceneStore(s => s.rails)
+  const tool = useEditingStore(s => s.tool)
+  // Endpoint handles are sized in screen pixels so they stay grabbable at any zoom.
+  const handleR = 4 / viewport.zoom
 
   return (
     <g className="rail-layer">
       {rails.map(rail => {
-        // Resolve parametric origin if this is a fork
-        let points = rail.points
-        if (rail.parametricOrigin) {
-          const parent = railsMap[rail.parametricOrigin.parentRailId]
-          if (parent) {
-            const forkPoint = resolveParametricPoint(parent, rail.parametricOrigin.t)
-            // The fork's first point is the resolved parametric point
-            points = [forkPoint, ...rail.points.slice(1)]
-          }
-        }
+        // Resolve fork origin so the first point tracks its parent rail.
+        const points = resolveRailPolyline(rail, railsMap)
 
         if (points.length < 2) return null
 
-        const color = getResourceColor(rail.resourceType)
+        const color = getRailColor(rail)
         const pointsStr = points.map(p => `${p.x},${p.y}`).join(' ')
 
         return (
@@ -61,11 +57,58 @@ export default function RailLayer({ rails, viewport: _viewport }: Props) {
             />
             {/* Resource type label at midpoint */}
             <RailLabel rail={{ ...rail, points }} color={color} />
+
+            {/* Draggable endpoint handles (select mode). A fork's first point is
+                parametric (owned by its parent), so it gets no handle. */}
+            {tool === 'select' && (
+              <RailEndpointHandles
+                points={points}
+                color={color}
+                radius={handleR}
+                showFirst={!rail.parametricOrigin}
+              />
+            )}
           </g>
         )
       })}
     </g>
   )
+}
+
+interface HandleProps {
+  points: Point[]
+  color: string
+  radius: number
+  showFirst: boolean
+}
+
+function RailEndpointHandles({ points, color, radius, showFirst }: HandleProps) {
+  const ends: Point[] = []
+  if (showFirst) ends.push(points[0])
+  ends.push(points[points.length - 1])
+  return (
+    <>
+      {ends.map((p, i) => (
+        <circle
+          key={i}
+          cx={p.x}
+          cy={p.y}
+          r={radius}
+          fill="#16213e"
+          stroke={color}
+          strokeWidth={radius * 0.5}
+          style={{ pointerEvents: 'none' }}
+        />
+      ))}
+    </>
+  )
+}
+
+/** Display name for a rail: explicit label, the single type, or "Bus (N)". */
+export function railBusLabel(rail: Rail): string {
+  if (rail.label) return `${rail.label} (${rail.resourceTypes.length})`
+  if (rail.resourceTypes.length === 1) return rail.resourceTypes[0]
+  return `Bus (${rail.resourceTypes.length})`
 }
 
 interface LabelProps {
@@ -95,7 +138,7 @@ function RailLabel({ rail, color }: LabelProps) {
       paintOrder="stroke"
       style={{ userSelect: 'none', pointerEvents: 'none' }}
     >
-      {rail.resourceType}
+      {railBusLabel(rail)}
     </text>
   )
 }

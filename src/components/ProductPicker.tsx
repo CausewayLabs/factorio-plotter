@@ -16,6 +16,7 @@ export default function ProductPicker({ onSelect, onClose }: Props) {
   const [filter, setFilter] = useState('')
   const [selected, setSelected] = useState<string | null>(null)
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null)
+  const [highlight, setHighlight] = useState(0)
 
   const allProducts = getAllProductIds()
   const filtered = filter.trim()
@@ -25,6 +26,23 @@ export default function ProductPicker({ onSelect, onClose }: Props) {
   function handleSelect() {
     if (!selected) return
     onSelect(selected, selectedVariant)
+  }
+
+  // Keyboard nav from the filter box: ↑/↓ move highlight, Enter picks it.
+  function handleFilterKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setHighlight(h => Math.min(h + 1, filtered.length - 1))
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setHighlight(h => Math.max(h - 1, 0))
+    } else if (e.key === 'Enter') {
+      e.preventDefault()
+      const pick = filtered[highlight]
+      if (pick) onSelect(pick, null)
+    } else if (e.key === 'Escape') {
+      onClose()
+    }
   }
 
   const variants = selected ? getVariantsForProduct(selected) : []
@@ -51,24 +69,27 @@ export default function ProductPicker({ onSelect, onClose }: Props) {
         <input
           autoFocus
           value={filter}
-          onChange={e => setFilter(e.target.value)}
-          placeholder="Filter products..."
+          onChange={e => { setFilter(e.target.value); setHighlight(0) }}
+          onKeyDown={handleFilterKeyDown}
+          placeholder="Filter products... (↑/↓ + Enter)"
           style={{ background: '#0f1628', border: '1px solid #4a4a6a', color: '#e0e0ff', borderRadius: 4, padding: '6px 8px', fontSize: 13 }}
         />
 
         <div style={{ overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
-          {filtered.map(productId => {
+          {filtered.map((productId, i) => {
             const v = getVariantsForProduct(productId)
             const label = v[0]?.label ?? productId
             const isRaw = v[0]?.inputs.length === 0
+            const isActive = selected === productId || (selected === null && i === highlight)
             return (
               <div
                 key={productId}
-                onClick={() => { setSelected(productId); setSelectedVariant(null) }}
+                onClick={() => { setSelected(productId); setSelectedVariant(null); setHighlight(i) }}
+                onDoubleClick={() => onSelect(productId, null)}
                 style={{
                   padding: '6px 10px', borderRadius: 4, cursor: 'pointer',
-                  background: selected === productId ? '#2a4a7f' : 'transparent',
-                  color: selected === productId ? '#e0e0ff' : '#c0c0d0',
+                  background: isActive ? '#2a4a7f' : 'transparent',
+                  color: isActive ? '#e0e0ff' : '#c0c0d0',
                   display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                   fontSize: 13,
                 }}

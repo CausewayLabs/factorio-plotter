@@ -2,6 +2,7 @@
  * Per-resource-type color palette for rail rendering.
  * Each resource type has a consistent color; unknown types fall back to gray.
  */
+import { canonicalProductKey } from '../recipes/normalize'
 
 const RESOURCE_COLORS: Record<string, string> = {
   'iron-plate': '#a0a0b0',
@@ -31,8 +32,32 @@ const RESOURCE_COLORS: Record<string, string> = {
   'low-density-structure': '#b0a080',
   'rocket-control-unit': '#6080d0',
   'speed-module': '#a030c0',
+  // Fulgora / Space Age
+  'scrap': '#929292',
+  'concrete': '#6a6a72',
+  'ice': '#a8d0e0',
+  'holmium-ore': '#d08090',
 }
 
+// Canonical-keyed lookup so "Copper Plate" / "copper_plate" resolve to the same
+// color as the canonical "copper-plate" key.
+const CANONICAL_RESOURCE_COLORS: Record<string, string> = Object.fromEntries(
+  Object.entries(RESOURCE_COLORS).map(([k, v]) => [canonicalProductKey(k), v])
+)
+
 export function getResourceColor(resourceType: string): string {
-  return RESOURCE_COLORS[resourceType] ?? '#808080'
+  return CANONICAL_RESOURCE_COLORS[canonicalProductKey(resourceType)] ?? '#808080'
+}
+
+/** Neutral color for a multi-resource bus (more than one carried type). */
+export const BUS_COLOR = '#c0c4d0'
+
+/**
+ * Color for a rail: the resource's color when it carries a single type,
+ * otherwise a neutral bus color (the label identifies the bus).
+ */
+export function getRailColor(rail: { resourceTypes: string[] }): string {
+  return rail.resourceTypes.length === 1
+    ? getResourceColor(rail.resourceTypes[0])
+    : BUS_COLOR
 }

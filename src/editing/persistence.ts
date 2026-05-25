@@ -16,6 +16,51 @@ export interface DiagramJson {
   rails: Rail[]
 }
 
+/**
+ * Normalize a persisted rail to the current shape. Legacy diagrams stored a
+ * single `resourceType: string`; rails are now buses with `resourceTypes: []`.
+ * Legacy `bubbleOrigin` (anchored-rail model) is dropped — rails are never
+ * anchored to bubbles.
+ */
+function normalizeRail(r: Rail & { resourceType?: string }): Rail {
+  const resourceTypes = Array.isArray(r.resourceTypes) && r.resourceTypes.length > 0
+    ? r.resourceTypes
+    : r.resourceType
+      ? [r.resourceType]
+      : ['unknown']
+  return {
+    id: r.id,
+    resourceTypes,
+    label: r.label,
+    points: r.points,
+    isSupply: r.isSupply ?? true,
+    parametricOrigin: r.parametricOrigin ?? null,
+  }
+}
+
+/**
+ * Normalize a persisted bubble. Backfills `outputTarget` for diagrams saved
+ * before output bindings existed.
+ */
+function normalizeBubble(b: Bubble): Bubble {
+  return {
+    id: b.id,
+    position: b.position,
+    productId: b.productId,
+    recipeVariantId: b.recipeVariantId ?? null,
+    isPrivate: b.isPrivate ?? false,
+    outputTarget: b.outputTarget ?? null,
+  }
+}
+
+function normalizeDiagram(data: DiagramJson): DiagramJson {
+  return {
+    ...data,
+    bubbles: (data.bubbles ?? []).map(normalizeBubble),
+    rails: (data.rails ?? []).map(normalizeRail),
+  }
+}
+
 // ============================================================
 // Autosave
 // ============================================================
@@ -39,7 +84,7 @@ export function loadAutosave(): DiagramJson | null {
     if (!raw) return null
     const data = JSON.parse(raw) as DiagramJson
     if (data.version !== 1) return null
-    return data
+    return normalizeDiagram(data)
   } catch {
     return null
   }
@@ -91,7 +136,7 @@ export function importDiagramJson(): Promise<DiagramJson | null> {
             resolve(null)
             return
           }
-          resolve(data)
+          resolve(normalizeDiagram(data))
         } catch {
           resolve(null)
         }

@@ -1,16 +1,1370 @@
 [
   {
-    "product": "iron-plate",
+    "product": "wooden-chest",
     "variantId": "default",
-    "label": "Iron Plate",
-    "inputs": [],
+    "label": "Wooden Chest",
+    "inputs": [
+      "wood"
+    ],
     "isDefault": true
   },
   {
-    "product": "copper-plate",
+    "product": "iron-chest",
     "variantId": "default",
-    "label": "Copper Plate",
-    "inputs": [],
+    "label": "Iron Chest",
+    "inputs": [
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "steel-chest",
+    "variantId": "default",
+    "label": "Steel Chest",
+    "inputs": [
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "storage-tank",
+    "variantId": "default",
+    "label": "Storage Tank",
+    "inputs": [
+      "iron-plate",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "transport-belt",
+    "variantId": "default",
+    "label": "Transport Belt",
+    "inputs": [
+      "iron-plate",
+      "iron-gear-wheel"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fast-transport-belt",
+    "variantId": "default",
+    "label": "Fast Transport Belt",
+    "inputs": [
+      "iron-gear-wheel",
+      "transport-belt"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "express-transport-belt",
+    "variantId": "default",
+    "label": "Express Transport Belt",
+    "inputs": [
+      "iron-gear-wheel",
+      "fast-transport-belt",
+      "lubricant"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "turbo-transport-belt",
+    "variantId": "default",
+    "label": "Turbo Transport Belt",
+    "inputs": [
+      "tungsten-plate",
+      "express-transport-belt",
+      "lubricant"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "underground-belt",
+    "variantId": "default",
+    "label": "Underground Belt",
+    "inputs": [
+      "iron-plate",
+      "transport-belt"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fast-underground-belt",
+    "variantId": "default",
+    "label": "Fast Underground Belt",
+    "inputs": [
+      "iron-gear-wheel",
+      "underground-belt"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "express-underground-belt",
+    "variantId": "default",
+    "label": "Express Underground Belt",
+    "inputs": [
+      "iron-gear-wheel",
+      "fast-underground-belt",
+      "lubricant"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "turbo-underground-belt",
+    "variantId": "default",
+    "label": "Turbo Underground Belt",
+    "inputs": [
+      "tungsten-plate",
+      "express-underground-belt",
+      "lubricant"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "splitter",
+    "variantId": "default",
+    "label": "Splitter",
+    "inputs": [
+      "electronic-circuit",
+      "iron-plate",
+      "transport-belt"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fast-splitter",
+    "variantId": "default",
+    "label": "Fast Splitter",
+    "inputs": [
+      "splitter",
+      "iron-gear-wheel",
+      "electronic-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "express-splitter",
+    "variantId": "default",
+    "label": "Express Splitter",
+    "inputs": [
+      "fast-splitter",
+      "iron-gear-wheel",
+      "advanced-circuit",
+      "lubricant"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "turbo-splitter",
+    "variantId": "default",
+    "label": "Turbo Splitter",
+    "inputs": [
+      "express-splitter",
+      "tungsten-plate",
+      "processing-unit",
+      "lubricant"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "burner-inserter",
+    "variantId": "default",
+    "label": "Burner Inserter",
+    "inputs": [
+      "iron-plate",
+      "iron-gear-wheel"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "inserter",
+    "variantId": "default",
+    "label": "Inserter",
+    "inputs": [
+      "electronic-circuit",
+      "iron-gear-wheel",
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "long-handed-inserter",
+    "variantId": "default",
+    "label": "Long-handed Inserter",
+    "inputs": [
+      "iron-gear-wheel",
+      "iron-plate",
+      "inserter"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fast-inserter",
+    "variantId": "default",
+    "label": "Fast Inserter",
+    "inputs": [
+      "electronic-circuit",
+      "iron-plate",
+      "inserter"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "bulk-inserter",
+    "variantId": "default",
+    "label": "Bulk Inserter",
+    "inputs": [
+      "iron-gear-wheel",
+      "electronic-circuit",
+      "advanced-circuit",
+      "fast-inserter"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "stack-inserter",
+    "variantId": "default",
+    "label": "Stack Inserter",
+    "inputs": [
+      "bulk-inserter",
+      "processing-unit",
+      "carbon-fiber",
+      "jelly"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "small-electric-pole",
+    "variantId": "default",
+    "label": "Small Electric Pole",
+    "inputs": [
+      "wood",
+      "copper-cable"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "medium-electric-pole",
+    "variantId": "default",
+    "label": "Medium Electric Pole",
+    "inputs": [
+      "iron-stick",
+      "steel-plate",
+      "copper-cable"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "big-electric-pole",
+    "variantId": "default",
+    "label": "Big Electric Pole",
+    "inputs": [
+      "iron-stick",
+      "steel-plate",
+      "copper-cable"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "substation",
+    "variantId": "default",
+    "label": "Substation",
+    "inputs": [
+      "steel-plate",
+      "advanced-circuit",
+      "copper-cable"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "pipe",
+    "variantId": "default",
+    "label": "Pipe",
+    "inputs": [
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "pipe",
+    "variantId": "casting-pipe",
+    "label": "Pipe (Casting Pipe)",
+    "inputs": [
+      "molten-iron"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "pipe-to-ground",
+    "variantId": "default",
+    "label": "Pipe To Ground",
+    "inputs": [
+      "pipe",
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "pipe-to-ground",
+    "variantId": "casting-pipe-to-ground",
+    "label": "Pipe To Ground (Casting Pipe To Ground)",
+    "inputs": [
+      "molten-iron",
+      "pipe"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "pump",
+    "variantId": "default",
+    "label": "Pump",
+    "inputs": [
+      "engine-unit",
+      "steel-plate",
+      "pipe"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rail",
+    "variantId": "default",
+    "label": "Rail",
+    "inputs": [
+      "stone",
+      "iron-stick",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rail-ramp",
+    "variantId": "default",
+    "label": "Rail Ramp",
+    "inputs": [
+      "refined-concrete",
+      "rail",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rail-support",
+    "variantId": "default",
+    "label": "Rail Support",
+    "inputs": [
+      "refined-concrete",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "train-stop",
+    "variantId": "default",
+    "label": "Train Stop",
+    "inputs": [
+      "electronic-circuit",
+      "iron-plate",
+      "iron-stick",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rail-signal",
+    "variantId": "default",
+    "label": "Rail Signal",
+    "inputs": [
+      "electronic-circuit",
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rail-chain-signal",
+    "variantId": "default",
+    "label": "Rail Chain Signal",
+    "inputs": [
+      "electronic-circuit",
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "locomotive",
+    "variantId": "default",
+    "label": "Locomotive",
+    "inputs": [
+      "engine-unit",
+      "electronic-circuit",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "cargo-wagon",
+    "variantId": "default",
+    "label": "Cargo Wagon",
+    "inputs": [
+      "iron-gear-wheel",
+      "iron-plate",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fluid-wagon",
+    "variantId": "default",
+    "label": "Fluid Wagon",
+    "inputs": [
+      "iron-gear-wheel",
+      "steel-plate",
+      "pipe",
+      "storage-tank"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "artillery-wagon",
+    "variantId": "default",
+    "label": "Artillery Wagon",
+    "inputs": [
+      "engine-unit",
+      "tungsten-plate",
+      "refined-concrete",
+      "iron-gear-wheel",
+      "processing-unit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "car",
+    "variantId": "default",
+    "label": "Car",
+    "inputs": [
+      "engine-unit",
+      "iron-plate",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "tank",
+    "variantId": "default",
+    "label": "Tank",
+    "inputs": [
+      "engine-unit",
+      "steel-plate",
+      "iron-gear-wheel",
+      "advanced-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "spidertron",
+    "variantId": "default",
+    "label": "Spidertron",
+    "inputs": [
+      "exoskeleton-equipment",
+      "fission-reactor-equipment",
+      "rocket-turret",
+      "radar",
+      "raw-fish"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "logistic-robot",
+    "variantId": "default",
+    "label": "Logistic Robot",
+    "inputs": [
+      "flying-robot-frame",
+      "advanced-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "construction-robot",
+    "variantId": "default",
+    "label": "Construction Robot",
+    "inputs": [
+      "flying-robot-frame",
+      "electronic-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "active-provider-chest",
+    "variantId": "default",
+    "label": "Active Provider Chest",
+    "inputs": [
+      "steel-chest",
+      "electronic-circuit",
+      "advanced-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "passive-provider-chest",
+    "variantId": "default",
+    "label": "Passive Provider Chest",
+    "inputs": [
+      "steel-chest",
+      "electronic-circuit",
+      "advanced-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "storage-chest",
+    "variantId": "default",
+    "label": "Storage Chest",
+    "inputs": [
+      "steel-chest",
+      "electronic-circuit",
+      "advanced-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "buffer-chest",
+    "variantId": "default",
+    "label": "Buffer Chest",
+    "inputs": [
+      "steel-chest",
+      "electronic-circuit",
+      "advanced-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "requester-chest",
+    "variantId": "default",
+    "label": "Requester Chest",
+    "inputs": [
+      "steel-chest",
+      "electronic-circuit",
+      "advanced-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "roboport",
+    "variantId": "default",
+    "label": "Roboport",
+    "inputs": [
+      "steel-plate",
+      "iron-gear-wheel",
+      "advanced-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "small-lamp",
+    "variantId": "default",
+    "label": "Lamp",
+    "inputs": [
+      "electronic-circuit",
+      "copper-cable",
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "arithmetic-combinator",
+    "variantId": "default",
+    "label": "Arithmetic Combinator",
+    "inputs": [
+      "copper-cable",
+      "electronic-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "decider-combinator",
+    "variantId": "default",
+    "label": "Decider Combinator",
+    "inputs": [
+      "copper-cable",
+      "electronic-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "selector-combinator",
+    "variantId": "default",
+    "label": "Selector Combinator",
+    "inputs": [
+      "advanced-circuit",
+      "decider-combinator"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "constant-combinator",
+    "variantId": "default",
+    "label": "Constant Combinator",
+    "inputs": [
+      "copper-cable",
+      "electronic-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "power-switch",
+    "variantId": "default",
+    "label": "Power Switch",
+    "inputs": [
+      "iron-plate",
+      "copper-cable",
+      "electronic-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "programmable-speaker",
+    "variantId": "default",
+    "label": "Programmable Speaker",
+    "inputs": [
+      "iron-plate",
+      "iron-stick",
+      "copper-cable",
+      "electronic-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "display-panel",
+    "variantId": "default",
+    "label": "Display Panel",
+    "inputs": [
+      "iron-plate",
+      "electronic-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "stone-brick",
+    "variantId": "default",
+    "label": "Stone Brick",
+    "inputs": [
+      "stone"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "concrete",
+    "variantId": "default",
+    "label": "Concrete",
+    "inputs": [
+      "stone-brick",
+      "iron-ore",
+      "water"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "concrete",
+    "variantId": "concrete-from-molten-iron",
+    "label": "Concrete (Concrete From Molten Iron)",
+    "inputs": [
+      "molten-iron",
+      "water",
+      "stone-brick"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "hazard-concrete",
+    "variantId": "default",
+    "label": "Hazard Concrete",
+    "inputs": [
+      "concrete"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "refined-concrete",
+    "variantId": "default",
+    "label": "Refined Concrete",
+    "inputs": [
+      "concrete",
+      "iron-stick",
+      "steel-plate",
+      "water"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "refined-hazard-concrete",
+    "variantId": "default",
+    "label": "Refined Hazard Concrete",
+    "inputs": [
+      "refined-concrete"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "landfill",
+    "variantId": "default",
+    "label": "Landfill",
+    "inputs": [
+      "stone"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "artificial-yumako-soil",
+    "variantId": "default",
+    "label": "Artificial Yumako Soil",
+    "inputs": [
+      "yumako-seed",
+      "nutrients",
+      "landfill"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "overgrowth-yumako-soil",
+    "variantId": "default",
+    "label": "Overgrowth Yumako Soil",
+    "inputs": [
+      "artificial-yumako-soil",
+      "yumako-seed",
+      "biter-egg",
+      "spoilage",
+      "water"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "artificial-jellynut-soil",
+    "variantId": "default",
+    "label": "Artificial Jellynut Soil",
+    "inputs": [
+      "jellynut-seed",
+      "nutrients",
+      "landfill"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "overgrowth-jellynut-soil",
+    "variantId": "default",
+    "label": "Overgrowth Jellynut Soil",
+    "inputs": [
+      "artificial-jellynut-soil",
+      "jellynut-seed",
+      "biter-egg",
+      "spoilage",
+      "water"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "ice-platform",
+    "variantId": "default",
+    "label": "Ice Platform",
+    "inputs": [
+      "ammonia",
+      "ice"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "foundation",
+    "variantId": "default",
+    "label": "Foundation",
+    "inputs": [
+      "tungsten-plate",
+      "lithium-plate",
+      "carbon-fiber",
+      "stone",
+      "fluoroketone-cold"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "cliff-explosives",
+    "variantId": "default",
+    "label": "Cliff Explosives",
+    "inputs": [
+      "explosives",
+      "calcite",
+      "grenade",
+      "barrel"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "repair-pack",
+    "variantId": "default",
+    "label": "Repair Pack",
+    "inputs": [
+      "electronic-circuit",
+      "iron-gear-wheel"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "boiler",
+    "variantId": "default",
+    "label": "Boiler",
+    "inputs": [
+      "stone-furnace",
+      "pipe"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "steam-engine",
+    "variantId": "default",
+    "label": "Steam Engine",
+    "inputs": [
+      "iron-gear-wheel",
+      "pipe",
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "solar-panel",
+    "variantId": "default",
+    "label": "Solar Panel",
+    "inputs": [
+      "steel-plate",
+      "electronic-circuit",
+      "copper-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "accumulator",
+    "variantId": "default",
+    "label": "Accumulator",
+    "inputs": [
+      "iron-plate",
+      "battery"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "nuclear-reactor",
+    "variantId": "default",
+    "label": "Nuclear Reactor",
+    "inputs": [
+      "concrete",
+      "steel-plate",
+      "advanced-circuit",
+      "copper-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "heat-pipe",
+    "variantId": "default",
+    "label": "Heat Pipe",
+    "inputs": [
+      "steel-plate",
+      "copper-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "heat-exchanger",
+    "variantId": "default",
+    "label": "Heat Exchanger",
+    "inputs": [
+      "steel-plate",
+      "copper-plate",
+      "pipe"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "steam-turbine",
+    "variantId": "default",
+    "label": "Steam Turbine",
+    "inputs": [
+      "iron-gear-wheel",
+      "copper-plate",
+      "pipe"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fusion-reactor",
+    "variantId": "default",
+    "label": "Fusion Reactor",
+    "inputs": [
+      "tungsten-plate",
+      "superconductor",
+      "quantum-processor"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fusion-generator",
+    "variantId": "default",
+    "label": "Fusion Generator",
+    "inputs": [
+      "tungsten-plate",
+      "superconductor",
+      "quantum-processor"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "burner-mining-drill",
+    "variantId": "default",
+    "label": "Burner Mining Drill",
+    "inputs": [
+      "iron-gear-wheel",
+      "stone-furnace",
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "electric-mining-drill",
+    "variantId": "default",
+    "label": "Electric Mining Drill",
+    "inputs": [
+      "electronic-circuit",
+      "iron-gear-wheel",
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "big-mining-drill",
+    "variantId": "default",
+    "label": "Big Mining Drill",
+    "inputs": [
+      "electric-mining-drill",
+      "molten-iron",
+      "tungsten-carbide",
+      "electric-engine-unit",
+      "advanced-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "offshore-pump",
+    "variantId": "default",
+    "label": "Offshore Pump",
+    "inputs": [
+      "pipe",
+      "iron-gear-wheel"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "pumpjack",
+    "variantId": "default",
+    "label": "Pumpjack",
+    "inputs": [
+      "steel-plate",
+      "iron-gear-wheel",
+      "electronic-circuit",
+      "pipe"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "stone-furnace",
+    "variantId": "default",
+    "label": "Stone Furnace",
+    "inputs": [
+      "stone"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "steel-furnace",
+    "variantId": "default",
+    "label": "Steel Furnace",
+    "inputs": [
+      "steel-plate",
+      "stone-brick"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "electric-furnace",
+    "variantId": "default",
+    "label": "Electric Furnace",
+    "inputs": [
+      "steel-plate",
+      "advanced-circuit",
+      "stone-brick"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "foundry",
+    "variantId": "default",
+    "label": "Foundry",
+    "inputs": [
+      "tungsten-carbide",
+      "steel-plate",
+      "electronic-circuit",
+      "refined-concrete",
+      "lubricant"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "recycler",
+    "variantId": "default",
+    "label": "Recycler",
+    "inputs": [
+      "processing-unit",
+      "steel-plate",
+      "iron-gear-wheel",
+      "concrete"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "agricultural-tower",
+    "variantId": "default",
+    "label": "Agricultural Tower",
+    "inputs": [
+      "steel-plate",
+      "electronic-circuit",
+      "spoilage",
+      "landfill"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "biochamber",
+    "variantId": "default",
+    "label": "Biochamber",
+    "inputs": [
+      "nutrients",
+      "pentapod-egg",
+      "iron-plate",
+      "electronic-circuit",
+      "landfill"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "captive-biter-spawner",
+    "variantId": "default",
+    "label": "Captive Biter Spawner",
+    "inputs": [
+      "biter-egg",
+      "capture-robot-rocket",
+      "uranium-235",
+      "fluoroketone-cold"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "assembling-machine-1",
+    "variantId": "default",
+    "label": "Assembling Machine 1",
+    "inputs": [
+      "electronic-circuit",
+      "iron-gear-wheel",
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "assembling-machine-2",
+    "variantId": "default",
+    "label": "Assembling Machine 2",
+    "inputs": [
+      "steel-plate",
+      "electronic-circuit",
+      "iron-gear-wheel",
+      "assembling-machine-1"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "assembling-machine-3",
+    "variantId": "default",
+    "label": "Assembling Machine 3",
+    "inputs": [
+      "assembling-machine-2",
+      "speed-module"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "oil-refinery",
+    "variantId": "default",
+    "label": "Oil Refinery",
+    "inputs": [
+      "steel-plate",
+      "iron-gear-wheel",
+      "stone-brick",
+      "electronic-circuit",
+      "pipe"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "chemical-plant",
+    "variantId": "default",
+    "label": "Chemical Plant",
+    "inputs": [
+      "steel-plate",
+      "iron-gear-wheel",
+      "electronic-circuit",
+      "pipe"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "centrifuge",
+    "variantId": "default",
+    "label": "Centrifuge",
+    "inputs": [
+      "concrete",
+      "steel-plate",
+      "advanced-circuit",
+      "iron-gear-wheel"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "electromagnetic-plant",
+    "variantId": "default",
+    "label": "Electromagnetic Plant",
+    "inputs": [
+      "holmium-plate",
+      "steel-plate",
+      "processing-unit",
+      "refined-concrete"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "cryogenic-plant",
+    "variantId": "default",
+    "label": "Cryogenic Plant",
+    "inputs": [
+      "refined-concrete",
+      "superconductor",
+      "processing-unit",
+      "lithium-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "lab",
+    "variantId": "default",
+    "label": "Lab",
+    "inputs": [
+      "electronic-circuit",
+      "iron-gear-wheel",
+      "transport-belt"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "biolab",
+    "variantId": "default",
+    "label": "Biolab",
+    "inputs": [
+      "lab",
+      "biter-egg",
+      "refined-concrete",
+      "capture-robot-rocket",
+      "uranium-235"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "lightning-rod",
+    "variantId": "default",
+    "label": "Lightning Rod",
+    "inputs": [
+      "copper-cable",
+      "steel-plate",
+      "stone-brick"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "lightning-collector",
+    "variantId": "default",
+    "label": "Lightning Collector",
+    "inputs": [
+      "lightning-rod",
+      "supercapacitor",
+      "accumulator",
+      "electrolyte"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "heating-tower",
+    "variantId": "default",
+    "label": "Heating Tower",
+    "inputs": [
+      "boiler",
+      "heat-pipe",
+      "concrete"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "beacon",
+    "variantId": "default",
+    "label": "Beacon",
+    "inputs": [
+      "electronic-circuit",
+      "advanced-circuit",
+      "steel-plate",
+      "copper-cable"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "speed-module",
+    "variantId": "default",
+    "label": "Speed Module",
+    "inputs": [
+      "advanced-circuit",
+      "electronic-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "speed-module-2",
+    "variantId": "default",
+    "label": "Speed Module 2",
+    "inputs": [
+      "speed-module",
+      "advanced-circuit",
+      "processing-unit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "speed-module-3",
+    "variantId": "default",
+    "label": "Speed Module 3",
+    "inputs": [
+      "speed-module-2",
+      "advanced-circuit",
+      "processing-unit",
+      "tungsten-carbide"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "efficiency-module",
+    "variantId": "default",
+    "label": "Efficiency Module",
+    "inputs": [
+      "advanced-circuit",
+      "electronic-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "efficiency-module-2",
+    "variantId": "default",
+    "label": "Efficiency Module 2",
+    "inputs": [
+      "efficiency-module",
+      "advanced-circuit",
+      "processing-unit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "efficiency-module-3",
+    "variantId": "default",
+    "label": "Efficiency Module 3",
+    "inputs": [
+      "efficiency-module-2",
+      "advanced-circuit",
+      "processing-unit",
+      "spoilage"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "productivity-module",
+    "variantId": "default",
+    "label": "Productivity Module",
+    "inputs": [
+      "advanced-circuit",
+      "electronic-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "productivity-module-2",
+    "variantId": "default",
+    "label": "Productivity Module 2",
+    "inputs": [
+      "productivity-module",
+      "advanced-circuit",
+      "processing-unit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "productivity-module-3",
+    "variantId": "default",
+    "label": "Productivity Module 3",
+    "inputs": [
+      "productivity-module-2",
+      "advanced-circuit",
+      "processing-unit",
+      "biter-egg"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "quality-module",
+    "variantId": "default",
+    "label": "Quality Module",
+    "inputs": [
+      "electronic-circuit",
+      "advanced-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "quality-module-2",
+    "variantId": "default",
+    "label": "Quality Module 2",
+    "inputs": [
+      "quality-module",
+      "advanced-circuit",
+      "processing-unit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "quality-module-3",
+    "variantId": "default",
+    "label": "Quality Module 3",
+    "inputs": [
+      "quality-module-2",
+      "advanced-circuit",
+      "processing-unit",
+      "superconductor"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "wood",
+    "variantId": "default",
+    "label": "Wood",
+    "inputs": [
+      "tree-seed"
+    ],
     "isDefault": true
   },
   {
@@ -21,10 +1375,2123 @@
     "isDefault": true
   },
   {
+    "product": "coal",
+    "variantId": "coal-synthesis",
+    "label": "Coal (Coal Synthesis)",
+    "inputs": [
+      "carbon",
+      "sulfur",
+      "water"
+    ],
+    "isDefault": false
+  },
+  {
     "product": "stone",
     "variantId": "default",
     "label": "Stone",
     "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "stone",
+    "variantId": "molten-iron-from-lava",
+    "label": "Stone (Molten Iron From Lava)",
+    "inputs": [
+      "lava",
+      "calcite"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "iron-ore",
+    "variantId": "default",
+    "label": "Iron Ore",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "iron-ore",
+    "variantId": "iron-ore",
+    "label": "Iron Ore",
+    "inputs": [
+      "iron-bacteria"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "iron-ore",
+    "variantId": "metallic-asteroid-crushing",
+    "label": "Iron Ore (Metallic Asteroid Crushing)",
+    "inputs": [
+      "metallic-asteroid-chunk"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "copper-ore",
+    "variantId": "default",
+    "label": "Copper Ore",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "copper-ore",
+    "variantId": "copper-ore",
+    "label": "Copper Ore",
+    "inputs": [
+      "copper-bacteria"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "copper-ore",
+    "variantId": "advanced-metallic-asteroid-crushing",
+    "label": "Copper Ore (Advanced Metallic Asteroid Crushing)",
+    "inputs": [
+      "metallic-asteroid-chunk"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "uranium-ore",
+    "variantId": "default",
+    "label": "Uranium Ore",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "raw-fish",
+    "variantId": "default",
+    "label": "Raw Fish",
+    "inputs": [
+      "raw-fish",
+      "nutrients",
+      "water"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "ice",
+    "variantId": "default",
+    "label": "Ice",
+    "inputs": [
+      "ammoniacal-solution"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "ice",
+    "variantId": "oxide-asteroid-crushing",
+    "label": "Ice (Oxide Asteroid Crushing)",
+    "inputs": [
+      "oxide-asteroid-chunk"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "iron-plate",
+    "variantId": "default",
+    "label": "Iron Plate",
+    "inputs": [
+      "iron-ore"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "iron-plate",
+    "variantId": "casting-iron",
+    "label": "Iron Plate (Casting Iron)",
+    "inputs": [
+      "molten-iron"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "copper-plate",
+    "variantId": "default",
+    "label": "Copper Plate",
+    "inputs": [
+      "copper-ore"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "copper-plate",
+    "variantId": "casting-copper",
+    "label": "Copper Plate (Casting Copper)",
+    "inputs": [
+      "molten-copper"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "steel-plate",
+    "variantId": "default",
+    "label": "Steel Plate",
+    "inputs": [
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "steel-plate",
+    "variantId": "casting-steel",
+    "label": "Steel Plate (Casting Steel)",
+    "inputs": [
+      "molten-iron"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "solid-fuel",
+    "variantId": "default",
+    "label": "Solid Fuel",
+    "inputs": [
+      "petroleum-gas"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "solid-fuel",
+    "variantId": "solid-fuel-from-light-oil",
+    "label": "Solid Fuel (Solid Fuel From Light Oil)",
+    "inputs": [
+      "light-oil"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "solid-fuel",
+    "variantId": "solid-fuel-from-heavy-oil",
+    "label": "Solid Fuel (Solid Fuel From Heavy Oil)",
+    "inputs": [
+      "heavy-oil"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "solid-fuel",
+    "variantId": "solid-fuel-from-ammonia",
+    "label": "Solid Fuel (Solid Fuel From Ammonia)",
+    "inputs": [
+      "ammonia",
+      "crude-oil"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "plastic-bar",
+    "variantId": "default",
+    "label": "Plastic Bar",
+    "inputs": [
+      "petroleum-gas",
+      "coal"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "plastic-bar",
+    "variantId": "bioplastic",
+    "label": "Plastic Bar (Bioplastic)",
+    "inputs": [
+      "bioflux",
+      "yumako-mash"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "sulfur",
+    "variantId": "default",
+    "label": "Sulfur",
+    "inputs": [
+      "water",
+      "petroleum-gas"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "sulfur",
+    "variantId": "biosulfur",
+    "label": "Sulfur (Biosulfur)",
+    "inputs": [
+      "spoilage",
+      "bioflux"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "sulfur",
+    "variantId": "advanced-carbonic-asteroid-crushing",
+    "label": "Sulfur (Advanced Carbonic Asteroid Crushing)",
+    "inputs": [
+      "carbonic-asteroid-chunk"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "battery",
+    "variantId": "default",
+    "label": "Battery",
+    "inputs": [
+      "sulfuric-acid",
+      "iron-plate",
+      "copper-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "explosives",
+    "variantId": "default",
+    "label": "Explosives",
+    "inputs": [
+      "sulfur",
+      "coal",
+      "water"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "carbon",
+    "variantId": "default",
+    "label": "Carbon",
+    "inputs": [
+      "coal",
+      "sulfuric-acid"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "carbon",
+    "variantId": "burnt-spoilage",
+    "label": "Carbon (Burnt Spoilage)",
+    "inputs": [
+      "spoilage"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "carbon",
+    "variantId": "carbonic-asteroid-crushing",
+    "label": "Carbon (Carbonic Asteroid Crushing)",
+    "inputs": [
+      "carbonic-asteroid-chunk"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "water-barrel",
+    "variantId": "default",
+    "label": "Water Barrel",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "crude-oil-barrel",
+    "variantId": "default",
+    "label": "Crude Oil Barrel",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "petroleum-gas-barrel",
+    "variantId": "default",
+    "label": "Petroleum Gas Barrel",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "light-oil-barrel",
+    "variantId": "default",
+    "label": "Light Oil Barrel",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "heavy-oil-barrel",
+    "variantId": "default",
+    "label": "Heavy Oil Barrel",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "lubricant-barrel",
+    "variantId": "default",
+    "label": "Lubricant Barrel",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "sulfuric-acid-barrel",
+    "variantId": "default",
+    "label": "Sulfuric Acid Barrel",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "fluoroketone-hot-barrel",
+    "variantId": "default",
+    "label": "Fluoroketone (Hot) Barrel",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "fluoroketone-cold-barrel",
+    "variantId": "default",
+    "label": "Fluoroketone (Cold) Barrel",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "iron-gear-wheel",
+    "variantId": "default",
+    "label": "Iron Gear Wheel",
+    "inputs": [
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "iron-gear-wheel",
+    "variantId": "casting-iron-gear-wheel",
+    "label": "Iron Gear Wheel (Casting Iron Gear Wheel)",
+    "inputs": [
+      "molten-iron"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "iron-stick",
+    "variantId": "default",
+    "label": "Iron Stick",
+    "inputs": [
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "iron-stick",
+    "variantId": "casting-iron-stick",
+    "label": "Iron Stick (Casting Iron Stick)",
+    "inputs": [
+      "molten-iron"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "copper-cable",
+    "variantId": "default",
+    "label": "Copper Cable",
+    "inputs": [
+      "copper-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "copper-cable",
+    "variantId": "casting-copper-cable",
+    "label": "Copper Cable (Casting Copper Cable)",
+    "inputs": [
+      "molten-copper"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "barrel",
+    "variantId": "default",
+    "label": "Barrel",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "electronic-circuit",
+    "variantId": "default",
+    "label": "Electronic Circuit",
+    "inputs": [
+      "iron-plate",
+      "copper-cable"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "advanced-circuit",
+    "variantId": "default",
+    "label": "Advanced Circuit",
+    "inputs": [
+      "electronic-circuit",
+      "plastic-bar",
+      "copper-cable"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "processing-unit",
+    "variantId": "default",
+    "label": "Processing Unit",
+    "inputs": [
+      "electronic-circuit",
+      "advanced-circuit",
+      "sulfuric-acid"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "engine-unit",
+    "variantId": "default",
+    "label": "Engine Unit",
+    "inputs": [
+      "steel-plate",
+      "iron-gear-wheel",
+      "pipe"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "electric-engine-unit",
+    "variantId": "default",
+    "label": "Electric Engine Unit",
+    "inputs": [
+      "engine-unit",
+      "lubricant",
+      "electronic-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "flying-robot-frame",
+    "variantId": "default",
+    "label": "Flying Robot Frame",
+    "inputs": [
+      "electric-engine-unit",
+      "battery",
+      "steel-plate",
+      "electronic-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "low-density-structure",
+    "variantId": "default",
+    "label": "Low Density Structure",
+    "inputs": [
+      "steel-plate",
+      "copper-plate",
+      "plastic-bar"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "low-density-structure",
+    "variantId": "casting-low-density-structure",
+    "label": "Low Density Structure (Casting Low Density Structure)",
+    "inputs": [
+      "molten-iron",
+      "molten-copper",
+      "plastic-bar"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "rocket-fuel",
+    "variantId": "default",
+    "label": "Rocket Fuel",
+    "inputs": [
+      "solid-fuel",
+      "light-oil"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rocket-fuel",
+    "variantId": "rocket-fuel-from-jelly",
+    "label": "Rocket Fuel (Rocket Fuel From Jelly)",
+    "inputs": [
+      "water",
+      "jelly",
+      "bioflux"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "rocket-fuel",
+    "variantId": "ammonia-rocket-fuel",
+    "label": "Rocket Fuel (Ammonia Rocket Fuel)",
+    "inputs": [
+      "solid-fuel",
+      "water",
+      "ammonia"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "uranium-235",
+    "variantId": "default",
+    "label": "Uranium-235",
+    "inputs": [
+      "uranium-ore"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "uranium-235",
+    "variantId": "kovarex-enrichment-process",
+    "label": "Uranium-235 (Kovarex Enrichment Process)",
+    "inputs": [
+      "uranium-235",
+      "uranium-238"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "uranium-238",
+    "variantId": "uranium-processing",
+    "label": "Uranium-238 (Uranium Processing)",
+    "inputs": [
+      "uranium-ore"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "uranium-238",
+    "variantId": "default",
+    "label": "Uranium-238",
+    "inputs": [
+      "depleted-uranium-fuel-cell"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "uranium-238",
+    "variantId": "kovarex-enrichment-process",
+    "label": "Uranium-238 (Kovarex Enrichment Process)",
+    "inputs": [
+      "uranium-235",
+      "uranium-238"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "uranium-fuel-cell",
+    "variantId": "default",
+    "label": "Uranium Fuel Cell",
+    "inputs": [
+      "iron-plate",
+      "uranium-235",
+      "uranium-238"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "depleted-uranium-fuel-cell",
+    "variantId": "default",
+    "label": "Depleted Uranium Fuel Cell",
+    "inputs": [
+      "uranium-fuel-cell"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "nuclear-fuel",
+    "variantId": "default",
+    "label": "Nuclear Fuel",
+    "inputs": [
+      "uranium-235",
+      "rocket-fuel"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "calcite",
+    "variantId": "default",
+    "label": "Calcite",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "calcite",
+    "variantId": "advanced-oxide-asteroid-crushing",
+    "label": "Calcite (Advanced Oxide Asteroid Crushing)",
+    "inputs": [
+      "oxide-asteroid-chunk"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "tungsten-ore",
+    "variantId": "default",
+    "label": "Tungsten Ore",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "tungsten-carbide",
+    "variantId": "default",
+    "label": "Tungsten Carbide",
+    "inputs": [
+      "tungsten-ore",
+      "sulfuric-acid",
+      "carbon"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "tungsten-plate",
+    "variantId": "default",
+    "label": "Tungsten Plate",
+    "inputs": [
+      "tungsten-ore",
+      "molten-iron"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "scrap",
+    "variantId": "default",
+    "label": "Scrap",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "holmium-ore",
+    "variantId": "default",
+    "label": "Holmium Ore",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "holmium-plate",
+    "variantId": "default",
+    "label": "Holmium Plate",
+    "inputs": [
+      "holmium-solution"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "superconductor",
+    "variantId": "default",
+    "label": "Superconductor",
+    "inputs": [
+      "holmium-plate",
+      "copper-plate",
+      "plastic-bar",
+      "light-oil"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "supercapacitor",
+    "variantId": "default",
+    "label": "Supercapacitor",
+    "inputs": [
+      "holmium-plate",
+      "superconductor",
+      "electronic-circuit",
+      "battery",
+      "electrolyte"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "yumako-seed",
+    "variantId": "default",
+    "label": "Yumako Seed",
+    "inputs": [
+      "yumako"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "jellynut-seed",
+    "variantId": "default",
+    "label": "Jellynut Seed",
+    "inputs": [
+      "jellynut"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "yumako",
+    "variantId": "default",
+    "label": "Yumako",
+    "inputs": [
+      "yumako-seed"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "jellynut",
+    "variantId": "default",
+    "label": "Jellynut",
+    "inputs": [
+      "jellynut-seed"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "iron-bacteria",
+    "variantId": "default",
+    "label": "Iron Bacteria",
+    "inputs": [
+      "jelly"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "iron-bacteria",
+    "variantId": "iron-bacteria-cultivation",
+    "label": "Iron Bacteria (Iron Bacteria Cultivation)",
+    "inputs": [
+      "iron-bacteria",
+      "bioflux"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "copper-bacteria",
+    "variantId": "default",
+    "label": "Copper Bacteria",
+    "inputs": [
+      "yumako-mash"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "copper-bacteria",
+    "variantId": "copper-bacteria-cultivation",
+    "label": "Copper Bacteria (Copper Bacteria Cultivation)",
+    "inputs": [
+      "copper-bacteria",
+      "bioflux"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "spoilage",
+    "variantId": "default",
+    "label": "Spoilage",
+    "inputs": [
+      "raw-fish"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "spoilage",
+    "variantId": "yumako-spoil",
+    "label": "Spoilage (Yumako : Spoilage)",
+    "inputs": [
+      "yumako"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "spoilage",
+    "variantId": "jellynut-spoil",
+    "label": "Spoilage (Jellynut : Spoilage)",
+    "inputs": [
+      "jellynut"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "spoilage",
+    "variantId": "nutrients-spoil",
+    "label": "Spoilage (Nutrients : Spoilage)",
+    "inputs": [
+      "nutrients"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "spoilage",
+    "variantId": "bioflux-spoil",
+    "label": "Spoilage (Bioflux : Spoilage)",
+    "inputs": [
+      "bioflux"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "spoilage",
+    "variantId": "yumako-mash-spoil",
+    "label": "Spoilage (Yumako Mash : Spoilage)",
+    "inputs": [
+      "yumako-mash"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "spoilage",
+    "variantId": "jelly-spoil",
+    "label": "Spoilage (Jelly : Spoilage)",
+    "inputs": [
+      "jelly"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "spoilage",
+    "variantId": "agricultural-science-pack-spoil",
+    "label": "Spoilage (Agricultural Science Pack : Spoilage)",
+    "inputs": [
+      "agricultural-science-pack"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "nutrients",
+    "variantId": "default",
+    "label": "Nutrients",
+    "inputs": [
+      "spoilage"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "nutrients",
+    "variantId": "nutrients-from-yumako-mash",
+    "label": "Nutrients (Nutrients From Yumako Mash)",
+    "inputs": [
+      "yumako-mash"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "nutrients",
+    "variantId": "nutrients-from-bioflux",
+    "label": "Nutrients (Nutrients From Bioflux)",
+    "inputs": [
+      "bioflux"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "nutrients",
+    "variantId": "nutrients-from-fish",
+    "label": "Nutrients (Nutrients From Fish)",
+    "inputs": [
+      "raw-fish"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "nutrients",
+    "variantId": "nutrients-from-biter-egg",
+    "label": "Nutrients (Nutrients From Biter Egg)",
+    "inputs": [
+      "biter-egg"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "bioflux",
+    "variantId": "default",
+    "label": "Bioflux",
+    "inputs": [
+      "yumako-mash",
+      "jelly"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "yumako-mash",
+    "variantId": "default",
+    "label": "Yumako Mash",
+    "inputs": [
+      "yumako"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "jelly",
+    "variantId": "default",
+    "label": "Jelly",
+    "inputs": [
+      "jellynut"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "carbon-fiber",
+    "variantId": "default",
+    "label": "Carbon Fiber",
+    "inputs": [
+      "yumako-mash",
+      "carbon"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "biter-egg",
+    "variantId": "default",
+    "label": "Biter Egg",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "pentapod-egg",
+    "variantId": "default",
+    "label": "Pentapod Egg",
+    "inputs": [
+      "pentapod-egg",
+      "nutrients",
+      "water"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "tree-seed",
+    "variantId": "default",
+    "label": "Tree Seed",
+    "inputs": [
+      "wood"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "lithium",
+    "variantId": "default",
+    "label": "Lithium",
+    "inputs": [
+      "holmium-plate",
+      "lithium-brine",
+      "ammonia"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "lithium-plate",
+    "variantId": "default",
+    "label": "Lithium Plate",
+    "inputs": [
+      "lithium"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "quantum-processor",
+    "variantId": "default",
+    "label": "Quantum Processor",
+    "inputs": [
+      "tungsten-carbide",
+      "processing-unit",
+      "superconductor",
+      "carbon-fiber",
+      "lithium-plate",
+      "fluoroketone-cold"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fusion-power-cell",
+    "variantId": "default",
+    "label": "Fusion Power Cell",
+    "inputs": [
+      "lithium-plate",
+      "holmium-plate",
+      "ammonia"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "automation-science-pack",
+    "variantId": "default",
+    "label": "Automation Science Pack",
+    "inputs": [
+      "copper-plate",
+      "iron-gear-wheel"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "logistic-science-pack",
+    "variantId": "default",
+    "label": "Logistic Science Pack",
+    "inputs": [
+      "inserter",
+      "transport-belt"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "military-science-pack",
+    "variantId": "default",
+    "label": "Military Science Pack",
+    "inputs": [
+      "piercing-rounds-magazine",
+      "grenade",
+      "stone-wall"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "chemical-science-pack",
+    "variantId": "default",
+    "label": "Chemical Science Pack",
+    "inputs": [
+      "engine-unit",
+      "advanced-circuit",
+      "sulfur"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "production-science-pack",
+    "variantId": "default",
+    "label": "Production Science Pack",
+    "inputs": [
+      "electric-furnace",
+      "productivity-module",
+      "rail"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "utility-science-pack",
+    "variantId": "default",
+    "label": "Utility Science Pack",
+    "inputs": [
+      "low-density-structure",
+      "processing-unit",
+      "flying-robot-frame"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "space-science-pack",
+    "variantId": "default",
+    "label": "Space Science Pack",
+    "inputs": [
+      "iron-plate",
+      "carbon",
+      "ice"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "metallurgic-science-pack",
+    "variantId": "default",
+    "label": "Metallurgic Science Pack",
+    "inputs": [
+      "tungsten-carbide",
+      "tungsten-plate",
+      "molten-copper"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "agricultural-science-pack",
+    "variantId": "default",
+    "label": "Agricultural Science Pack",
+    "inputs": [
+      "bioflux",
+      "pentapod-egg"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "electromagnetic-science-pack",
+    "variantId": "default",
+    "label": "Electromagnetic Science Pack",
+    "inputs": [
+      "supercapacitor",
+      "accumulator",
+      "electrolyte",
+      "holmium-solution"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "cryogenic-science-pack",
+    "variantId": "default",
+    "label": "Cryogenic Science Pack",
+    "inputs": [
+      "ice",
+      "lithium-plate",
+      "fluoroketone-cold"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "promethium-science-pack",
+    "variantId": "default",
+    "label": "Promethium Science Pack",
+    "inputs": [
+      "promethium-asteroid-chunk",
+      "quantum-processor",
+      "biter-egg"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rocket-silo",
+    "variantId": "default",
+    "label": "Rocket Silo",
+    "inputs": [
+      "steel-plate",
+      "concrete",
+      "pipe",
+      "processing-unit",
+      "electric-engine-unit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rocket-part",
+    "variantId": "default",
+    "label": "Rocket Part",
+    "inputs": [
+      "processing-unit",
+      "low-density-structure",
+      "rocket-fuel"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "cargo-landing-pad",
+    "variantId": "default",
+    "label": "Cargo Landing Pad",
+    "inputs": [
+      "concrete",
+      "steel-plate",
+      "processing-unit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "space-platform-foundation",
+    "variantId": "default",
+    "label": "Space Platform Foundation",
+    "inputs": [
+      "steel-plate",
+      "copper-cable"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "cargo-bay",
+    "variantId": "default",
+    "label": "Cargo Bay",
+    "inputs": [
+      "steel-plate",
+      "low-density-structure",
+      "processing-unit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "asteroid-collector",
+    "variantId": "default",
+    "label": "Asteroid Collector",
+    "inputs": [
+      "low-density-structure",
+      "electric-engine-unit",
+      "processing-unit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "crusher",
+    "variantId": "default",
+    "label": "Crusher",
+    "inputs": [
+      "low-density-structure",
+      "steel-plate",
+      "electric-engine-unit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "thruster",
+    "variantId": "default",
+    "label": "Thruster",
+    "inputs": [
+      "steel-plate",
+      "processing-unit",
+      "electric-engine-unit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "space-platform-starter-pack",
+    "variantId": "default",
+    "label": "Space Platform Starter Pack",
+    "inputs": [
+      "space-platform-foundation",
+      "steel-plate",
+      "processing-unit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "metallic-asteroid-chunk",
+    "variantId": "metallic-asteroid-crushing",
+    "label": "Metallic Asteroid Chunk (Metallic Asteroid Crushing)",
+    "inputs": [
+      "metallic-asteroid-chunk"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "metallic-asteroid-chunk",
+    "variantId": "carbonic-asteroid-reprocessing",
+    "label": "Metallic Asteroid Chunk (Carbonic Asteroid Reprocessing)",
+    "inputs": [
+      "carbonic-asteroid-chunk"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "metallic-asteroid-chunk",
+    "variantId": "oxide-asteroid-reprocessing",
+    "label": "Metallic Asteroid Chunk (Oxide Asteroid Reprocessing)",
+    "inputs": [
+      "oxide-asteroid-chunk"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "metallic-asteroid-chunk",
+    "variantId": "default",
+    "label": "Metallic Asteroid Chunk",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "carbonic-asteroid-chunk",
+    "variantId": "carbonic-asteroid-crushing",
+    "label": "Carbonic Asteroid Chunk (Carbonic Asteroid Crushing)",
+    "inputs": [
+      "carbonic-asteroid-chunk"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "carbonic-asteroid-chunk",
+    "variantId": "metallic-asteroid-reprocessing",
+    "label": "Carbonic Asteroid Chunk (Metallic Asteroid Reprocessing)",
+    "inputs": [
+      "metallic-asteroid-chunk"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "carbonic-asteroid-chunk",
+    "variantId": "oxide-asteroid-reprocessing",
+    "label": "Carbonic Asteroid Chunk (Oxide Asteroid Reprocessing)",
+    "inputs": [
+      "oxide-asteroid-chunk"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "carbonic-asteroid-chunk",
+    "variantId": "default",
+    "label": "Carbonic Asteroid Chunk",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "oxide-asteroid-chunk",
+    "variantId": "oxide-asteroid-crushing",
+    "label": "Oxide Asteroid Chunk (Oxide Asteroid Crushing)",
+    "inputs": [
+      "oxide-asteroid-chunk"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "oxide-asteroid-chunk",
+    "variantId": "metallic-asteroid-reprocessing",
+    "label": "Oxide Asteroid Chunk (Metallic Asteroid Reprocessing)",
+    "inputs": [
+      "metallic-asteroid-chunk"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "oxide-asteroid-chunk",
+    "variantId": "carbonic-asteroid-reprocessing",
+    "label": "Oxide Asteroid Chunk (Carbonic Asteroid Reprocessing)",
+    "inputs": [
+      "carbonic-asteroid-chunk"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "oxide-asteroid-chunk",
+    "variantId": "default",
+    "label": "Oxide Asteroid Chunk",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "promethium-asteroid-chunk",
+    "variantId": "default",
+    "label": "Promethium Asteroid Chunk",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "submachine-gun",
+    "variantId": "default",
+    "label": "Submachine Gun",
+    "inputs": [
+      "iron-gear-wheel",
+      "copper-plate",
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "railgun",
+    "variantId": "default",
+    "label": "Railgun",
+    "inputs": [
+      "tungsten-plate",
+      "superconductor",
+      "quantum-processor",
+      "fluoroketone-cold"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "teslagun",
+    "variantId": "default",
+    "label": "Tesla Gun",
+    "inputs": [
+      "holmium-plate",
+      "superconductor",
+      "plastic-bar",
+      "electrolyte"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "shotgun",
+    "variantId": "default",
+    "label": "Shotgun",
+    "inputs": [
+      "iron-plate",
+      "iron-gear-wheel",
+      "copper-plate",
+      "wood"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "combat-shotgun",
+    "variantId": "default",
+    "label": "Combat Shotgun",
+    "inputs": [
+      "steel-plate",
+      "iron-gear-wheel",
+      "copper-plate",
+      "wood"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rocket-launcher",
+    "variantId": "default",
+    "label": "Rocket Launcher",
+    "inputs": [
+      "iron-plate",
+      "iron-gear-wheel",
+      "electronic-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "flamethrower",
+    "variantId": "default",
+    "label": "Flamethrower",
+    "inputs": [
+      "steel-plate",
+      "iron-gear-wheel"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "firearm-magazine",
+    "variantId": "default",
+    "label": "Firearm Magazine",
+    "inputs": [
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "piercing-rounds-magazine",
+    "variantId": "default",
+    "label": "Piercing Rounds Magazine",
+    "inputs": [
+      "firearm-magazine",
+      "steel-plate",
+      "copper-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "uranium-rounds-magazine",
+    "variantId": "default",
+    "label": "Uranium Rounds Magazine",
+    "inputs": [
+      "piercing-rounds-magazine",
+      "uranium-238"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "shotgun-shell",
+    "variantId": "default",
+    "label": "Shotgun Shells",
+    "inputs": [
+      "copper-plate",
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "piercing-shotgun-shell",
+    "variantId": "default",
+    "label": "Piercing Shotgun Shells",
+    "inputs": [
+      "shotgun-shell",
+      "copper-plate",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "cannon-shell",
+    "variantId": "default",
+    "label": "Cannon Shell",
+    "inputs": [
+      "steel-plate",
+      "plastic-bar",
+      "explosives"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "explosive-cannon-shell",
+    "variantId": "default",
+    "label": "Explosive Cannon Shell",
+    "inputs": [
+      "steel-plate",
+      "plastic-bar",
+      "explosives"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "uranium-cannon-shell",
+    "variantId": "default",
+    "label": "Uranium Cannon Shell",
+    "inputs": [
+      "cannon-shell",
+      "uranium-238"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "explosive-uranium-cannon-shell",
+    "variantId": "default",
+    "label": "Explosive Uranium Cannon Shell",
+    "inputs": [
+      "explosive-cannon-shell",
+      "uranium-238"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "artillery-shell",
+    "variantId": "default",
+    "label": "Artillery Shell",
+    "inputs": [
+      "radar",
+      "calcite",
+      "tungsten-plate",
+      "explosives"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rocket",
+    "variantId": "default",
+    "label": "Rocket",
+    "inputs": [
+      "explosives",
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "explosive-rocket",
+    "variantId": "default",
+    "label": "Explosive Rocket",
+    "inputs": [
+      "rocket",
+      "explosives"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "atomic-bomb",
+    "variantId": "default",
+    "label": "Atomic Bomb",
+    "inputs": [
+      "processing-unit",
+      "explosives",
+      "uranium-235"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "capture-robot-rocket",
+    "variantId": "default",
+    "label": "Capture Bot Rocket",
+    "inputs": [
+      "flying-robot-frame",
+      "steel-plate",
+      "bioflux",
+      "processing-unit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "flamethrower-ammo",
+    "variantId": "default",
+    "label": "Flamethrower Ammo",
+    "inputs": [
+      "steel-plate",
+      "crude-oil"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "railgun-ammo",
+    "variantId": "default",
+    "label": "Railgun Ammo",
+    "inputs": [
+      "steel-plate",
+      "copper-cable",
+      "explosives"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "tesla-ammo",
+    "variantId": "default",
+    "label": "Tesla Ammo",
+    "inputs": [
+      "supercapacitor",
+      "plastic-bar",
+      "electrolyte"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "grenade",
+    "variantId": "default",
+    "label": "Grenade",
+    "inputs": [
+      "iron-plate",
+      "coal"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "cluster-grenade",
+    "variantId": "default",
+    "label": "Cluster Grenade",
+    "inputs": [
+      "grenade",
+      "explosives",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "poison-capsule",
+    "variantId": "default",
+    "label": "Poison Capsule",
+    "inputs": [
+      "steel-plate",
+      "electronic-circuit",
+      "coal"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "slowdown-capsule",
+    "variantId": "default",
+    "label": "Slowdown Capsule",
+    "inputs": [
+      "steel-plate",
+      "electronic-circuit",
+      "coal"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "defender-capsule",
+    "variantId": "default",
+    "label": "Defender Capsule",
+    "inputs": [
+      "piercing-rounds-magazine",
+      "electronic-circuit",
+      "iron-gear-wheel"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "distractor-capsule",
+    "variantId": "default",
+    "label": "Distractor Capsule",
+    "inputs": [
+      "defender-capsule",
+      "advanced-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "destroyer-capsule",
+    "variantId": "default",
+    "label": "Destroyer Capsule",
+    "inputs": [
+      "distractor-capsule",
+      "steel-plate",
+      "processing-unit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "light-armor",
+    "variantId": "default",
+    "label": "Light Armor",
+    "inputs": [
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "heavy-armor",
+    "variantId": "default",
+    "label": "Heavy Armor",
+    "inputs": [
+      "copper-plate",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "modular-armor",
+    "variantId": "default",
+    "label": "Modular Armor",
+    "inputs": [
+      "advanced-circuit",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "power-armor",
+    "variantId": "default",
+    "label": "Power Armor",
+    "inputs": [
+      "processing-unit",
+      "electric-engine-unit",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "power-armor-mk2",
+    "variantId": "default",
+    "label": "Power Armor MK2",
+    "inputs": [
+      "efficiency-module",
+      "speed-module",
+      "processing-unit",
+      "electric-engine-unit",
+      "low-density-structure"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "mech-armor",
+    "variantId": "default",
+    "label": "Mech Armor",
+    "inputs": [
+      "power-armor-mk2",
+      "holmium-plate",
+      "processing-unit",
+      "superconductor",
+      "supercapacitor"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "solar-panel-equipment",
+    "variantId": "default",
+    "label": "Portable Solar Panel",
+    "inputs": [
+      "solar-panel",
+      "advanced-circuit",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fission-reactor-equipment",
+    "variantId": "default",
+    "label": "Portable Fission Reactor",
+    "inputs": [
+      "processing-unit",
+      "low-density-structure",
+      "uranium-fuel-cell"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fusion-reactor-equipment",
+    "variantId": "default",
+    "label": "Portable Fusion Reactor",
+    "inputs": [
+      "fission-reactor-equipment",
+      "fusion-power-cell",
+      "tungsten-plate",
+      "carbon-fiber",
+      "supercapacitor",
+      "quantum-processor"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "battery-equipment",
+    "variantId": "default",
+    "label": "Personal Battery",
+    "inputs": [
+      "battery",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "battery-mk2-equipment",
+    "variantId": "default",
+    "label": "Personal Battery MK2",
+    "inputs": [
+      "battery-equipment",
+      "processing-unit",
+      "low-density-structure"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "battery-mk3-equipment",
+    "variantId": "default",
+    "label": "Personal Battery MK3",
+    "inputs": [
+      "battery-mk2-equipment",
+      "supercapacitor"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "belt-immunity-equipment",
+    "variantId": "default",
+    "label": "Belt Immunity Equipment",
+    "inputs": [
+      "advanced-circuit",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "exoskeleton-equipment",
+    "variantId": "default",
+    "label": "Exoskeleton",
+    "inputs": [
+      "processing-unit",
+      "electric-engine-unit",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "personal-roboport-equipment",
+    "variantId": "default",
+    "label": "Personal Roboport",
+    "inputs": [
+      "advanced-circuit",
+      "iron-gear-wheel",
+      "steel-plate",
+      "battery"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "personal-roboport-mk2-equipment",
+    "variantId": "default",
+    "label": "Personal Roboport MK2",
+    "inputs": [
+      "personal-roboport-equipment",
+      "processing-unit",
+      "superconductor"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "night-vision-equipment",
+    "variantId": "default",
+    "label": "Nightvision",
+    "inputs": [
+      "advanced-circuit",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "toolbelt-equipment",
+    "variantId": "default",
+    "label": "Toolbelt Equipment",
+    "inputs": [
+      "advanced-circuit",
+      "carbon-fiber"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "energy-shield-equipment",
+    "variantId": "default",
+    "label": "Energy Shield",
+    "inputs": [
+      "advanced-circuit",
+      "steel-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "energy-shield-mk2-equipment",
+    "variantId": "default",
+    "label": "Energy Shield MK2",
+    "inputs": [
+      "energy-shield-equipment",
+      "processing-unit",
+      "low-density-structure"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "personal-laser-defense-equipment",
+    "variantId": "default",
+    "label": "Personal Laser Defense",
+    "inputs": [
+      "processing-unit",
+      "low-density-structure",
+      "laser-turret"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "discharge-defense-equipment",
+    "variantId": "default",
+    "label": "Discharge Defense",
+    "inputs": [
+      "processing-unit",
+      "steel-plate",
+      "laser-turret"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "stone-wall",
+    "variantId": "default",
+    "label": "Wall",
+    "inputs": [
+      "stone-brick"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "gate",
+    "variantId": "default",
+    "label": "Gate",
+    "inputs": [
+      "stone-wall",
+      "steel-plate",
+      "electronic-circuit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "radar",
+    "variantId": "default",
+    "label": "Radar",
+    "inputs": [
+      "electronic-circuit",
+      "iron-gear-wheel",
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "land-mine",
+    "variantId": "default",
+    "label": "Land Mine",
+    "inputs": [
+      "steel-plate",
+      "explosives"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "gun-turret",
+    "variantId": "default",
+    "label": "Gun Turret",
+    "inputs": [
+      "iron-gear-wheel",
+      "copper-plate",
+      "iron-plate"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser-turret",
+    "variantId": "default",
+    "label": "Laser Turret",
+    "inputs": [
+      "steel-plate",
+      "electronic-circuit",
+      "battery"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "flamethrower-turret",
+    "variantId": "default",
+    "label": "Flamethrower Turret",
+    "inputs": [
+      "steel-plate",
+      "iron-gear-wheel",
+      "pipe",
+      "engine-unit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "artillery-turret",
+    "variantId": "default",
+    "label": "Artillery Turret",
+    "inputs": [
+      "tungsten-plate",
+      "refined-concrete",
+      "iron-gear-wheel",
+      "processing-unit"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rocket-turret",
+    "variantId": "default",
+    "label": "Rocket Turret",
+    "inputs": [
+      "rocket-launcher",
+      "processing-unit",
+      "carbon-fiber",
+      "steel-plate",
+      "iron-gear-wheel"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "tesla-turret",
+    "variantId": "default",
+    "label": "Tesla Turret",
+    "inputs": [
+      "teslagun",
+      "supercapacitor",
+      "processing-unit",
+      "superconductor",
+      "electrolyte"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "railgun-turret",
+    "variantId": "default",
+    "label": "Railgun Turret",
+    "inputs": [
+      "quantum-processor",
+      "tungsten-plate",
+      "superconductor",
+      "carbon-fiber",
+      "fluoroketone-cold"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "water",
+    "variantId": "default",
+    "label": "Water",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "water",
+    "variantId": "steam-condensation",
+    "label": "Water (Steam Condensation)",
+    "inputs": [
+      "steam"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "water",
+    "variantId": "steam-condensation-steam-165",
+    "label": "Water (Steam Condensation)",
+    "inputs": [
+      "steam-165"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "water",
+    "variantId": "ice-melting",
+    "label": "Water (Ice Melting)",
+    "inputs": [
+      "ice"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "steam",
+    "variantId": "default",
+    "label": "Steam (500°C)",
+    "inputs": [
+      "calcite",
+      "sulfuric-acid"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "steam",
+    "variantId": "heat-exchanger-steam-boil",
+    "label": "Steam (500°C) (Heat Exchanger : Steam)",
+    "inputs": [
+      "water"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "steam-165",
+    "variantId": "default",
+    "label": "Steam (165°C)",
+    "inputs": [
+      "water"
+    ],
     "isDefault": true
   },
   {
@@ -35,171 +3502,3528 @@
     "isDefault": true
   },
   {
-    "product": "steel-plate",
+    "product": "petroleum-gas",
     "variantId": "default",
-    "label": "Steel Plate",
-    "inputs": ["iron-plate"],
+    "label": "Petroleum Gas",
+    "inputs": [
+      "crude-oil"
+    ],
     "isDefault": true
   },
   {
-    "product": "copper-cable",
-    "variantId": "default",
-    "label": "Copper Cable",
-    "inputs": ["copper-plate"],
-    "isDefault": true
-  },
-  {
-    "product": "iron-gear-wheel",
-    "variantId": "default",
-    "label": "Iron Gear Wheel",
-    "inputs": ["iron-plate"],
-    "isDefault": true
-  },
-  {
-    "product": "stone-brick",
-    "variantId": "default",
-    "label": "Stone Brick",
-    "inputs": ["stone"],
-    "isDefault": true
-  },
-  {
-    "product": "pipe",
-    "variantId": "default",
-    "label": "Pipe",
-    "inputs": ["iron-plate"],
-    "isDefault": true
-  },
-  {
-    "product": "plastic-bar",
-    "variantId": "default",
-    "label": "Plastic Bar",
-    "inputs": ["coal", "crude-oil"],
-    "isDefault": true
-  },
-  {
-    "product": "sulfur",
-    "variantId": "default",
-    "label": "Sulfur",
-    "inputs": ["crude-oil"],
-    "isDefault": true
-  },
-  {
-    "product": "electronic-circuit",
-    "variantId": "default",
-    "label": "Green Circuit",
-    "inputs": ["iron-plate", "copper-cable"],
-    "isDefault": true
-  },
-  {
-    "product": "electronic-circuit",
-    "variantId": "flat",
-    "label": "Green Circuit (flat)",
-    "inputs": ["iron-plate", "copper-plate"],
+    "product": "petroleum-gas",
+    "variantId": "advanced-oil-processing",
+    "label": "Petroleum Gas (Advanced Oil Processing)",
+    "inputs": [
+      "water",
+      "crude-oil"
+    ],
     "isDefault": false
   },
   {
-    "product": "advanced-circuit",
-    "variantId": "default",
-    "label": "Red Circuit",
-    "inputs": ["electronic-circuit", "plastic-bar", "copper-cable"],
-    "isDefault": true
-  },
-  {
-    "product": "advanced-circuit",
-    "variantId": "flat",
-    "label": "Red Circuit (flat)",
-    "inputs": ["electronic-circuit", "plastic-bar", "copper-plate"],
+    "product": "petroleum-gas",
+    "variantId": "coal-liquefaction",
+    "label": "Petroleum Gas (Coal Liquefaction)",
+    "inputs": [
+      "coal",
+      "heavy-oil",
+      "steam"
+    ],
     "isDefault": false
   },
   {
-    "product": "processing-unit",
+    "product": "petroleum-gas",
+    "variantId": "coal-liquefaction-steam-165",
+    "label": "Petroleum Gas (Coal Liquefaction)",
+    "inputs": [
+      "coal",
+      "heavy-oil",
+      "steam-165"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "petroleum-gas",
+    "variantId": "light-oil-cracking",
+    "label": "Petroleum Gas (Light Oil Cracking To Petroleum Gas)",
+    "inputs": [
+      "water",
+      "light-oil"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "light-oil",
+    "variantId": "advanced-oil-processing",
+    "label": "Light Oil (Advanced Oil Processing)",
+    "inputs": [
+      "water",
+      "crude-oil"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "light-oil",
+    "variantId": "coal-liquefaction",
+    "label": "Light Oil (Coal Liquefaction)",
+    "inputs": [
+      "coal",
+      "heavy-oil",
+      "steam"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "light-oil",
+    "variantId": "coal-liquefaction-steam-165",
+    "label": "Light Oil (Coal Liquefaction)",
+    "inputs": [
+      "coal",
+      "heavy-oil",
+      "steam-165"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "light-oil",
     "variantId": "default",
-    "label": "Blue Circuit",
-    "inputs": ["electronic-circuit", "advanced-circuit", "sulfur"],
+    "label": "Light Oil",
+    "inputs": [
+      "water",
+      "heavy-oil"
+    ],
     "isDefault": true
   },
   {
-    "product": "sulfuric-acid",
+    "product": "heavy-oil",
     "variantId": "default",
-    "label": "Sulfuric Acid",
-    "inputs": ["sulfur", "iron-plate"],
+    "label": "Heavy Oil",
+    "inputs": [],
     "isDefault": true
   },
   {
-    "product": "battery",
-    "variantId": "default",
-    "label": "Battery",
-    "inputs": ["copper-plate", "iron-plate", "sulfuric-acid"],
-    "isDefault": true
+    "product": "heavy-oil",
+    "variantId": "advanced-oil-processing",
+    "label": "Heavy Oil (Advanced Oil Processing)",
+    "inputs": [
+      "water",
+      "crude-oil"
+    ],
+    "isDefault": false
   },
   {
-    "product": "electric-engine-unit",
-    "variantId": "default",
-    "label": "Electric Engine Unit",
-    "inputs": ["electronic-circuit", "iron-gear-wheel", "lubricant"],
-    "isDefault": true
+    "product": "heavy-oil",
+    "variantId": "simple-coal-liquefaction",
+    "label": "Heavy Oil (Simple Coal Liquefaction)",
+    "inputs": [
+      "coal",
+      "calcite",
+      "sulfuric-acid"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "heavy-oil",
+    "variantId": "coal-liquefaction",
+    "label": "Heavy Oil (Coal Liquefaction)",
+    "inputs": [
+      "coal",
+      "heavy-oil",
+      "steam"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "heavy-oil",
+    "variantId": "coal-liquefaction-steam-165",
+    "label": "Heavy Oil (Coal Liquefaction)",
+    "inputs": [
+      "coal",
+      "heavy-oil",
+      "steam-165"
+    ],
+    "isDefault": false
   },
   {
     "product": "lubricant",
     "variantId": "default",
     "label": "Lubricant",
-    "inputs": ["crude-oil"],
+    "inputs": [
+      "heavy-oil"
+    ],
     "isDefault": true
   },
   {
-    "product": "flying-robot-frame",
+    "product": "lubricant",
+    "variantId": "biolubricant",
+    "label": "Lubricant (Biolubricant)",
+    "inputs": [
+      "jelly"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "sulfuric-acid",
     "variantId": "default",
-    "label": "Flying Robot Frame",
-    "inputs": ["electric-engine-unit", "battery", "steel-plate", "electronic-circuit"],
+    "label": "Sulfuric Acid",
+    "inputs": [],
     "isDefault": true
   },
   {
-    "product": "logistic-robot",
+    "product": "sulfuric-acid",
+    "variantId": "sulfuric-acid",
+    "label": "Sulfuric Acid",
+    "inputs": [
+      "sulfur",
+      "iron-plate",
+      "water"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "thruster-fuel",
     "variantId": "default",
-    "label": "Logistic Robot",
-    "inputs": ["flying-robot-frame", "advanced-circuit"],
+    "label": "Thruster Fuel",
+    "inputs": [
+      "carbon",
+      "water"
+    ],
     "isDefault": true
   },
   {
-    "product": "construction-robot",
+    "product": "thruster-fuel",
+    "variantId": "advanced-thruster-fuel",
+    "label": "Thruster Fuel (Advanced Thruster Fuel)",
+    "inputs": [
+      "carbon",
+      "calcite",
+      "water"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "thruster-oxidizer",
     "variantId": "default",
-    "label": "Construction Robot",
-    "inputs": ["flying-robot-frame", "electronic-circuit"],
+    "label": "Thruster Oxidizer",
+    "inputs": [
+      "iron-ore",
+      "water"
+    ],
     "isDefault": true
   },
   {
-    "product": "rocket-fuel",
+    "product": "thruster-oxidizer",
+    "variantId": "advanced-thruster-oxidizer",
+    "label": "Thruster Oxidizer (Advanced Thruster Oxidizer)",
+    "inputs": [
+      "iron-ore",
+      "calcite",
+      "water"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "lava",
     "variantId": "default",
-    "label": "Rocket Fuel",
-    "inputs": ["solid-fuel"],
+    "label": "Lava",
+    "inputs": [],
     "isDefault": true
   },
   {
-    "product": "solid-fuel",
+    "product": "molten-iron",
+    "variantId": "molten-iron-from-lava",
+    "label": "Molten Iron (Molten Iron From Lava)",
+    "inputs": [
+      "lava",
+      "calcite"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "molten-iron",
     "variantId": "default",
-    "label": "Solid Fuel",
-    "inputs": ["crude-oil"],
+    "label": "Molten Iron",
+    "inputs": [
+      "iron-ore",
+      "calcite"
+    ],
     "isDefault": true
   },
   {
-    "product": "low-density-structure",
+    "product": "molten-copper",
+    "variantId": "molten-copper-from-lava",
+    "label": "Molten Copper (Molten Copper From Lava)",
+    "inputs": [
+      "lava",
+      "calcite"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "molten-copper",
     "variantId": "default",
-    "label": "Low Density Structure",
-    "inputs": ["copper-plate", "steel-plate", "plastic-bar"],
+    "label": "Molten Copper",
+    "inputs": [
+      "copper-ore",
+      "calcite"
+    ],
     "isDefault": true
   },
   {
-    "product": "rocket-control-unit",
+    "product": "holmium-solution",
     "variantId": "default",
-    "label": "Rocket Control Unit",
-    "inputs": ["processing-unit", "speed-module"],
+    "label": "Holmium Solution",
+    "inputs": [
+      "holmium-ore",
+      "stone",
+      "water"
+    ],
     "isDefault": true
   },
   {
-    "product": "speed-module",
+    "product": "electrolyte",
+    "variantId": "default",
+    "label": "Electrolyte",
+    "inputs": [
+      "stone",
+      "heavy-oil",
+      "holmium-solution"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "ammoniacal-solution",
+    "variantId": "default",
+    "label": "Ammoniacal Solution",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "ammonia",
+    "variantId": "default",
+    "label": "Ammonia",
+    "inputs": [
+      "ammoniacal-solution"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fluorine",
+    "variantId": "default",
+    "label": "Fluorine",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "fluoroketone-hot",
+    "variantId": "default",
+    "label": "Fluoroketone (Hot)",
+    "inputs": [
+      "fluorine",
+      "ammonia",
+      "solid-fuel",
+      "lithium"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fluoroketone-cold",
+    "variantId": "default",
+    "label": "Fluoroketone (Cold)",
+    "inputs": [
+      "fluoroketone-hot"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "lithium-brine",
+    "variantId": "default",
+    "label": "Lithium Brine",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "steam-power",
+    "variantId": "default",
+    "label": "Steam Power",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "electronics",
+    "variantId": "default",
+    "label": "Electronics",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "automation-science-pack-technology",
+    "variantId": "default",
+    "label": "Automation Science Pack",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "steel-axe",
+    "variantId": "default",
+    "label": "Steel Axe",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "space-science-pack-technology",
+    "variantId": "default",
+    "label": "Space Science Pack",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "oil-processing",
+    "variantId": "default",
+    "label": "Oil Processing",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "uranium-processing-technology",
+    "variantId": "default",
+    "label": "Uranium Processing",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "recycling",
+    "variantId": "default",
+    "label": "Recycling",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "space-platform",
+    "variantId": "default",
+    "label": "Space Platform",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "calcite-processing",
+    "variantId": "default",
+    "label": "Calcite Processing",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "tungsten-carbide-technology",
+    "variantId": "default",
+    "label": "Tungsten Carbide",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "big-mining-drill-technology",
+    "variantId": "default",
+    "label": "Big Mining Drill",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "foundry-technology",
+    "variantId": "default",
+    "label": "Foundry",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "tungsten-steel",
+    "variantId": "default",
+    "label": "Tungsten Steel",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "metallurgic-science-pack-technology",
+    "variantId": "default",
+    "label": "Metallurgic Science Pack",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "agriculture",
+    "variantId": "default",
+    "label": "Agriculture",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "yumako-technology",
+    "variantId": "default",
+    "label": "Yumako",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "biochamber-technology",
+    "variantId": "default",
+    "label": "Biochamber",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "jellynut-technology",
+    "variantId": "default",
+    "label": "Jellynut",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "bioflux-technology",
+    "variantId": "default",
+    "label": "Bioflux",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "artificial-soil",
+    "variantId": "default",
+    "label": "Artificial Soil",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "bacteria-cultivation",
+    "variantId": "default",
+    "label": "Bacteria Cultivation",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "bioflux-processing",
+    "variantId": "default",
+    "label": "Bioflux Processing",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "agricultural-science-pack-technology",
+    "variantId": "default",
+    "label": "Agricultural Science Pack",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "biter-egg-handling",
+    "variantId": "default",
+    "label": "Biter Egg Handling",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "holmium-processing",
+    "variantId": "default",
+    "label": "Holmium Processing",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "electromagnetic-plant-technology",
+    "variantId": "default",
+    "label": "Electromagnetic Plant",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "electromagnetic-science-pack-technology",
+    "variantId": "default",
+    "label": "Electromagnetic Science Pack",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "heating-tower-technology",
+    "variantId": "default",
+    "label": "Heating Tower",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "lithium-processing",
+    "variantId": "default",
+    "label": "Lithium Processing",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "cryogenic-plant-technology",
+    "variantId": "default",
+    "label": "Cryogenic Plant",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "cryogenic-science-pack-technology",
+    "variantId": "default",
+    "label": "Cryogenic Science Pack",
+    "inputs": [],
+    "isDefault": true
+  },
+  {
+    "product": "electric-mining-drill-technology",
+    "variantId": "default",
+    "label": "Electric Mining Drill",
+    "inputs": [
+      "automation-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "repair-pack-technology",
+    "variantId": "default",
+    "label": "Repair Pack",
+    "inputs": [
+      "automation-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "radar-technology",
+    "variantId": "default",
+    "label": "Radar",
+    "inputs": [
+      "automation-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "physical-projectile-damage-1",
+    "variantId": "default",
+    "label": "Physical Projectile Damage 1",
+    "inputs": [
+      "automation-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "weapon-shooting-speed-1",
+    "variantId": "default",
+    "label": "Weapon Shooting Speed 1",
+    "inputs": [
+      "automation-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "automation",
+    "variantId": "default",
+    "label": "Automation",
+    "inputs": [
+      "automation-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "logistic-science-pack-technology",
+    "variantId": "default",
+    "label": "Logistic Science Pack",
+    "inputs": [
+      "automation-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "steel-processing",
+    "variantId": "default",
+    "label": "Steel Processing",
+    "inputs": [
+      "automation-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "military",
+    "variantId": "default",
+    "label": "Military",
+    "inputs": [
+      "automation-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fast-inserter-technology",
+    "variantId": "default",
+    "label": "Fast Inserter",
+    "inputs": [
+      "automation-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "logistics-technology",
+    "variantId": "default",
+    "label": "Logistics",
+    "inputs": [
+      "automation-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "lamp",
+    "variantId": "default",
+    "label": "Lamp",
+    "inputs": [
+      "automation-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "heavy-armor-technology",
+    "variantId": "default",
+    "label": "Heavy Armor",
+    "inputs": [
+      "automation-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "gun-turret-technology",
+    "variantId": "default",
+    "label": "Gun Turret",
+    "inputs": [
+      "automation-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "stone-wall-technology",
+    "variantId": "default",
+    "label": "Stone Wall",
+    "inputs": [
+      "automation-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "physical-projectile-damage-2",
+    "variantId": "default",
+    "label": "Physical Projectile Damage 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "weapon-shooting-speed-2",
+    "variantId": "default",
+    "label": "Weapon Shooting Speed 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "stronger-explosives-1",
+    "variantId": "default",
+    "label": "Stronger Explosives 1",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "bulk-inserter-technology",
+    "variantId": "default",
+    "label": "Bulk Inserter",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "inserter-capacity-bonus-1",
+    "variantId": "default",
+    "label": "Inserter Capacity Bonus 1",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "inserter-capacity-bonus-2",
+    "variantId": "default",
+    "label": "Inserter Capacity Bonus 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "automation-2",
+    "variantId": "default",
+    "label": "Automation 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "military-2",
+    "variantId": "default",
+    "label": "Military 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "railway",
+    "variantId": "default",
+    "label": "Railway",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "automated-rail-transportation",
+    "variantId": "default",
+    "label": "Automated Rail Transportation",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "automobilism",
+    "variantId": "default",
+    "label": "Automobilism",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "solar-energy",
+    "variantId": "default",
+    "label": "Solar Energy",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "research-speed-1",
+    "variantId": "default",
+    "label": "Lab Research Speed 1",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "research-speed-2",
+    "variantId": "default",
+    "label": "Lab Research Speed 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "electric-energy-distribution-1",
+    "variantId": "default",
+    "label": "Electric Energy Distribution 1",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "advanced-material-processing",
+    "variantId": "default",
+    "label": "Advanced Material Processing",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "concrete-technology",
+    "variantId": "default",
+    "label": "Concrete",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "engine",
+    "variantId": "default",
+    "label": "Engine",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "landfill-technology",
+    "variantId": "default",
+    "label": "Landfill",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "logistics-2",
+    "variantId": "default",
+    "label": "Logistics 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "toolbelt",
+    "variantId": "default",
+    "label": "Toolbelt",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "gate-technology",
+    "variantId": "default",
+    "label": "Gate",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "chemical-science-pack-technology",
+    "variantId": "default",
+    "label": "Chemical Science Pack",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "military-science-pack-technology",
+    "variantId": "default",
+    "label": "Military Science Pack",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "explosives-technology",
+    "variantId": "default",
+    "label": "Explosives",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "flammables",
+    "variantId": "default",
+    "label": "Flammables",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "advanced-circuit-technology",
+    "variantId": "default",
+    "label": "Advanced Circuit",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fluid-wagon-technology",
+    "variantId": "default",
+    "label": "Fluid Wagon",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "modular-armor-technology",
+    "variantId": "default",
+    "label": "Modular Armor",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "electric-energy-accumulators",
+    "variantId": "default",
+    "label": "Electric Energy Accumulators",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "battery-technology",
+    "variantId": "default",
+    "label": "Battery",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "night-vision-equipment-technology",
+    "variantId": "default",
+    "label": "Nightvision Equipment",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "belt-immunity-equipment-technology",
+    "variantId": "default",
+    "label": "Belt Immunity Equipment",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "battery-equipment-technology",
+    "variantId": "default",
+    "label": "Personal Battery",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "solar-panel-equipment-technology",
+    "variantId": "default",
+    "label": "Portable Solar Panel",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fluid-handling",
+    "variantId": "default",
+    "label": "Fluid Handling",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "oil-gathering",
+    "variantId": "default",
+    "label": "Oil Gathering",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "sulfur-processing",
+    "variantId": "default",
+    "label": "Sulfur Processing",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "plastics",
+    "variantId": "default",
+    "label": "Plastics",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "modules",
+    "variantId": "default",
+    "label": "Modules",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "speed-module-technology",
     "variantId": "default",
     "label": "Speed Module",
-    "inputs": ["electronic-circuit", "advanced-circuit"],
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
     "isDefault": true
+  },
+  {
+    "product": "productivity-module-technology",
+    "variantId": "default",
+    "label": "Productivity Module",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "efficiency-module-technology",
+    "variantId": "default",
+    "label": "Efficiency Module",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "mining-productivity-1",
+    "variantId": "default",
+    "label": "Mining Productivity 1",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "circuit-network",
+    "variantId": "default",
+    "label": "Circuit Network",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "quality-module-technology",
+    "variantId": "default",
+    "label": "Quality Module",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fish-breeding-technology",
+    "variantId": "default",
+    "label": "Fish Breeding",
+    "inputs": [
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "physical-projectile-damage-3",
+    "variantId": "default",
+    "label": "Physical Projectile Damage 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "physical-projectile-damage-4",
+    "variantId": "default",
+    "label": "Physical Projectile Damage 4",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "stronger-explosives-2",
+    "variantId": "default",
+    "label": "Stronger Explosives 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "refined-flammables-1",
+    "variantId": "default",
+    "label": "Refined Flammables 1",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "refined-flammables-2",
+    "variantId": "default",
+    "label": "Refined Flammables 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "weapon-shooting-speed-3",
+    "variantId": "default",
+    "label": "Weapon Shooting Speed 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "weapon-shooting-speed-4",
+    "variantId": "default",
+    "label": "Weapon Shooting Speed 4",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "follower-robot-count-1",
+    "variantId": "default",
+    "label": "Follower Robot Count 1",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "follower-robot-count-2",
+    "variantId": "default",
+    "label": "Follower Robot Count 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "land-mine-technology",
+    "variantId": "default",
+    "label": "Land Mines",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "flamethrower-technology",
+    "variantId": "default",
+    "label": "Flamethrower",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rocketry",
+    "variantId": "default",
+    "label": "Rocketry",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "energy-shield-equipment-technology",
+    "variantId": "default",
+    "label": "Energy Shield Equipment",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "defender",
+    "variantId": "default",
+    "label": "Defender",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "inserter-capacity-bonus-3",
+    "variantId": "default",
+    "label": "Inserter Capacity Bonus 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "production-science-pack-technology",
+    "variantId": "default",
+    "label": "Production Science Pack",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "utility-science-pack-technology",
+    "variantId": "default",
+    "label": "Utility Science Pack",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "processing-unit-technology",
+    "variantId": "default",
+    "label": "Processing Unit",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "braking-force-1",
+    "variantId": "default",
+    "label": "Braking Force 1",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "braking-force-2",
+    "variantId": "default",
+    "label": "Braking Force 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser",
+    "variantId": "default",
+    "label": "Laser",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "power-armor-technology",
+    "variantId": "default",
+    "label": "Power Armor",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "robotics",
+    "variantId": "default",
+    "label": "Robotics",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rocket-fuel-technology",
+    "variantId": "default",
+    "label": "Rocket Fuel",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "low-density-structure-technology",
+    "variantId": "default",
+    "label": "Low Density Structure",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rocket-silo-technology",
+    "variantId": "default",
+    "label": "Rocket Silo",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "research-speed-3",
+    "variantId": "default",
+    "label": "Lab Research Speed 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "research-speed-4",
+    "variantId": "default",
+    "label": "Lab Research Speed 4",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "electric-energy-distribution-2",
+    "variantId": "default",
+    "label": "Electric Energy Distribution 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "advanced-material-processing-2",
+    "variantId": "default",
+    "label": "Advanced Material Processing 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "lubricant-technology",
+    "variantId": "default",
+    "label": "Lubricant",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "electric-engine",
+    "variantId": "default",
+    "label": "Electric Engine",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "construction-robotics",
+    "variantId": "default",
+    "label": "Construction Robotics",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "logistic-robotics",
+    "variantId": "default",
+    "label": "Logistic Robotics",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "worker-robots-speed-1",
+    "variantId": "default",
+    "label": "Worker Robot Speed 1",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "worker-robots-speed-2",
+    "variantId": "default",
+    "label": "Worker Robot Speed 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "worker-robots-storage-1",
+    "variantId": "default",
+    "label": "Worker Robot Cargo Size 1",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "exoskeleton-equipment-technology",
+    "variantId": "default",
+    "label": "Exoskeleton Equipment",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "personal-roboport-equipment-technology",
+    "variantId": "default",
+    "label": "Personal Roboport",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "advanced-oil-processing-technology",
+    "variantId": "default",
+    "label": "Advanced Oil Processing",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "uranium-mining",
+    "variantId": "default",
+    "label": "Uranium Mining",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "nuclear-power",
+    "variantId": "default",
+    "label": "Nuclear Power",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "mining-productivity-2",
+    "variantId": "default",
+    "label": "Mining Productivity 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "advanced-combinators",
+    "variantId": "default",
+    "label": "Advanced Combinators",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "health",
+    "variantId": "default",
+    "label": "Health",
+    "inputs": [
+      "military-science-pack",
+      "utility-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "physical-projectile-damage-5",
+    "variantId": "default",
+    "label": "Physical Projectile Damage 5",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "weapon-shooting-speed-5",
+    "variantId": "default",
+    "label": "Weapon Shooting Speed 5",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser-shooting-speed-3",
+    "variantId": "default",
+    "label": "Laser Shooting Speed 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser-shooting-speed-4",
+    "variantId": "default",
+    "label": "Laser Shooting Speed 4",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "follower-robot-count-3",
+    "variantId": "default",
+    "label": "Follower Robot Count 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "military-3",
+    "variantId": "default",
+    "label": "Military 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "tank-technology",
+    "variantId": "default",
+    "label": "Tank",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "explosive-rocketry",
+    "variantId": "default",
+    "label": "Explosive Rocketry",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "personal-laser-defense-equipment-technology",
+    "variantId": "default",
+    "label": "Personal Laser Defense",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "discharge-defense-equipment-technology",
+    "variantId": "default",
+    "label": "Discharge Defense",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "distractor",
+    "variantId": "default",
+    "label": "Distractor",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "stronger-explosives-3",
+    "variantId": "default",
+    "label": "Stronger Explosives 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "refined-flammables-3",
+    "variantId": "default",
+    "label": "Refined Flammables 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser-weapons-damage-1",
+    "variantId": "default",
+    "label": "Laser Weapons Damage 1",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser-weapons-damage-2",
+    "variantId": "default",
+    "label": "Laser Weapons Damage 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser-weapons-damage-3",
+    "variantId": "default",
+    "label": "Laser Weapons Damage 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser-weapons-damage-4",
+    "variantId": "default",
+    "label": "Laser Weapons Damage 4",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser-shooting-speed-1",
+    "variantId": "default",
+    "label": "Laser Shooting Speed 1",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser-shooting-speed-2",
+    "variantId": "default",
+    "label": "Laser Shooting Speed 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser-turret-technology",
+    "variantId": "default",
+    "label": "Laser Turret",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "inserter-capacity-bonus-4",
+    "variantId": "default",
+    "label": "Inserter Capacity Bonus 4",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "inserter-capacity-bonus-5",
+    "variantId": "default",
+    "label": "Inserter Capacity Bonus 5",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "inserter-capacity-bonus-6",
+    "variantId": "default",
+    "label": "Inserter Capacity Bonus 6",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "automation-3",
+    "variantId": "default",
+    "label": "Automation 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "braking-force-3",
+    "variantId": "default",
+    "label": "Braking Force 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "braking-force-4",
+    "variantId": "default",
+    "label": "Braking Force 4",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "braking-force-5",
+    "variantId": "default",
+    "label": "Braking Force 5",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "logistics-3",
+    "variantId": "default",
+    "label": "Logistics 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "research-speed-5",
+    "variantId": "default",
+    "label": "Lab Research Speed 5",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "effect-transmission",
+    "variantId": "default",
+    "label": "Effect Transmission",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "worker-robots-storage-2",
+    "variantId": "default",
+    "label": "Worker Robot Cargo Size 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "nuclear-fuel-reprocessing-technology",
+    "variantId": "default",
+    "label": "Nuclear Fuel Reprocessing",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "mining-productivity-3",
+    "variantId": "default",
+    "label": "Mining Productivity",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "elevated-rail",
+    "variantId": "default",
+    "label": "Elevated Rail",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "steel-plate-productivity",
+    "variantId": "default",
+    "label": "Steel Plate Productivity",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "worker-robots-speed-3",
+    "variantId": "default",
+    "label": "Worker Robot Speed 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "worker-robots-speed-4",
+    "variantId": "default",
+    "label": "Worker Robot Speed 4",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "battery-mk2-equipment-technology",
+    "variantId": "default",
+    "label": "Personal Battery MK2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "logistic-system",
+    "variantId": "default",
+    "label": "Logistic System",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "speed-module-2-technology",
+    "variantId": "default",
+    "label": "Speed Module 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "productivity-module-2-technology",
+    "variantId": "default",
+    "label": "Productivity Module 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "efficiency-module-2-technology",
+    "variantId": "default",
+    "label": "Efficiency Module 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "kovarex-enrichment-process-technology",
+    "variantId": "default",
+    "label": "Kovarex Enrichment Process",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "quality-module-2-technology",
+    "variantId": "default",
+    "label": "Quality Module 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "space-platform-thruster",
+    "variantId": "default",
+    "label": "Space Platform Thruster",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "planet-discovery-vulcanus",
+    "variantId": "default",
+    "label": "Planet Discovery Vulcanus",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "planet-discovery-gleba",
+    "variantId": "default",
+    "label": "Planet Discovery Gleba",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "planet-discovery-fulgora",
+    "variantId": "default",
+    "label": "Planet Discovery Fulgora",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "physical-projectile-damage-6",
+    "variantId": "default",
+    "label": "Physical Projectile Damage 6",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "stronger-explosives-4",
+    "variantId": "default",
+    "label": "Stronger Explosives 4",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "refined-flammables-4",
+    "variantId": "default",
+    "label": "Refined Flammables 4",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "refined-flammables-5",
+    "variantId": "default",
+    "label": "Refined Flammables 5",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser-weapons-damage-5",
+    "variantId": "default",
+    "label": "Laser Weapons Damage 5",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser-weapons-damage-6",
+    "variantId": "default",
+    "label": "Laser Weapons Damage 6",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "weapon-shooting-speed-6",
+    "variantId": "default",
+    "label": "Weapon Shooting Speed 6",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser-shooting-speed-5",
+    "variantId": "default",
+    "label": "Laser Shooting Speed 5",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser-shooting-speed-6",
+    "variantId": "default",
+    "label": "Laser Shooting Speed 6",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser-shooting-speed-7",
+    "variantId": "default",
+    "label": "Laser Shooting Speed 7",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "follower-robot-count-4",
+    "variantId": "default",
+    "label": "Follower Robot Count 4",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "inserter-capacity-bonus-7",
+    "variantId": "default",
+    "label": "Inserter Capacity Bonus 7",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "military-4",
+    "variantId": "default",
+    "label": "Military 4",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "uranium-ammo",
+    "variantId": "default",
+    "label": "Uranium Ammo",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "braking-force-6",
+    "variantId": "default",
+    "label": "Braking Force 6",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "braking-force-7",
+    "variantId": "default",
+    "label": "Braking Force 7",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "power-armor-mk2-technology",
+    "variantId": "default",
+    "label": "Power Armor MK2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "research-speed-6",
+    "variantId": "default",
+    "label": "Lab Research Speed 6",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "worker-robots-speed-5",
+    "variantId": "default",
+    "label": "Worker Robot Speed 5",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "worker-robots-storage-3",
+    "variantId": "default",
+    "label": "Worker Robot Cargo Size 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fission-reactor-equipment-technology",
+    "variantId": "default",
+    "label": "Portable Fission Reactor",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "destroyer",
+    "variantId": "default",
+    "label": "Destroyer",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "electric-weapons-damage-1",
+    "variantId": "default",
+    "label": "Electric Weapons Damage 1",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack",
+      "utility-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "cliff-explosives-technology",
+    "variantId": "default",
+    "label": "Cliff Explosives",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "coal-liquefaction-technology",
+    "variantId": "default",
+    "label": "Coal Liquefaction",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "speed-module-3-technology",
+    "variantId": "default",
+    "label": "Speed Module 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "asteroid-reprocessing",
+    "variantId": "default",
+    "label": "Asteroid Reprocessing",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "low-density-structure-productivity",
+    "variantId": "default",
+    "label": "Low Density Structure Productivity",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "metallurgic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "productivity-module-3-technology",
+    "variantId": "default",
+    "label": "Productivity Module 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "efficiency-module-3-technology",
+    "variantId": "default",
+    "label": "Efficiency Module 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "toolbelt-equipment-technology",
+    "variantId": "default",
+    "label": "Toolbelt Equipment",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "tree-seeding",
+    "variantId": "default",
+    "label": "Tree Seeding",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "carbon-fiber-technology",
+    "variantId": "default",
+    "label": "Carbon Fiber",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "plastic-bar-productivity",
+    "variantId": "default",
+    "label": "Plastic Bar Productivity",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rocket-fuel-productivity",
+    "variantId": "default",
+    "label": "Rocket Fuel Productivity",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "quality-module-3-technology",
+    "variantId": "default",
+    "label": "Quality Module 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack",
+      "electromagnetic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "lightning-collector-technology",
+    "variantId": "default",
+    "label": "Lightning Collector",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "space-science-pack",
+      "electromagnetic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "processing-unit-productivity",
+    "variantId": "default",
+    "label": "Processing Unit Productivity",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "electromagnetic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "scrap-recycling-productivity",
+    "variantId": "default",
+    "label": "Scrap Recycling Productivity",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "electromagnetic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rocket-part-productivity",
+    "variantId": "default",
+    "label": "Rocket Part Productivity",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "cryogenic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "physical-projectile-damage-7",
+    "variantId": "default",
+    "label": "Physical Projectile Damage",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "stronger-explosives-5",
+    "variantId": "default",
+    "label": "Stronger Explosives 5",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack",
+      "utility-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "stronger-explosives-6",
+    "variantId": "default",
+    "label": "Stronger Explosives 6",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "refined-flammables-6",
+    "variantId": "default",
+    "label": "Refined Flammables 6",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "laser-weapons-damage-7",
+    "variantId": "default",
+    "label": "Laser Weapons Damage",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "atomic-bomb-technology",
+    "variantId": "default",
+    "label": "Atomic Bomb",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "electric-weapons-damage-2",
+    "variantId": "default",
+    "label": "Electric Weapons Damage 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "worker-robots-speed-6",
+    "variantId": "default",
+    "label": "Worker Robot Speed 6",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "turbo-transport-belt-technology",
+    "variantId": "default",
+    "label": "Turbo Transport Belt",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "epic-quality",
+    "variantId": "default",
+    "label": "Epic Quality",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rocket-turret-technology",
+    "variantId": "default",
+    "label": "Rocket Turret",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "captivity",
+    "variantId": "default",
+    "label": "Captivity",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "personal-roboport-mk2-equipment-technology",
+    "variantId": "default",
+    "label": "Personal Roboport MK2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "electromagnetic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "battery-mk3-equipment-technology",
+    "variantId": "default",
+    "label": "Personal Battery MK3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "electromagnetic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "follower-robot-count-5",
+    "variantId": "default",
+    "label": "Follower Robot Count",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "artillery-shell-range-1",
+    "variantId": "default",
+    "label": "Artillery Shell Range",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "artillery-shell-speed-1",
+    "variantId": "default",
+    "label": "Artillery Shell Shooting Speed",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "artillery",
+    "variantId": "default",
+    "label": "Artillery",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "artillery-shell-damage-1",
+    "variantId": "default",
+    "label": "Artillery Shell Damage",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "stronger-explosives-7",
+    "variantId": "default",
+    "label": "Stronger Explosives",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "refined-flammables-7",
+    "variantId": "default",
+    "label": "Refined Flammables",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "stack-inserter-technology",
+    "variantId": "default",
+    "label": "Stack Inserter",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "transport-belt-capacity-1",
+    "variantId": "default",
+    "label": "Transport Belt Capacity 1",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "transport-belt-capacity-2",
+    "variantId": "default",
+    "label": "Transport Belt Capacity 2",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "overgrowth-soil",
+    "variantId": "default",
+    "label": "Overgrowth Soil",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "advanced-asteroid-processing",
+    "variantId": "default",
+    "label": "Advanced Asteroid Processing",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "asteroid-productivity",
+    "variantId": "default",
+    "label": "Asteroid Productivity",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "energy-shield-mk2-equipment-technology",
+    "variantId": "default",
+    "label": "Energy Shield MK2 Equipment",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "space-science-pack",
+      "utility-science-pack",
+      "electromagnetic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "electric-weapons-damage-3",
+    "variantId": "default",
+    "label": "Electric Weapons Damage 3",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "electromagnetic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "electric-weapons-damage-4",
+    "variantId": "default",
+    "label": "Electric Weapons Damage",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "electromagnetic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "worker-robots-speed-7",
+    "variantId": "default",
+    "label": "Worker Robot Speed",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "electromagnetic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "mech-armor-technology",
+    "variantId": "default",
+    "label": "Mech Armor",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "electromagnetic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "tesla-weapons",
+    "variantId": "default",
+    "label": "Tesla Weapons",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "electromagnetic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "railgun-damage-1",
+    "variantId": "default",
+    "label": "Railgun Damage",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "biolab-technology",
+    "variantId": "default",
+    "label": "Biolab",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "spidertron-technology",
+    "variantId": "default",
+    "label": "Spidertron",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "agricultural-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "rail-support-foundations",
+    "variantId": "default",
+    "label": "Rail Support Foundations",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack",
+      "electromagnetic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "railgun-shooting-speed-1",
+    "variantId": "default",
+    "label": "Railgun Shooting Speed",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "electromagnetic-science-pack",
+      "cryogenic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "planet-discovery-aquilo",
+    "variantId": "default",
+    "label": "Planet Discovery Aquilo",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack",
+      "agricultural-science-pack",
+      "electromagnetic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "legendary-quality",
+    "variantId": "default",
+    "label": "Legendary Quality",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack",
+      "agricultural-science-pack",
+      "electromagnetic-science-pack",
+      "cryogenic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "railgun-technology",
+    "variantId": "default",
+    "label": "Railgun",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack",
+      "electromagnetic-science-pack",
+      "agricultural-science-pack",
+      "cryogenic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "quantum-processor-technology",
+    "variantId": "default",
+    "label": "Quantum Processor",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack",
+      "agricultural-science-pack",
+      "electromagnetic-science-pack",
+      "cryogenic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fusion-reactor-technology",
+    "variantId": "default",
+    "label": "Fusion Reactor",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack",
+      "agricultural-science-pack",
+      "electromagnetic-science-pack",
+      "cryogenic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "fusion-reactor-equipment-technology",
+    "variantId": "default",
+    "label": "Portable Fusion Reactor",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack",
+      "agricultural-science-pack",
+      "electromagnetic-science-pack",
+      "cryogenic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "promethium-science-pack-technology",
+    "variantId": "default",
+    "label": "Promethium Science Pack",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack",
+      "agricultural-science-pack",
+      "electromagnetic-science-pack",
+      "cryogenic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "foundation-technology",
+    "variantId": "default",
+    "label": "Foundation",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack",
+      "agricultural-science-pack",
+      "electromagnetic-science-pack",
+      "cryogenic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "captive-biter-spawner-technology",
+    "variantId": "default",
+    "label": "Captive Biter Spawner",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "chemical-science-pack",
+      "military-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack",
+      "agricultural-science-pack",
+      "electromagnetic-science-pack",
+      "cryogenic-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "research-productivity",
+    "variantId": "default",
+    "label": "Research Productivity",
+    "inputs": [
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack",
+      "metallurgic-science-pack",
+      "electromagnetic-science-pack",
+      "agricultural-science-pack",
+      "cryogenic-science-pack",
+      "promethium-science-pack"
+    ],
+    "isDefault": true
+  },
+  {
+    "product": "electronic-circuit",
+    "variantId": "flat",
+    "label": "Electronic Circuit (flat)",
+    "inputs": [
+      "iron-plate",
+      "copper-plate"
+    ],
+    "isDefault": false
+  },
+  {
+    "product": "advanced-circuit",
+    "variantId": "flat",
+    "label": "Advanced Circuit (flat)",
+    "inputs": [
+      "electronic-circuit",
+      "plastic-bar",
+      "copper-plate"
+    ],
+    "isDefault": false
   }
 ]

@@ -10,12 +10,16 @@ Owns the catalog of **products** (what bubbles can represent) and the mapping fr
 
 Both the **product catalog** and its **recipes** are user-extensible — nothing is fixed. Three layers compose:
 
-1. **Bundled set** — a small static JSON of curated core products + recipes, shipped with the app (hand-seeded, not a full Factorio scrape). Read-only.
+1. **Bundled set** — a static JSON of products + recipes shipped with the app, **generated** from the FactorioLab "spa" (Space Age) dataset by `scripts/generate-bundled-recipes.mjs` (run `node scripts/generate-bundled-recipes.mjs` to refresh). It now covers the full base + Space Age item catalog (~578 products), labels = official names (Title Cased), inputs only (no quantities). The generator excludes recycling/mining/pumping/barreling recipes so ores/fluids stay raw leaves (with exotic production kept as non-default variants), and re-appends the curated circuit "flat" abstraction variants. Read-only at runtime. *(Supersedes the original "small hand-seeded, not a full scrape" scoping — deliberately expanded 2026-05-23 because users hit missing basics like the scrap-bus outputs.)*
 2. **User set** — user-authored content that **merges on top** of the bundled set, of two kinds:
    - *New products* the bundled set never had, each with its own recipe(s).
    - *New recipe variants* / abstractions for existing products (e.g. "green circuit = iron + copper", flattening copper wire) that appear alongside stock variants in the dropdown.
 3. **Per-bubble pointer** — each bubble references a product + which recipe variant it currently uses; switching is a dropdown on the bubble.
 
-Authoring a product and authoring a recipe are the same flow: name the product, list its input resource types. A product whose recipe is empty is a **raw/base resource** (a leaf — nothing feeds it). Inputs are named by resource type only (no quantities/rates — we model *shape*, not throughput). Resource-type names are just strings; referencing a new resource name in a recipe implicitly makes it available as a rail/source type. A custom recipe deliberately lets the user collapse a multi-step chain into the few resources they want to see, to declutter the graph.
+Authoring a product and authoring a recipe are the same flow: name the product, list its input resource types. A product whose recipe is empty is a **raw/base resource** (a leaf — nothing feeds it). Inputs are named by resource type only (no quantities/rates — we model *shape*, not throughput). A custom recipe deliberately lets the user collapse a multi-step chain into the few resources they want to see, to declutter the graph.
+
+**Ingredients go through forced-match autocomplete.** In the Recipe Editor, each ingredient is added by autocompleting against the existing catalog (matched case- and hyphen-insensitively by id *or* label) and resolves to a real product id. This kills the typos that previously left feeders sourceless. Referencing a brand-new resource name is still possible — the charter's "implicit creation" — but now as a **deliberate act**: when a draft matches nothing, an explicit "Create <name>" escape adds it. This reconciles the implicit-creation rule with the user's "force matching" requirement.
+
+**Identity is canonical for matching, literal for storage.** Product identity is compared by a *canonical key* (case-folded, separators stripped — `recipes/normalize.ts`) wherever the system resolves a needed resource to a source: the solver's source search, color lookup, and ingredient resolution. Stored ids and human labels are left exactly as authored — canonicalization never rewrites data, it only governs what counts as "the same resource."
 
 See `recipes-log.md` for planned work.

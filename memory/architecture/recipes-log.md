@@ -4,8 +4,11 @@
 
 ## Data Schema & Bundled Set
 
+- [x] (planned: 2026-05-23, completed: 2026-05-23) Bundled source-bus presets (`recipes/sources.ts`): a `SourcePreset { id, label, resourceTypes[] }` seed list. First entry: **Scrap** = the 12 direct Fulgora scrap-recycling outputs (iron gear wheel, solid fuel, concrete, ice, stone, steel plate, battery, copper cable, advanced circuit, processing unit, low density structure, holmium ore) — verified against the Factorio wiki (yields sum to 60%). New colors added for concrete/ice/holmium-ore/scrap.
+
 - [x] (planned: 2026-05-23, completed: 2026-05-23) Define recipe schema: `{ product, variantId, label, inputs: string[], isDefault }`; resource types by name only, no quantities.
 - [x] (planned: 2026-05-23, completed: 2026-05-23) Author bundled recipe JSON covering core Factorio intermediates — 29 variants from raw resources through rocket components (circuits, plates, steel, plastic, gears, etc.) with default variants.
+- [x] (planned: 2026-05-23, completed: 2026-05-23) Replace the hand-seeded bundled set with a **generated** full base + Space Age catalog (~578 products / 654 variants) via `scripts/generate-bundled-recipes.mjs` from the FactorioLab "spa" dataset. — decision: fixed wrong labels (Advanced Circuit, not "Red Circuit"; Electronic/Processing too) and missing basics (ice, concrete, holmium-ore + all ores/fluids); generator excludes recycling/mining/barreling so raws stay leaves, keeps exotic recipes as non-default variants, re-adds the circuit "flat" abstractions. Source/method promoted to recipes.md.
 
 ## User Authoring Layer
 
@@ -18,3 +21,9 @@
 - [x] (planned: 2026-05-23, completed: 2026-05-23) Per-bubble recipe dropdown (bubble context menu): switch variant updates inputs and triggers solver recompute.
 - [x] (planned: 2026-05-23, completed: 2026-05-23) Recipe/product editor UI: create or edit a product and its recipe variants. — decision: mounted at App level, opened via the "Recipes" toolbar button (new products) and the bubble context-menu "Edit Recipe…" (existing product); state held transiently in the editing store.
 - [x] (planned: 2026-05-23, completed: 2026-05-23) Palette (ProductPicker) reflects user-authored products via `getAllProductIds()`, so new products are placeable as bubbles.
+- [x] (planned: 2026-05-23, completed: 2026-05-23) Recipe Editor left dock: filterable list of all existing products (label, input-count/raw badge, ★ user-authored marker, variant count) — click loads it into the form; "+ New" clears the form for authoring. — decision: a browse pane removes the "am I duplicating an existing recipe?" blindness; kept inside the editor modal as a two-column layout rather than a separate canvas dock.
+
+## Product Identity & Matching
+
+- [x] (planned: 2026-05-23, completed: 2026-05-23) Canonical product identity for source-matching: `recipes/normalize.ts` exports `canonicalProductKey` (case-folded, hyphens/underscores/whitespace stripped) + `resolveProductId` (free text → known id, by id or label). The solver matches a bubble's needed input against rail `resourceTypes` and bubble `productId` by canonical key, so "Copper Plate" / "copper_plate" / "copper-plate" are one resource; `getResourceColor` is canonical-keyed too. — decision: a matching aid only — stored ids and labels are untouched (no migration); fixes "feeder finds no source" caused by case/hyphen drift between authored rails and recipe inputs.
+- [x] (planned: 2026-05-23, completed: 2026-05-23) Recipe Editor ingredients are now chips added via a forced-match autocomplete (datalist of product labels; Enter/click resolves to a real product id via `resolveProductId`). A no-match draft shows a deliberate "Create <name>" escape (chip flagged `new`) rather than silently adding a typo. — decision: chose autocomplete + explicit-create over free comma-separated text to kill typos that broke source-matching, while preserving the charter's implicit-creation as a conscious act (user-confirmed).

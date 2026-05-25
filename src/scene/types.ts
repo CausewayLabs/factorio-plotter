@@ -41,16 +41,31 @@ export interface Bubble {
    * It can still receive feeders for its own inputs.
    */
   isPrivate: boolean
+  /**
+   * The bus (rail id) this bubble's output is emitted onto, or null when
+   * unbound. When set, the bubble's product is present in that rail's
+   * `resourceTypes` and the solver draws a derived orthogonal output connector
+   * from the output port to the rail. The rail itself is never anchored to the
+   * bubble — only this binding links them.
+   */
+  outputTarget: string | null
 }
 
 /**
- * A rail is a typed resource supply line — a polyline on the canvas.
+ * A rail is a resource supply line (bus) — a polyline on the canvas.
  * Rails are authored by the user: drawn, extended, bent, forked.
+ *
+ * A rail is a *bus*: it carries one or more resource types. A plain rail is
+ * simply a bus of one. A feeder may draw from a rail if the resource it needs
+ * is among `resourceTypes` (e.g. a "scrap" bus carries the ~12 Fulgora
+ * recycling outputs, and any bubble needing one of them can tap it).
  */
 export interface Rail {
   id: string
-  /** The resource type this rail carries (matches a product name) */
-  resourceType: string
+  /** The resource types this bus carries (each matches a product name). At least one. */
+  resourceTypes: string[]
+  /** Optional display name for a multi-resource bus (e.g. "Scrap"). */
+  label?: string
   /** World-space vertices of the polyline, in order */
   points: Point[]
   /**
@@ -62,13 +77,39 @@ export interface Rail {
    * If this rail was forked from another, this records the parametric origin.
    * The fork point slides along the parent rail when the parent is reshaped.
    * Null for root rails drawn from scratch.
+   *
+   * This is the ONLY anchoring a rail has — rails are never anchored to bubbles.
+   * A bubble's output reaches a bus via a derived output connector, not by
+   * gluing a rail endpoint to the bubble.
    */
   parametricOrigin: ParametricOrigin | null
 }
 
+/** Which side of a bubble an input tab is drawn on. Derived from feeder direction. */
+export type InputSide = 'left' | 'right'
+
 // ============================================================
 // DERIVED entities (recomputed by solver, never persisted)
 // ============================================================
+
+/**
+ * Per-input layout slot, derived by the solver.
+ * The side a tab sits on follows the direction of its feeder's source relative
+ * to the bubble center (source to the left → left side; to the right → right
+ * side). `sideIndex`/`sideTotal` index the tab within its own side so each side
+ * stacks/staggers independently. The renderer consumes this so tab geometry and
+ * the solver's feeder endpoints stay in sync (bubble-port single-source-of-truth).
+ */
+export interface InputSlot {
+  resourceType: string
+  side: InputSide
+  /** Index of this tab among tabs on the same side (0-based). */
+  sideIndex: number
+  /** Total number of tabs on this side. */
+  sideTotal: number
+  /** False when no matching source exists (missing-requirement). */
+  satisfied: boolean
+}
 
 /**
  * Describes which source satisfies a feeder connection.
@@ -76,7 +117,7 @@ export interface Rail {
  */
 export type FeederSource =
   | { kind: 'rail'; railId: string; attachPoint: Point }
-  | { kind: 'bubble'; bubbleId: string; outputPort: Point }
+  | { kind: 'bubble'; bubbleId: string; attachPoint: Point }
 
 /**
  * A feeder is an auto-derived orthogonal line connecting a bubble's input
@@ -99,6 +140,25 @@ export interface Feeder {
   pathPoints: Point[]
   /** World-space point on the bubble where this feeder terminates */
   inputPort: Point
+}
+
+/**
+ * An output connector is the mirror of a feeder: a derived ORTHOGONAL line
+ * carrying a bubble's output from its output port to the bus it is bound to
+ * (`Bubble.outputTarget`). Like feeders, output connectors are NEVER authored,
+ * persisted, selected, or used as attachment targets — they are recomputed by
+ * the solver from current geometry.
+ */
+export interface OutputConnector {
+  id: string
+  /** The bubble whose output this carries */
+  bubbleId: string
+  /** The bus (rail) the output is emitted onto */
+  railId: string
+  /** The product being emitted (the bubble's productId) */
+  resourceType: string
+  /** Orthogonal path: output port → nearest point on the resolved rail polyline. */
+  pathPoints: Point[]
 }
 
 // ============================================================

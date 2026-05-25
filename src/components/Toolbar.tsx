@@ -1,20 +1,20 @@
 /**
  * Toolbar — tool mode switcher and persistence buttons.
+ * The product/resource pickers are opened via the editing store and rendered
+ * at the App root (outside this transformed toolbar) so their fixed overlays
+ * are not positioned relative to the toolbar's translateX transform.
  */
-import { useState } from 'react'
 import { useEditingStore } from '../editing/store'
 import { useSceneStore } from '../scene/store'
 import { exportDiagramJson, importDiagramJson } from '../editing/persistence'
 import { triggerManualRecompute } from '../solver/reactivity'
-import ProductPicker from './ProductPicker'
-import ResourcePicker from './ResourcePicker'
 
 export default function Toolbar() {
   const tool = useEditingStore(s => s.tool)
   const setTool = useEditingStore(s => s.setTool)
-  const setPendingProduct = useEditingStore(s => s.setPendingProduct)
-  const setPendingRailType = useEditingStore(s => s.setPendingRailType)
   const openRecipeEditor = useEditingStore(s => s.openRecipeEditor)
+  const openProductPicker = useEditingStore(s => s.openProductPicker)
+  const openResourcePicker = useEditingStore(s => s.openResourcePicker)
   const reset = useEditingStore(s => s.reset)
 
   const bubbles = useSceneStore(s => s.bubbles)
@@ -25,32 +25,17 @@ export default function Toolbar() {
   const deleteRail = useSceneStore(s => s.deleteRail)
   const setFeeders = useSceneStore(s => s.setFeeders)
 
-  const [showProductPicker, setShowProductPicker] = useState(false)
-  const [showResourcePicker, setShowResourcePicker] = useState(false)
-
   function handleSelectTool() {
     setTool('select')
     reset()
   }
 
   function handlePlaceBubble() {
-    setShowProductPicker(true)
-  }
-
-  function handleProductSelected(productId: string, variantId: string | null) {
-    setShowProductPicker(false)
-    setTool('place-bubble')
-    setPendingProduct(productId, variantId)
+    openProductPicker()
   }
 
   function handleDrawRail() {
-    setShowResourcePicker(true)
-  }
-
-  function handleResourceSelected(resourceType: string) {
-    setShowResourcePicker(false)
-    setTool('draw-rail')
-    setPendingRailType(resourceType)
+    openResourcePicker()
   }
 
   async function handleImport() {
@@ -59,7 +44,7 @@ export default function Toolbar() {
     // Clear existing
     Object.keys(bubbles).forEach(id => deleteBubble(id))
     Object.keys(rails).forEach(id => deleteRail(id))
-    setFeeders([], new Set())
+    setFeeders([], [], new Set(), {})
     // Load new
     data.bubbles.forEach(b => addBubble(b))
     data.rails.forEach(r => addRail(r))
@@ -75,7 +60,7 @@ export default function Toolbar() {
     if (!confirm('Clear the entire diagram?')) return
     Object.keys(bubbles).forEach(id => deleteBubble(id))
     Object.keys(rails).forEach(id => deleteRail(id))
-    setFeeders([], new Set())
+    setFeeders([], [], new Set(), {})
     reset()
   }
 
@@ -150,20 +135,6 @@ export default function Toolbar() {
         {tool === 'draw-rail' && 'Click to add points, double-click to finish'}
         {tool === 'fork-rail' && 'Click on a rail to fork it'}
       </div>
-
-      {/* Pickers */}
-      {showProductPicker && (
-        <ProductPicker
-          onSelect={handleProductSelected}
-          onClose={() => setShowProductPicker(false)}
-        />
-      )}
-      {showResourcePicker && (
-        <ResourcePicker
-          onSelect={handleResourceSelected}
-          onClose={() => setShowResourcePicker(false)}
-        />
-      )}
     </div>
   )
 }
