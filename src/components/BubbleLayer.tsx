@@ -37,13 +37,14 @@ interface InputDesc {
  */
 export default function BubbleLayer({ bubbles }: Props) {
   const resolveRecipe = useRecipeStore(s => s.resolveRecipe)
+  const getRecipeById = useRecipeStore(s => s.getRecipeById)
   const missingInputs = useSceneStore(s => s.missingInputs)
   const inputLayouts = useSceneStore(s => s.inputLayouts)
 
   return (
     <g className="bubble-layer">
       {bubbles.map(bubble => {
-        const recipe = resolveRecipe(bubble.productId, bubble.recipeVariantId)
+        const recipe = resolveRecipe(bubble.recipeId)
         const inputs = recipe?.inputs ?? []
         // Prefer the solver's side assignment; before the first solve (or if it
         // is stale) fall back to an all-left layout so tabs still render.
@@ -59,7 +60,7 @@ export default function BubbleLayer({ bubbles }: Props) {
             : assignSideIndices(inputs.map(res => ({ type: res, side: 'left' as InputSide })))
         const inputDescs: InputDesc[] = sided.map(s => ({
           type: s.type,
-          label: resolveRecipe(s.type, null)?.label ?? prettify(s.type),
+          label: getRecipeById(s.type)?.label ?? prettify(s.type),
           satisfied: !missingInputs.has(`${bubble.id}:${s.type}`),
           side: s.side,
           sideIndex: s.sideIndex,
@@ -67,12 +68,18 @@ export default function BubbleLayer({ bubbles }: Props) {
         }))
         const hasMissing = inputDescs.some(d => !d.satisfied)
 
+        // Primary product drives color and label (products[0] by convention)
+        const primaryProduct = recipe?.products[0] ?? bubble.recipeId
+        const label = recipe?.label ?? prettify(bubble.recipeId)
+
         return (
           <BubbleNode
             key={bubble.id}
             bubble={bubble}
             inputs={inputDescs}
-            label={recipe?.label ?? bubble.productId}
+            label={label}
+            primaryProduct={primaryProduct}
+            outputProducts={recipe?.products ?? []}
             hasMissing={hasMissing}
           />
         )
@@ -85,25 +92,28 @@ interface BubbleNodeProps {
   bubble: Bubble
   inputs: InputDesc[]
   label: string
+  primaryProduct: string
+  outputProducts: string[]
   hasMissing: boolean
 }
 
 const UNSAT_COLOR = '#e0556a'
 
-function BubbleNode({ bubble, inputs, label, hasMissing }: BubbleNodeProps) {
+function BubbleNode({ bubble, inputs, label, primaryProduct, outputProducts, hasMissing }: BubbleNodeProps) {
   const cx = bubble.position.x
   const cy = bubble.position.y
   const outputPort = bubbleOutputPort(bubble.position)
+  const primaryColor = getResourceColor(primaryProduct)
 
   return (
     <g data-bubble-id={bubble.id}>
-      {/* Main circle */}
+      {/* Main circle — stroke tinted by primary product */}
       <circle
         cx={cx}
         cy={cy}
         r={BUBBLE_RADIUS}
         fill="#16213e"
-        stroke="#4a9eff"
+        stroke={primaryColor}
         strokeWidth={2}
       />
 
@@ -123,15 +133,28 @@ function BubbleNode({ bubble, inputs, label, hasMissing }: BubbleNodeProps) {
         {label.length > 16 ? label.slice(0, 14) + '…' : label}
       </text>
 
-      {/* Output port — right edge */}
-      <circle
-        cx={outputPort.x}
-        cy={outputPort.y}
-        r={5}
-        fill={bubble.isPrivate ? '#606060' : '#4a9eff'}
-        stroke="#1a1a2e"
-        strokeWidth={1.5}
-      />
+      {/* Output slots — one dot per product in the recipe */}
+      {outputProducts.map((productId, i) => {
+        const isBound = (bubble.outputBindings[productId] ?? null) !== null
+        const slotColor = getResourceColor(productId)
+        // Stack slots vertically around the output port
+        const slotOffset = (i - (outputProducts.length - 1) / 2) * 12
+        const slotY = outputPort.y + slotOffset
+        return (
+          <g key={productId}>
+            <title>{productId}{isBound ? ' (bound)' : ' (unbound)'}</title>
+            <circle
+              cx={outputPort.x}
+              cy={slotY}
+              r={5}
+              fill={bubble.isPrivate ? '#606060' : isBound ? slotColor : '#1a1a2e'}
+              stroke={bubble.isPrivate ? '#808080' : slotColor}
+              strokeWidth={1.5}
+            />
+          </g>
+        )
+      })}
+
       {/* Private indicator */}
       {bubble.isPrivate && (
         <text
@@ -200,7 +223,7 @@ function BubbleNode({ bubble, inputs, label, hasMissing }: BubbleNodeProps) {
       {/* Missing-requirement badge (rendered when bubble has missing inputs) */}
       <MissingBadge bubble={bubble} hasMissing={hasMissing} />
 
-      {/* Recipe variant dropdown affordance */}
+      {/* Recipe dropdown affordance */}
       <text
         x={cx}
         y={cy + BUBBLE_RADIUS + 14}

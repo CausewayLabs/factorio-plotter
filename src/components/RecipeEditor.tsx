@@ -1,17 +1,17 @@
 /**
- * Recipe Editor — create/edit user-authored products and recipes.
+ * Recipe Editor — create/edit user-authored recipes.
  * Writes into the user-set Zustand store (persisted to localStorage).
  * Opens as a modal panel.
  */
 import { useMemo, useState } from 'react'
-import { useRecipeStore, getBundledCatalog } from '../recipes/store'
-import type { RecipeVariant } from '../recipes/types'
+import { useRecipeStore, getBundledMap } from '../recipes/store'
+import type { Recipe } from '../recipes/types'
 import { resolveProductId } from '../recipes/normalize'
 
 interface Props {
   onClose: () => void
-  /** Pre-fill editing an existing product */
-  editProduct?: string
+  /** Pre-fill editing an existing recipe by id */
+  editRecipeId?: string
 }
 
 /** Turn a resource id like "copper-plate" into "Copper Plate". */
@@ -22,43 +22,64 @@ function prettify(id: string): string {
     .join(' ')
 }
 
-export default function RecipeEditor({ onClose, editProduct }: Props) {
-  const upsertVariant = useRecipeStore(s => s.upsertVariant)
-  const removeVariant = useRecipeStore(s => s.removeVariant)
-  const getVariantsForProduct = useRecipeStore(s => s.getVariantsForProduct)
-  const getMergedCatalog = useRecipeStore(s => s.getMergedCatalog)
+/** Derive a kebab-case id from a label string. */
+function labelToId(label: string): string {
+  return label.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+}
 
-  const [productId, setProductId] = useState(editProduct ?? '')
-  const [variantId, setVariantId] = useState('default')
-  const [label, setLabel] = useState('')
-  const [inputs, setInputs] = useState<string[]>([])
+export default function RecipeEditor({ onClose, editRecipeId }: Props) {
+  const upsertRecipe = useRecipeStore(s => s.upsertRecipe)
+  const removeRecipe = useRecipeStore(s => s.removeRecipe)
+  const getAllRecipes = useRecipeStore(s => s.getAllRecipes)
+  const getMergedMap = useRecipeStore(s => s.getMergedMap)
+  const getRecipeById = useRecipeStore(s => s.getRecipeById)
+
+  const existingRecipe = editRecipeId ? getRecipeById(editRecipeId) : null
+
+  const [recipeId, setRecipeId] = useState(existingRecipe?.id ?? '')
+  const [label, setLabel] = useState(existingRecipe?.label ?? '')
+  const [inputs, setInputs] = useState<string[]>(existingRecipe?.inputs ?? [])
+  const [products, setProducts] = useState<string[]>(existingRecipe?.products ?? [])
   const [ingredientDraft, setIngredientDraft] = useState('')
-  const [isDefault, setIsDefault] = useState(true)
+  const [productDraft, setProductDraft] = useState('')
   const [saved, setSaved] = useState(false)
   const [listFilter, setListFilter] = useState('')
 
-  const bundledCatalog = getBundledCatalog()
+  const bundledMap = getBundledMap()
 
-  // Build a product-id → default-label map once per render (from the merged
-  // catalog) to drive autocomplete and id↔label resolution without repeatedly
-  // rebuilding the catalog per candidate.
-  const catalog = getMergedCatalog()
+  // All known product ids across the merged map (union of all products[])
+  const mergedMap = getMergedMap()
+  const allProductIds = useMemo(() => {
+    const ids = new Set<string>()
+    for (const r of Object.values(mergedMap)) {
+      for (const p of r.products) ids.add(p)
+    }
+    return [...ids].sort()
+  }, [mergedMap])
+
+  // product id → label (from first recipe that produces it)
   const productLabels = useMemo(() => {
     const m: Record<string, string> = {}
-    for (const [pid, variants] of Object.entries(catalog)) {
-      const vs = Object.values(variants)
-      const def = vs.find(v => v.isDefault) ?? vs[0]
-      m[pid] = def?.label ?? pid
+    for (const r of Object.values(mergedMap)) {
+      for (const p of r.products) {
+        if (!m[p]) m[p] = r.label
+      }
     }
     return m
-  }, [catalog])
-  const allProducts = useMemo(() => Object.keys(catalog).sort(), [catalog])
+  }, [mergedMap])
+
   const labelOf = (id: string) => productLabels[id] ?? prettify(id)
 
-  // Resolve the current ingredient draft to a known product (case/hyphen-
-  // insensitive, by id or label). Drives force-matching + the create escape.
-  const draftMatch = ingredientDraft.trim()
-    ? resolveProductId(ingredientDraft, allProducts, labelOf)
+  const allRecipes = useMemo(() => getAllRecipes(), [getAllRecipes])
+
+  // Ingredient draft resolution
+  const ingredientMatch = ingredientDraft.trim()
+    ? resolveProductId(ingredientDraft, allProductIds, labelOf)
+    : null
+
+  // Product draft resolution
+  const productMatch = productDraft.trim()
+    ? resolveProductId(productDraft, allProductIds, labelOf)
     : null
 
   function addIngredient(id: string) {
@@ -66,17 +87,14 @@ export default function RecipeEditor({ onClose, editProduct }: Props) {
     setIngredientDraft('')
   }
 
-  /** Enter / pick: add the matched product, or no-op (the create button covers misses). */
   function commitIngredientDraft() {
-    const t = ingredientDraft.trim()
-    if (!t) return
-    if (draftMatch) addIngredient(draftMatch)
+    if (ingredientMatch) addIngredient(ingredientMatch)
   }
 
   function createIngredient() {
     const t = ingredientDraft.trim()
-    if (!t) return
-    if (!inputs.includes(t)) setInputs([...inputs, t])
+    if (!t || inputs.includes(t)) return
+    setInputs([...inputs, t])
     setIngredientDraft('')
   }
 
@@ -84,64 +102,87 @@ export default function RecipeEditor({ onClose, editProduct }: Props) {
     setInputs(inputs.filter(i => i !== id))
   }
 
-  // When productId changes, try to fill from existing variant
-  function handleProductChange(pid: string) {
-    setProductId(pid)
+  function addProduct(id: string) {
+    if (!products.includes(id)) setProducts([...products, id])
+    setProductDraft('')
+  }
+
+  function commitProductDraft() {
+    if (productMatch) addProduct(productMatch)
+  }
+
+  function createProduct() {
+    const t = productDraft.trim()
+    if (!t || products.includes(t)) return
+    setProducts([...products, t])
+    setProductDraft('')
+  }
+
+  function removeProduct(id: string) {
+    setProducts(products.filter(p => p !== id))
+  }
+
+  // When label changes, auto-derive id if id is empty or was auto-derived
+  function handleLabelChange(val: string) {
+    setLabel(val)
     setSaved(false)
-    const variants = getVariantsForProduct(pid)
-    if (variants.length > 0) {
-      const def = variants.find(v => v.isDefault) ?? variants[0]
-      setVariantId(def.variantId)
-      setLabel(def.label)
-      setInputs(def.inputs)
-      setIsDefault(def.isDefault)
-    } else {
-      setLabel('')
-      setInputs([])
-      setVariantId('default')
-      setIsDefault(true)
+    // Auto-fill id only if the id hasn't been manually overridden
+    if (!recipeId || recipeId === labelToId(label)) {
+      setRecipeId(labelToId(val))
     }
+  }
+
+  function handleRecipeSelect(r: Recipe) {
+    setRecipeId(r.id)
+    setLabel(r.label)
+    setInputs(r.inputs)
+    setProducts(r.products)
     setIngredientDraft('')
+    setProductDraft('')
+    setSaved(false)
   }
 
   function handleSave() {
-    if (!productId.trim()) return
-    const variant: RecipeVariant = {
-      product: productId.trim(),
-      variantId: variantId.trim() || 'default',
-      label: label.trim() || productId.trim(),
+    if (!recipeId.trim() || products.length === 0) return
+    const recipe: Recipe = {
+      id: recipeId.trim(),
+      label: label.trim() || recipeId.trim(),
       inputs: inputs.map(s => s.trim()).filter(Boolean),
-      isDefault,
+      products: products.map(s => s.trim()).filter(Boolean),
     }
-    upsertVariant(variant)
+    upsertRecipe(recipe)
     setSaved(true)
   }
 
   function handleDelete() {
-    if (!productId.trim() || !variantId.trim()) return
-    if (!confirm(`Delete variant "${variantId}" of "${productId}"?`)) return
-    removeVariant(productId.trim(), variantId.trim())
-    setProductId('')
-    setVariantId('default')
+    if (!recipeId.trim()) return
+    if (!confirm(`Delete recipe "${recipeId}"?`)) return
+    removeRecipe(recipeId.trim())
+    setRecipeId('')
     setLabel('')
     setInputs([])
+    setProducts([])
     setIngredientDraft('')
+    setProductDraft('')
     setSaved(false)
   }
 
-  const filteredProducts = listFilter.trim()
-    ? allProducts.filter(p => p.toLowerCase().includes(listFilter.toLowerCase()))
-    : allProducts
-
-  function handleNewProduct() {
-    setProductId('')
-    setVariantId('default')
+  function handleNewRecipe() {
+    setRecipeId('')
     setLabel('')
     setInputs([])
+    setProducts([])
     setIngredientDraft('')
-    setIsDefault(true)
+    setProductDraft('')
     setSaved(false)
   }
+
+  const filteredRecipes = listFilter.trim()
+    ? allRecipes.filter(r =>
+        r.label.toLowerCase().includes(listFilter.toLowerCase()) ||
+        r.id.toLowerCase().includes(listFilter.toLowerCase())
+      )
+    : allRecipes
 
   const overlayStyle: React.CSSProperties = {
     position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
@@ -150,7 +191,7 @@ export default function RecipeEditor({ onClose, editProduct }: Props) {
   }
   const panelStyle: React.CSSProperties = {
     background: '#16213e', border: '1px solid #4a9eff', borderRadius: 8,
-    padding: 24, width: 720, maxWidth: '92vw', maxHeight: '85vh',
+    padding: 24, width: 780, maxWidth: '94vw', maxHeight: '85vh',
     display: 'flex', flexDirection: 'column', gap: 14,
   }
   const inputStyle: React.CSSProperties = {
@@ -158,6 +199,36 @@ export default function RecipeEditor({ onClose, editProduct }: Props) {
     borderRadius: 4, padding: '6px 8px', fontSize: 13, width: '100%',
   }
   const labelStyle: React.CSSProperties = { color: '#8080c0', fontSize: 11, marginBottom: 3 }
+
+  function ChipList({ items, known, onRemove }: { items: string[]; known: string[]; onRemove: (id: string) => void }) {
+    if (items.length === 0) return null
+    return (
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 6 }}>
+        {items.map(id => {
+          const isKnown = known.includes(id)
+          return (
+            <span
+              key={id}
+              title={isKnown ? id : `${id} (not in catalog yet)`}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 5,
+                background: '#0f1628', border: `1px solid ${isKnown ? '#4a4a6a' : '#8060a0'}`,
+                borderRadius: 10, padding: '2px 5px 2px 9px', fontSize: 11.5, color: '#d8dcf0',
+              }}
+            >
+              {labelOf(id)}
+              {!isKnown && <span style={{ color: '#a090c0', fontSize: 9 }}>new</span>}
+              <span
+                onClick={() => onRemove(id)}
+                title="Remove"
+                style={{ cursor: 'pointer', color: '#8088a0', fontSize: 13, lineHeight: 1, padding: '0 2px' }}
+              >×</span>
+            </span>
+          )
+        })}
+      </div>
+    )
+  }
 
   return (
     <div style={overlayStyle} onClick={onClose}>
@@ -168,12 +239,12 @@ export default function RecipeEditor({ onClose, editProduct }: Props) {
         </div>
 
         <div style={{ display: 'flex', gap: 16, minHeight: 0, flex: 1 }}>
-          {/* Left dock: browse existing products & recipes */}
+          {/* Left dock: browse existing recipes */}
           <div style={{ width: 240, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 8, borderRight: '1px solid #2a2a4a', paddingRight: 12 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={labelStyle}>Existing Products</span>
+              <span style={labelStyle}>Existing Recipes</span>
               <button
-                onClick={handleNewProduct}
+                onClick={handleNewRecipe}
                 style={{ background: '#2a4a7f', color: '#e0e0ff', border: '1px solid #4a9eff', borderRadius: 4, padding: '2px 8px', cursor: 'pointer', fontSize: 11 }}
               >
                 + New
@@ -186,17 +257,15 @@ export default function RecipeEditor({ onClose, editProduct }: Props) {
               style={{ ...inputStyle, padding: '4px 8px', fontSize: 12 }}
             />
             <div style={{ overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: 1 }}>
-              {filteredProducts.map(pid => {
-                const variants = getVariantsForProduct(pid)
-                const def = variants.find(v => v.isDefault) ?? variants[0]
-                const isRaw = def?.inputs.length === 0
-                const isBundled = !!bundledCatalog[pid]
-                const active = productId === pid
+              {filteredRecipes.map(r => {
+                const isRaw = r.inputs.length === 0
+                const isBundled = !!bundledMap[r.id]
+                const active = recipeId === r.id
                 return (
                   <div
-                    key={pid}
-                    onClick={() => handleProductChange(pid)}
-                    title={isRaw ? 'raw / leaf' : def?.inputs.join(', ')}
+                    key={r.id}
+                    onClick={() => handleRecipeSelect(r)}
+                    title={isRaw ? 'raw / leaf' : r.inputs.join(', ')}
                     style={{
                       padding: '5px 8px', borderRadius: 4, cursor: 'pointer',
                       background: active ? '#2a4a7f' : 'transparent',
@@ -205,156 +274,142 @@ export default function RecipeEditor({ onClose, editProduct }: Props) {
                     }}
                   >
                     <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {def?.label ?? pid}
+                      {r.label}
                     </span>
                     <span style={{ flexShrink: 0, fontSize: 9, color: isBundled ? '#606080' : '#60a0e0' }}>
-                      {isRaw ? 'raw' : `${def?.inputs.length ?? 0}in`}
+                      {isRaw ? 'raw' : `${r.inputs.length}in`}
+                      {r.products.length > 1 && `·${r.products.length}out`}
                       {!isBundled && ' ★'}
-                      {variants.length > 1 && ` ·${variants.length}v`}
                     </span>
                   </div>
                 )
               })}
-              {filteredProducts.length === 0 && (
+              {filteredRecipes.length === 0 && (
                 <div style={{ color: '#606080', fontSize: 12, padding: '6px 8px' }}>No matches</div>
               )}
             </div>
             <div style={{ color: '#404060', fontSize: 9 }}>★ = user-authored</div>
           </div>
 
-          {/* Right: the authoring form */}
+          {/* Right: authoring form */}
           <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 14, overflowY: 'auto' }}>
-        <div>
-          <div style={labelStyle}>Product ID (resource type name)</div>
-          <input
-            list="product-list"
-            value={productId}
-            onChange={e => handleProductChange(e.target.value)}
-            placeholder="e.g. my-alloy"
-            style={inputStyle}
-          />
-          <datalist id="product-list">
-            {allProducts.map(p => <option key={p} value={p} />)}
-          </datalist>
-        </div>
-
-        <div>
-          <div style={labelStyle}>Display Label</div>
-          <input
-            value={label}
-            onChange={e => setLabel(e.target.value)}
-            placeholder="e.g. My Alloy"
-            style={inputStyle}
-          />
-        </div>
-
-        <div>
-          <div style={labelStyle}>Variant ID</div>
-          <input
-            value={variantId}
-            onChange={e => setVariantId(e.target.value)}
-            placeholder="default"
-            style={inputStyle}
-          />
-        </div>
-
-        <div>
-          <div style={labelStyle}>Inputs (autocomplete an existing product, or create one — empty = raw/leaf)</div>
-          {/* Ingredient chips */}
-          {inputs.length > 0 && (
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 6 }}>
-              {inputs.map(id => {
-                const known = allProducts.includes(id)
-                return (
-                  <span
-                    key={id}
-                    title={known ? id : `${id} (not in catalog yet)`}
-                    style={{
-                      display: 'inline-flex', alignItems: 'center', gap: 5,
-                      background: '#0f1628', border: `1px solid ${known ? '#4a4a6a' : '#8060a0'}`,
-                      borderRadius: 10, padding: '2px 5px 2px 9px', fontSize: 11.5, color: '#d8dcf0',
-                    }}
-                  >
-                    {labelOf(id)}
-                    {!known && <span style={{ color: '#a090c0', fontSize: 9 }}>new</span>}
-                    <span
-                      onClick={() => removeIngredient(id)}
-                      title="Remove ingredient"
-                      style={{ cursor: 'pointer', color: '#8088a0', fontSize: 13, lineHeight: 1, padding: '0 2px' }}
-                    >×</span>
-                  </span>
-                )
-              })}
+            <div>
+              <div style={labelStyle}>Display Label</div>
+              <input
+                value={label}
+                onChange={e => handleLabelChange(e.target.value)}
+                placeholder="e.g. Iron Plate Smelting"
+                style={inputStyle}
+              />
             </div>
-          )}
-          {/* Add-ingredient autocomplete (forces a real product match) */}
-          <input
-            list="ingredient-list"
-            value={ingredientDraft}
-            onChange={e => setIngredientDraft(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); commitIngredientDraft() } }}
-            placeholder="Type to find a product, then Enter…"
-            style={inputStyle}
-          />
-          <datalist id="ingredient-list">
-            {allProducts.map(p => <option key={p} value={labelOf(p)} />)}
-          </datalist>
-          {/* Force-match feedback: matched product or a deliberate create escape. */}
-          {ingredientDraft.trim() && (
-            draftMatch ? (
+
+            <div>
+              <div style={labelStyle}>Recipe ID (auto-derived from label)</div>
+              <input
+                value={recipeId}
+                onChange={e => { setRecipeId(e.target.value); setSaved(false) }}
+                placeholder="e.g. iron-plate-smelting"
+                style={inputStyle}
+              />
+            </div>
+
+            {/* Inputs */}
+            <div>
+              <div style={labelStyle}>Inputs (empty = raw/leaf resource)</div>
+              <ChipList items={inputs} known={allProductIds} onRemove={removeIngredient} />
+              <input
+                list="ingredient-list"
+                value={ingredientDraft}
+                onChange={e => setIngredientDraft(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); commitIngredientDraft() } }}
+                placeholder="Type to find a product, then Enter…"
+                style={inputStyle}
+              />
+              <datalist id="ingredient-list">
+                {allProductIds.map(p => <option key={p} value={labelOf(p)} />)}
+              </datalist>
+              {ingredientDraft.trim() && (
+                ingredientMatch ? (
+                  <button
+                    onClick={() => addIngredient(ingredientMatch)}
+                    style={{ marginTop: 6, padding: '5px 10px', background: '#2a4a7f', color: '#e0e0ff', border: '1px solid #4a9eff', borderRadius: 4, cursor: 'pointer', fontSize: 12 }}
+                  >
+                    Add "{labelOf(ingredientMatch)}"
+                  </button>
+                ) : (
+                  <div style={{ marginTop: 6, display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ color: '#c08080', fontSize: 11 }}>No match.</span>
+                    <button
+                      onClick={createIngredient}
+                      style={{ padding: '5px 10px', background: '#3a2f4a', color: '#e0d0ff', border: '1px solid #8060a0', borderRadius: 4, cursor: 'pointer', fontSize: 12 }}
+                    >
+                      Create "{ingredientDraft.trim()}"
+                    </button>
+                  </div>
+                )
+              )}
+            </div>
+
+            {/* Products */}
+            <div>
+              <div style={labelStyle}>Products (at least one required)</div>
+              <ChipList items={products} known={allProductIds} onRemove={removeProduct} />
+              <input
+                list="product-list"
+                value={productDraft}
+                onChange={e => setProductDraft(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); commitProductDraft() } }}
+                placeholder="Type to find a product, then Enter…"
+                style={inputStyle}
+              />
+              <datalist id="product-list">
+                {allProductIds.map(p => <option key={p} value={labelOf(p)} />)}
+              </datalist>
+              {productDraft.trim() && (
+                productMatch ? (
+                  <button
+                    onClick={() => addProduct(productMatch)}
+                    style={{ marginTop: 6, padding: '5px 10px', background: '#2a4a7f', color: '#e0e0ff', border: '1px solid #4a9eff', borderRadius: 4, cursor: 'pointer', fontSize: 12 }}
+                  >
+                    Add "{labelOf(productMatch)}"
+                  </button>
+                ) : (
+                  <div style={{ marginTop: 6, display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ color: '#c08080', fontSize: 11 }}>No match.</span>
+                    <button
+                      onClick={createProduct}
+                      style={{ padding: '5px 10px', background: '#3a2f4a', color: '#e0d0ff', border: '1px solid #8060a0', borderRadius: 4, cursor: 'pointer', fontSize: 12 }}
+                    >
+                      Create "{productDraft.trim()}"
+                    </button>
+                  </div>
+                )
+              )}
+            </div>
+
+            {saved && (
+              <div style={{ color: '#60e060', fontSize: 12 }}>Saved!</div>
+            )}
+
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'space-between' }}>
               <button
-                onClick={() => addIngredient(draftMatch)}
-                style={{ marginTop: 6, padding: '5px 10px', background: '#2a4a7f', color: '#e0e0ff', border: '1px solid #4a9eff', borderRadius: 4, cursor: 'pointer', fontSize: 12 }}
+                onClick={handleDelete}
+                disabled={!recipeId.trim()}
+                style={{ padding: '6px 12px', background: '#4a1a1a', color: '#e06060', border: '1px solid #6a2a2a', borderRadius: 4, cursor: recipeId.trim() ? 'pointer' : 'not-allowed', fontSize: 13 }}
               >
-                Add “{labelOf(draftMatch)}”
+                Delete Recipe
               </button>
-            ) : (
-              <div style={{ marginTop: 6, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ color: '#c08080', fontSize: 11 }}>No match.</span>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button onClick={onClose} style={{ padding: '6px 14px', background: '#2a2a4a', color: '#e0e0ff', border: '1px solid #4a4a6a', borderRadius: 4, cursor: 'pointer' }}>Close</button>
                 <button
-                  onClick={createIngredient}
-                  style={{ padding: '5px 10px', background: '#3a2f4a', color: '#e0d0ff', border: '1px solid #8060a0', borderRadius: 4, cursor: 'pointer', fontSize: 12 }}
+                  onClick={handleSave}
+                  disabled={!recipeId.trim() || products.length === 0}
+                  style={{ padding: '6px 14px', background: recipeId.trim() && products.length > 0 ? '#4a9eff' : '#1a1a3a', color: recipeId.trim() && products.length > 0 ? '#000' : '#606080', border: 'none', borderRadius: 4, cursor: recipeId.trim() && products.length > 0 ? 'pointer' : 'not-allowed' }}
                 >
-                  Create “{ingredientDraft.trim()}”
+                  Save
                 </button>
               </div>
-            )
-          )}
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <input
-            type="checkbox"
-            id="isDefault"
-            checked={isDefault}
-            onChange={e => setIsDefault(e.target.checked)}
-          />
-          <label htmlFor="isDefault" style={{ color: '#c0c0d0', fontSize: 13 }}>Default variant for this product</label>
-        </div>
-
-        {saved && (
-          <div style={{ color: '#60e060', fontSize: 12 }}>Saved!</div>
-        )}
-
-        <div style={{ display: 'flex', gap: 8, justifyContent: 'space-between' }}>
-          <button
-            onClick={handleDelete}
-            disabled={!productId.trim()}
-            style={{ padding: '6px 12px', background: '#4a1a1a', color: '#e06060', border: '1px solid #6a2a2a', borderRadius: 4, cursor: productId.trim() ? 'pointer' : 'not-allowed', fontSize: 13 }}
-          >
-            Delete Variant
-          </button>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button onClick={onClose} style={{ padding: '6px 14px', background: '#2a2a4a', color: '#e0e0ff', border: '1px solid #4a4a6a', borderRadius: 4, cursor: 'pointer' }}>Close</button>
-            <button
-              onClick={handleSave}
-              disabled={!productId.trim()}
-              style={{ padding: '6px 14px', background: productId.trim() ? '#4a9eff' : '#1a1a3a', color: productId.trim() ? '#000' : '#606080', border: 'none', borderRadius: 4, cursor: productId.trim() ? 'pointer' : 'not-allowed' }}
-            >
-              Save
-            </button>
-          </div>
-          </div>
+            </div>
           </div>
         </div>
       </div>

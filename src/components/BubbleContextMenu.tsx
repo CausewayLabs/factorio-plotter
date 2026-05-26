@@ -1,6 +1,6 @@
 /**
  * Context menu that appears when a bubble is right-clicked (or clicked in select mode).
- * Allows: recipe variant selection, private toggle, delete.
+ * Allows: recipe selection, per-product output binding, private toggle, delete.
  */
 import { useSceneStore } from '../scene/store'
 import { useRecipeStore } from '../recipes/store'
@@ -14,16 +14,31 @@ interface Props {
 }
 
 export default function BubbleContextMenu({ bubble, screenPos, onClose, onOpenRecipeEditor }: Props) {
-  const setBubbleRecipeVariant = useSceneStore(s => s.setBubbleRecipeVariant)
+  const setBubbleRecipe = useSceneStore(s => s.setBubbleRecipe)
+  const setOutputBinding = useSceneStore(s => s.setOutputBinding)
   const setBubblePrivate = useSceneStore(s => s.setBubblePrivate)
   const deleteBubble = useSceneStore(s => s.deleteBubble)
-  const getVariantsForProduct = useRecipeStore(s => s.getVariantsForProduct)
+  const getRecipeById = useRecipeStore(s => s.getRecipeById)
+  const getRecipesForProduct = useRecipeStore(s => s.getRecipesForProduct)
 
-  const variants = getVariantsForProduct(bubble.productId)
-  const currentVariantId = bubble.recipeVariantId
+  const recipe = getRecipeById(bubble.recipeId)
+  const primaryProduct = recipe?.products[0] ?? null
 
-  function handleVariantSelect(variantId: string) {
-    setBubbleRecipeVariant(bubble.id, variantId)
+  // Alternate recipes for the primary product (allows recipe switching)
+  const alternates = primaryProduct ? getRecipesForProduct(primaryProduct) : []
+
+  function handleRecipeSelect(recipeId: string) {
+    const newRecipe = getRecipeById(recipeId)
+    if (!newRecipe) return
+    // Reinitialize outputBindings for the new recipe's products (null = unbound)
+    const newBindings: Record<string, string | null> = {}
+    for (const p of newRecipe.products) newBindings[p] = null
+    setBubbleRecipe(bubble.id, recipeId, newBindings)
+    onClose()
+  }
+
+  function handleUnbindProduct(productId: string) {
+    setOutputBinding(bubble.id, productId, null)
     onClose()
   }
 
@@ -71,27 +86,54 @@ export default function BubbleContextMenu({ bubble, screenPos, onClose, onOpenRe
     margin: '4px 0',
   }
 
+  // Bound output slots
+  const boundEntries = Object.entries(bubble.outputBindings).filter(([, rId]) => rId !== null)
+
   return (
     <>
       <div style={{ position: 'fixed', inset: 0, zIndex: 299 }} onClick={onClose} />
       <div style={menuStyle} onClick={e => e.stopPropagation()}>
-        <div style={sectionStyle}>Recipe Variant</div>
-        {variants.map(v => (
-          <div
-            key={v.variantId}
-            style={{
-              ...itemStyle,
-              background: (currentVariantId ?? 'default') === v.variantId ? '#2a4a7f' : 'transparent',
-              color: (currentVariantId ?? 'default') === v.variantId ? '#e0e0ff' : '#c0c0d0',
-            }}
-            onClick={() => handleVariantSelect(v.variantId)}
-          >
-            {v.label}
-            {v.isDefault && <span style={{ color: '#606080', fontSize: 10 }}> (default)</span>}
-          </div>
-        ))}
 
-        <div style={divStyle} />
+        {/* Recipe selection (alternate recipes for same primary product) */}
+        {alternates.length > 1 && (
+          <>
+            <div style={sectionStyle}>Recipe</div>
+            {alternates.map(r => (
+              <div
+                key={r.id}
+                style={{
+                  ...itemStyle,
+                  background: bubble.recipeId === r.id ? '#2a4a7f' : 'transparent',
+                  color: bubble.recipeId === r.id ? '#e0e0ff' : '#c0c0d0',
+                }}
+                onClick={() => handleRecipeSelect(r.id)}
+              >
+                {r.label}
+                {r.id === alternates[0].id && (
+                  <span style={{ color: '#606080', fontSize: 10 }}> (default)</span>
+                )}
+              </div>
+            ))}
+            <div style={divStyle} />
+          </>
+        )}
+
+        {/* Output binding summary — unbind actions */}
+        {boundEntries.length > 0 && (
+          <>
+            <div style={sectionStyle}>Output Bindings</div>
+            {boundEntries.map(([productId]) => (
+              <div
+                key={productId}
+                style={{ ...itemStyle, color: '#a0c8ff' }}
+                onClick={() => handleUnbindProduct(productId)}
+              >
+                Unbind {productId}
+              </div>
+            ))}
+            <div style={divStyle} />
+          </>
+        )}
 
         <div style={itemStyle} onClick={handleTogglePrivate}>
           {bubble.isPrivate ? 'Make Public' : 'Make Private'}

@@ -36,10 +36,15 @@ export interface SceneStore extends AuthoredState, DerivedState {
   addBubble: (bubble: Bubble) => void
   moveBubble: (id: string, position: Point) => void
   deleteBubble: (id: string) => void
-  setBubbleRecipeVariant: (id: string, variantId: string | null) => void
+  setBubbleRecipe: (id: string, recipeId: string, outputBindings: Record<string, string | null>) => void
   setBubblePrivate: (id: string, isPrivate: boolean) => void
-  /** Bind (or unbind, with null) a bubble's output to a bus. */
-  setBubbleOutputTarget: (id: string, railId: string | null) => void
+  /**
+   * Bind (or unbind, with null) a specific product output from a bubble to a rail.
+   * When binding: adds productId to the rail's resourceTypes if not already present.
+   * When unbinding: removes productId from the rail's resourceTypes if no other
+   * bubble on that rail still binds the same product.
+   */
+  setOutputBinding: (bubbleId: string, productId: string, railId: string | null) => void
 
   // --- Rail mutations ---
   addRail: (rail: Rail) => void
@@ -131,14 +136,14 @@ export const useSceneStore = create<SceneStore>()((set, _get) => ({
     triggerSolverRecompute()
   },
 
-  setBubbleRecipeVariant(id, variantId) {
+  setBubbleRecipe(id, recipeId, outputBindings) {
     set(state => {
       const bubble = state.bubbles[id]
       if (!bubble) return state
       return {
         bubbles: {
           ...state.bubbles,
-          [id]: { ...bubble, recipeVariantId: variantId },
+          [id]: { ...bubble, recipeId, outputBindings },
         },
       }
     })
@@ -159,16 +164,52 @@ export const useSceneStore = create<SceneStore>()((set, _get) => ({
     triggerSolverRecompute()
   },
 
-  setBubbleOutputTarget(id, railId) {
+  setOutputBinding(bubbleId, productId, railId) {
     set(state => {
-      const bubble = state.bubbles[id]
+      const bubble = state.bubbles[bubbleId]
       if (!bubble) return state
-      return {
-        bubbles: {
-          ...state.bubbles,
-          [id]: { ...bubble, outputTarget: railId },
-        },
+
+      const prevRailId = bubble.outputBindings[productId] ?? null
+      const newBindings: Record<string, string | null> = {
+        ...bubble.outputBindings,
+        [productId]: railId,
       }
+      const newBubbles = {
+        ...state.bubbles,
+        [bubbleId]: { ...bubble, outputBindings: newBindings },
+      }
+
+      let newRails = state.rails
+
+      // Remove product from previous rail's resourceTypes if no other bubble binds it there
+      if (prevRailId && prevRailId !== railId) {
+        const prevRail = state.rails[prevRailId]
+        if (prevRail) {
+          const stillBound = Object.values(newBubbles).some(
+            b => b.id !== bubbleId && b.outputBindings[productId] === prevRailId
+          )
+          if (!stillBound) {
+            const nextTypes = prevRail.resourceTypes.filter(t => t !== productId)
+            if (nextTypes.length > 0) {
+              newRails = { ...newRails, [prevRailId]: { ...prevRail, resourceTypes: nextTypes } }
+            }
+            // If rail would have 0 resource types, leave it unchanged (belt-and-suspenders)
+          }
+        }
+      }
+
+      // Add product to new rail's resourceTypes if binding
+      if (railId) {
+        const rail = newRails[railId]
+        if (rail && !rail.resourceTypes.includes(productId)) {
+          newRails = {
+            ...newRails,
+            [railId]: { ...rail, resourceTypes: [...rail.resourceTypes, productId] },
+          }
+        }
+      }
+
+      return { bubbles: newBubbles, rails: newRails }
     })
     triggerSolverRecompute()
   },
@@ -191,18 +232,24 @@ export const useSceneStore = create<SceneStore>()((set, _get) => ({
 
   deleteRail(id) {
     set(state => {
-      const next = { ...state.rails }
-      delete next[id]
-      // Clear any bubble output bindings pointing at the deleted rail.
+      const nextRails = { ...state.rails }
+      delete nextRails[id]
+
+      // Clear any bubble outputBindings entries pointing at the deleted rail
       let bubbles = state.bubbles
       let rebound = false
       for (const b of Object.values(state.bubbles)) {
-        if (b.outputTarget === id) {
+        const hasBinding = Object.values(b.outputBindings).some(rId => rId === id)
+        if (hasBinding) {
           if (!rebound) { bubbles = { ...state.bubbles }; rebound = true }
-          bubbles[b.id] = { ...b, outputTarget: null }
+          const newBindings: Record<string, string | null> = {}
+          for (const [prod, rId] of Object.entries(b.outputBindings)) {
+            newBindings[prod] = rId === id ? null : rId
+          }
+          bubbles[b.id] = { ...b, outputBindings: newBindings }
         }
       }
-      return rebound ? { rails: next, bubbles } : { rails: next }
+      return rebound ? { rails: nextRails, bubbles } : { rails: nextRails }
     })
     triggerSolverRecompute()
   },

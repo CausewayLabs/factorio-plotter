@@ -6,6 +6,7 @@ import ProductPicker from './components/ProductPicker'
 import ResourcePicker from './components/ResourcePicker'
 import { useSceneStore, generateId } from './scene/store'
 import { useEditingStore } from './editing/store'
+import { useRecipeStore } from './recipes/store'
 import { loadAutosave, autosave } from './editing/persistence'
 import { triggerManualRecompute } from './solver/reactivity'
 import type { Bubble } from './scene/types'
@@ -14,7 +15,7 @@ import type { Bubble } from './scene/types'
  * App shell. On startup loads the autosaved diagram from localStorage.
  * If no autosave, canvas starts empty.
  *
- * The product/resource pickers are rendered here (not in the Toolbar) so their
+ * The recipe/resource pickers are rendered here (not in the Toolbar) so their
  * fixed-position overlays are not trapped inside the toolbar's CSS transform.
  */
 function App() {
@@ -24,7 +25,7 @@ function App() {
   const rails = useSceneStore(s => s.rails)
 
   const recipeEditorOpen = useEditingStore(s => s.recipeEditorOpen)
-  const recipeEditorProduct = useEditingStore(s => s.recipeEditorProduct)
+  const recipeEditorRecipeId = useEditingStore(s => s.recipeEditorRecipeId)
   const closeRecipeEditor = useEditingStore(s => s.closeRecipeEditor)
 
   const productPickerOpen = useEditingStore(s => s.productPickerOpen)
@@ -33,31 +34,38 @@ function App() {
   const closeProductPicker = useEditingStore(s => s.closeProductPicker)
   const closeResourcePicker = useEditingStore(s => s.closeResourcePicker)
   const setTool = useEditingStore(s => s.setTool)
-  const setPendingProduct = useEditingStore(s => s.setPendingProduct)
+  const setPendingRecipe = useEditingStore(s => s.setPendingRecipe)
   const setPendingRailType = useEditingStore(s => s.setPendingRailType)
   const addDrawingPoint = useEditingStore(s => s.addDrawingPoint)
 
-  // Product chosen: if a double-click position was captured, place the bubble
+  const getRecipeById = useRecipeStore(s => s.getRecipeById)
+
+  // Recipe chosen: if a double-click position was captured, place the bubble
   // there immediately; otherwise arm place-bubble mode for a follow-up click.
-  // NOTE: setTool resets pending fields, so it must precede setPendingProduct.
-  function handleProductSelected(productId: string, variantId: string | null) {
+  // NOTE: setTool resets pending fields, so it must precede setPendingRecipe.
+  function handleRecipeSelected(recipeId: string) {
     const placePos = pendingPlacePos
     closeProductPicker()
+
+    const recipe = getRecipeById(recipeId)
+    // Initialize outputBindings: one null entry per product in the recipe
+    const outputBindings: Record<string, string | null> = {}
+    for (const p of recipe?.products ?? []) outputBindings[p] = null
+
     if (placePos) {
       const bubble: Bubble = {
         id: generateId(),
         position: placePos,
-        productId,
-        recipeVariantId: variantId,
+        recipeId,
         isPrivate: false,
-        outputTarget: null,
+        outputBindings,
       }
       addBubble(bubble)
       autosave({ ...bubbles, [bubble.id]: bubble }, rails)
       setTool('select')
     } else {
       setTool('place-bubble')
-      setPendingProduct(productId, variantId)
+      setPendingRecipe(recipeId)
     }
   }
 
@@ -72,11 +80,14 @@ function App() {
     if (seed) addDrawingPoint(seed)
   }
 
+  const getMergedMap = useRecipeStore(s => s.getMergedMap)
+
   useEffect(() => {
     // Only load autosave if store is empty (first mount)
     if (Object.keys(bubbles).length > 0) return
 
-    const saved = loadAutosave()
+    const recipeMap = getMergedMap()
+    const saved = loadAutosave(recipeMap)
     if (saved) {
       saved.bubbles.forEach(b => addBubble(b))
       saved.rails.forEach(r => addRail(r))
@@ -91,13 +102,13 @@ function App() {
       <Toolbar />
       {recipeEditorOpen && (
         <RecipeEditor
-          editProduct={recipeEditorProduct ?? undefined}
+          editRecipeId={recipeEditorRecipeId ?? undefined}
           onClose={closeRecipeEditor}
         />
       )}
       {productPickerOpen && (
         <ProductPicker
-          onSelect={handleProductSelected}
+          onSelect={handleRecipeSelected}
           onClose={closeProductPicker}
         />
       )}

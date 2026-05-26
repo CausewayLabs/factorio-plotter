@@ -6,24 +6,24 @@ import type { Point } from '../scene/types'
 export interface EditingStore extends EditingState {
   /** Whether the Recipe Editor modal is open. */
   recipeEditorOpen: boolean
-  /** Product to pre-fill in the Recipe Editor (null = author a new product). */
-  recipeEditorProduct: string | null
-  /** Whether the product picker modal is open (place-bubble flow). */
+  /** Recipe id to pre-fill in the Recipe Editor (null = author a new recipe). */
+  recipeEditorRecipeId: string | null
+  /** Whether the recipe picker modal is open (place-bubble flow). */
   productPickerOpen: boolean
   /** Whether the resource picker modal is open (draw-rail flow). */
   resourcePickerOpen: boolean
   /**
    * World position captured from a canvas double-click. When set, the next
-   * picked product/rail is placed/seeded here instead of requiring a follow-up click.
+   * picked recipe/rail is placed/seeded here instead of requiring a follow-up click.
    */
   pendingPlacePos: Point | null
   setTool: (tool: ToolMode) => void
-  setPendingProduct: (productId: string | null, variantId: string | null) => void
+  setPendingRecipe: (recipeId: string | null) => void
   setPendingRailType: (resourceTypes: string[], label?: string | null) => void
   addDrawingPoint: (pt: Point) => void
   clearDrawingPoints: () => void
   setForkTarget: (target: { railId: string; t: number } | null) => void
-  openRecipeEditor: (product?: string | null) => void
+  openRecipeEditor: (recipeId?: string | null) => void
   closeRecipeEditor: () => void
   openProductPicker: (placePos?: Point | null) => void
   closeProductPicker: () => void
@@ -35,7 +35,7 @@ export interface EditingStore extends EditingState {
 export const useEditingStore = create<EditingStore>()((set) => ({
   ...defaultEditingState,
   recipeEditorOpen: false,
-  recipeEditorProduct: null,
+  recipeEditorRecipeId: null,
   productPickerOpen: false,
   resourcePickerOpen: false,
   pendingPlacePos: null,
@@ -44,8 +44,8 @@ export const useEditingStore = create<EditingStore>()((set) => ({
     set(() => ({ ...defaultEditingState, tool }))
   },
 
-  setPendingProduct(productId, variantId) {
-    set(() => ({ pendingProductId: productId, pendingVariantId: variantId }))
+  setPendingRecipe(recipeId) {
+    set(() => ({ pendingRecipeId: recipeId }))
   },
 
   setPendingRailType(resourceTypes, label = null) {
@@ -64,12 +64,12 @@ export const useEditingStore = create<EditingStore>()((set) => ({
     set(() => ({ forkTarget: target }))
   },
 
-  openRecipeEditor(product = null) {
-    set(() => ({ recipeEditorOpen: true, recipeEditorProduct: product }))
+  openRecipeEditor(recipeId = null) {
+    set(() => ({ recipeEditorOpen: true, recipeEditorRecipeId: recipeId }))
   },
 
   closeRecipeEditor() {
-    set(() => ({ recipeEditorOpen: false, recipeEditorProduct: null }))
+    set(() => ({ recipeEditorOpen: false, recipeEditorRecipeId: null }))
   },
 
   openProductPicker(placePos = null) {

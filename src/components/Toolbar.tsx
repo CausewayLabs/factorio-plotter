@@ -6,6 +6,7 @@
  */
 import { useEditingStore } from '../editing/store'
 import { useSceneStore } from '../scene/store'
+import { useRecipeStore } from '../recipes/store'
 import { exportDiagramJson, importDiagramJson } from '../editing/persistence'
 import { triggerManualRecompute } from '../solver/reactivity'
 
@@ -24,6 +25,7 @@ export default function Toolbar() {
   const deleteBubble = useSceneStore(s => s.deleteBubble)
   const deleteRail = useSceneStore(s => s.deleteRail)
   const setFeeders = useSceneStore(s => s.setFeeders)
+  const getMergedMap = useRecipeStore(s => s.getMergedMap)
 
   function handleSelectTool() {
     setTool('select')
@@ -39,7 +41,7 @@ export default function Toolbar() {
   }
 
   async function handleImport() {
-    const data = await importDiagramJson()
+    const data = await importDiagramJson(getMergedMap())
     if (!data) return
     // Clear existing
     Object.keys(bubbles).forEach(id => deleteBubble(id))

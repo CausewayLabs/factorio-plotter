@@ -1,51 +1,80 @@
 /**
- * Product picker modal — choose a product + variant to place as a bubble.
- * Includes user-authored products.
+ * Recipe picker modal — choose a recipe to place as a bubble.
+ * Search by recipe label or by product name (shows a "via X" tag).
+ * Default recipes (products[0] match) sort first.
  */
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useRecipeStore } from '../recipes/store'
+import type { Recipe } from '../recipes/types'
 
 interface Props {
-  onSelect: (productId: string, variantId: string | null) => void
+  onSelect: (recipeId: string) => void
   onClose: () => void
 }
 
+interface RecipeRow {
+  recipe: Recipe
+  /** Product that matched the search query (for tag display), or null if matched by recipe label */
+  matchedViaProduct: string | null
+}
+
 export default function ProductPicker({ onSelect, onClose }: Props) {
-  const getAllProductIds = useRecipeStore(s => s.getAllProductIds)
-  const getVariantsForProduct = useRecipeStore(s => s.getVariantsForProduct)
+  const getAllRecipes = useRecipeStore(s => s.getAllRecipes)
   const [filter, setFilter] = useState('')
   const [selected, setSelected] = useState<string | null>(null)
-  const [selectedVariant, setSelectedVariant] = useState<string | null>(null)
   const [highlight, setHighlight] = useState(0)
 
-  const allProducts = getAllProductIds()
-  const filtered = filter.trim()
-    ? allProducts.filter(p => p.toLowerCase().includes(filter.toLowerCase()))
-    : allProducts
+  const allRecipes = useMemo(() => getAllRecipes(), [getAllRecipes])
+
+  const rows: RecipeRow[] = useMemo(() => {
+    const q = filter.trim().toLowerCase()
+    if (!q) {
+      return allRecipes.map(r => ({ recipe: r, matchedViaProduct: null }))
+    }
+    const result: RecipeRow[] = []
+    for (const r of allRecipes) {
+      // Match by recipe label
+      if (r.label.toLowerCase().includes(q) || r.id.toLowerCase().includes(q)) {
+        result.push({ recipe: r, matchedViaProduct: null })
+        continue
+      }
+      // Match by any product name
+      const matchedProduct = r.products.find(p => p.toLowerCase().includes(q))
+      if (matchedProduct) {
+        result.push({ recipe: r, matchedViaProduct: matchedProduct })
+      }
+    }
+    // Sort: primary product matches (products[0] === match) first
+    result.sort((a, b) => {
+      const aPrimary = a.matchedViaProduct !== null && a.recipe.products[0] === a.matchedViaProduct
+      const bPrimary = b.matchedViaProduct !== null && b.recipe.products[0] === b.matchedViaProduct
+      if (aPrimary && !bPrimary) return -1
+      if (!aPrimary && bPrimary) return 1
+      return 0
+    })
+    return result
+  }, [allRecipes, filter])
 
   function handleSelect() {
     if (!selected) return
-    onSelect(selected, selectedVariant)
+    onSelect(selected)
   }
 
-  // Keyboard nav from the filter box: ↑/↓ move highlight, Enter picks it.
   function handleFilterKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'ArrowDown') {
       e.preventDefault()
-      setHighlight(h => Math.min(h + 1, filtered.length - 1))
+      setHighlight(h => Math.min(h + 1, rows.length - 1))
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
       setHighlight(h => Math.max(h - 1, 0))
     } else if (e.key === 'Enter') {
       e.preventDefault()
-      const pick = filtered[highlight]
-      if (pick) onSelect(pick, null)
+      const row = rows[highlight]
+      if (row) onSelect(row.recipe.id)
     } else if (e.key === 'Escape') {
       onClose()
     }
   }
-
-  const variants = selected ? getVariantsForProduct(selected) : []
 
   const overlayStyle: React.CSSProperties = {
     position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
@@ -55,14 +84,14 @@ export default function ProductPicker({ onSelect, onClose }: Props) {
 
   const panelStyle: React.CSSProperties = {
     background: '#16213e', border: '1px solid #4a9eff', borderRadius: 8,
-    padding: 20, minWidth: 340, maxHeight: '80vh', display: 'flex', flexDirection: 'column', gap: 10,
+    padding: 20, minWidth: 360, maxHeight: '80vh', display: 'flex', flexDirection: 'column', gap: 10,
   }
 
   return (
     <div style={overlayStyle} onClick={onClose}>
       <div style={panelStyle} onClick={e => e.stopPropagation()}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3 style={{ color: '#e0e0ff', margin: 0, fontSize: 15 }}>Choose Product</h3>
+          <h3 style={{ color: '#e0e0ff', margin: 0, fontSize: 15 }}>Choose Recipe</h3>
           <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#808080', cursor: 'pointer', fontSize: 18 }}>×</button>
         </div>
 
@@ -71,21 +100,19 @@ export default function ProductPicker({ onSelect, onClose }: Props) {
           value={filter}
           onChange={e => { setFilter(e.target.value); setHighlight(0) }}
           onKeyDown={handleFilterKeyDown}
-          placeholder="Filter products... (↑/↓ + Enter)"
+          placeholder="Search recipes or products… (↑/↓ + Enter)"
           style={{ background: '#0f1628', border: '1px solid #4a4a6a', color: '#e0e0ff', borderRadius: 4, padding: '6px 8px', fontSize: 13 }}
         />
 
         <div style={{ overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
-          {filtered.map((productId, i) => {
-            const v = getVariantsForProduct(productId)
-            const label = v[0]?.label ?? productId
-            const isRaw = v[0]?.inputs.length === 0
-            const isActive = selected === productId || (selected === null && i === highlight)
+          {rows.map(({ recipe, matchedViaProduct }, i) => {
+            const isRaw = recipe.inputs.length === 0
+            const isActive = selected === recipe.id || (selected === null && i === highlight)
             return (
               <div
-                key={productId}
-                onClick={() => { setSelected(productId); setSelectedVariant(null); setHighlight(i) }}
-                onDoubleClick={() => onSelect(productId, null)}
+                key={recipe.id}
+                onClick={() => { setSelected(recipe.id); setHighlight(i) }}
+                onDoubleClick={() => onSelect(recipe.id)}
                 style={{
                   padding: '6px 10px', borderRadius: 4, cursor: 'pointer',
                   background: isActive ? '#2a4a7f' : 'transparent',
@@ -94,36 +121,25 @@ export default function ProductPicker({ onSelect, onClose }: Props) {
                   fontSize: 13,
                 }}
               >
-                <span>{label}</span>
-                <span style={{ fontSize: 10, color: '#606080' }}>
-                  {isRaw ? 'raw' : `${v[0]?.inputs.length ?? 0} inputs`}
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  {recipe.label}
+                  {matchedViaProduct && (
+                    <span style={{ fontSize: 10, color: '#6080c0', background: '#1a2040', borderRadius: 3, padding: '1px 5px' }}>
+                      via {matchedViaProduct}
+                    </span>
+                  )}
+                </span>
+                <span style={{ fontSize: 10, color: '#606080', flexShrink: 0 }}>
+                  {isRaw ? 'raw' : `${recipe.inputs.length} in`}
+                  {recipe.products.length > 1 && ` · ${recipe.products.length} out`}
                 </span>
               </div>
             )
           })}
+          {rows.length === 0 && (
+            <div style={{ color: '#606080', fontSize: 12, padding: '6px 10px' }}>No matches</div>
+          )}
         </div>
-
-        {/* Variant selector */}
-        {selected && variants.length > 1 && (
-          <div>
-            <div style={{ color: '#8080c0', fontSize: 11, marginBottom: 4 }}>Recipe Variant:</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-              {variants.map(v => (
-                <button
-                  key={v.variantId}
-                  onClick={() => setSelectedVariant(v.variantId)}
-                  style={{
-                    background: (selectedVariant ?? 'default') === v.variantId ? '#4a9eff' : '#2a2a4a',
-                    color: (selectedVariant ?? 'default') === v.variantId ? '#000' : '#e0e0ff',
-                    border: '1px solid #4a4a6a', borderRadius: 4, padding: '4px 8px', cursor: 'pointer', fontSize: 12,
-                  }}
-                >
-                  {v.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
 
         <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
           <button onClick={onClose} style={{ padding: '6px 14px', background: '#2a2a4a', color: '#e0e0ff', border: '1px solid #4a4a6a', borderRadius: 4, cursor: 'pointer' }}>Cancel</button>

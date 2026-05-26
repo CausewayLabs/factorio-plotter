@@ -3,7 +3,7 @@ import { useSceneStore, selectBubbleArray, selectRailArray, selectFeeders, selec
 import { screenToWorld, clampZoom } from '../scene/viewport'
 import { hitTest, hitTestRailEndpoint, hitTestBubbleOutputPort } from '../editing/hitTest'
 import { BUBBLE_RADIUS, resolveRailPolyline, bubbleOutputPort, orthogonalConnector } from '../scene/geometry'
-import { canonicalProductKey } from '../recipes/normalize'
+import { useRecipeStore } from '../recipes/store'
 import { useEditingStore } from '../editing/store'
 import { autosave } from '../editing/persistence'
 import RailLayer from './RailLayer'
@@ -60,12 +60,10 @@ export default function Canvas() {
   const moveBubble = useSceneStore(s => s.moveBubble)
   const addRail = useSceneStore(s => s.addRail)
   const updateRailPoints = useSceneStore(s => s.updateRailPoints)
-  const setBubbleOutputTarget = useSceneStore(s => s.setBubbleOutputTarget)
-  const setRailResourceTypes = useSceneStore(s => s.setRailResourceTypes)
+  const setOutputBinding = useSceneStore(s => s.setOutputBinding)
 
   const tool = useEditingStore(s => s.tool)
-  const pendingProductId = useEditingStore(s => s.pendingProductId)
-  const pendingVariantId = useEditingStore(s => s.pendingVariantId)
+  const pendingRecipeId = useEditingStore(s => s.pendingRecipeId)
   const pendingRailResourceTypes = useEditingStore(s => s.pendingRailResourceTypes)
   const pendingRailLabel = useEditingStore(s => s.pendingRailLabel)
   const drawingPoints = useEditingStore(s => s.drawingPoints)
@@ -149,6 +147,8 @@ export default function Canvas() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewport, bubblesMap, railsMap])
 
+  const getRecipeById = useRecipeStore(s => s.getRecipeById)
+
   // --- Mouse down ---
   const onMouseDown = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
     if (contextMenu) { setContextMenu(null); return }
@@ -218,14 +218,16 @@ export default function Canvas() {
         }
       }
     } else if (tool === 'place-bubble') {
-      if (e.button === 0 && pendingProductId) {
+      if (e.button === 0 && pendingRecipeId) {
+        const recipe = getRecipeById(pendingRecipeId)
+        const outputBindings: Record<string, string | null> = {}
+        for (const p of recipe?.products ?? []) outputBindings[p] = null
         const bubble: Bubble = {
           id: generateId(),
           position: worldPt,
-          productId: pendingProductId,
-          recipeVariantId: pendingVariantId,
+          recipeId: pendingRecipeId,
           isPrivate: false,
-          outputTarget: null,
+          outputBindings,
         }
         addBubble(bubble)
         autosave(
@@ -284,7 +286,7 @@ export default function Canvas() {
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tool, viewport, bubblesMap, railsMap, pendingProductId, pendingVariantId, pendingRailResourceTypes, pendingRailLabel, drawingPoints, forkTarget, contextMenu, quickAdd])
+  }, [tool, viewport, bubblesMap, railsMap, pendingRecipeId, pendingRailResourceTypes, pendingRailLabel, drawingPoints, forkTarget, contextMenu, quickAdd])
 
   // --- Double-click: quick-add menu on empty canvas (select mode) ---
   const onDoubleClick = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
@@ -397,42 +399,35 @@ export default function Canvas() {
     if (emit && emit.moved) {
       const b = bubblesMap[emit.bubbleId]
       if (b) {
-        // Did we drop on an existing rail? (Convert the release world point back
-        // to screen for hit-testing.) Rail hit → bind to it; else create a bus.
-        const dropScreen = worldToScreen(emit.endWorld, viewport)
-        const hit = hitTest(dropScreen, viewport, bubblesMap, railsMap)
-        if (hit?.kind === 'rail') {
-          const rail = railsMap[hit.id]
-          // Add the product to the bus unless it already carries it (canonical).
-          const want = canonicalProductKey(b.productId)
-          const has = rail.resourceTypes.some(t => canonicalProductKey(t) === want)
-          const nextRail = has
-            ? rail
-            : { ...rail, resourceTypes: [...rail.resourceTypes, b.productId] }
-          if (!has) setRailResourceTypes(rail.id, nextRail.resourceTypes)
-          setBubbleOutputTarget(b.id, rail.id)
-          autosave(
-            { ...bubblesMap, [b.id]: { ...b, outputTarget: rail.id } },
-            { ...railsMap, [rail.id]: nextRail }
-          )
-        } else {
-          // Empty space → create a new single-resource bus starting at the output
-          // port (so the derived connector is degenerate until things move).
-          const end = orthoSnap(emit.startPort, emit.endWorld)
-          const rail: Rail = {
-            id: generateId(),
-            resourceTypes: [b.productId],
-            label: undefined,
-            points: [emit.startPort, end],
-            isSupply: true,
-            parametricOrigin: null,
+        // Determine which product to bind: use the first unbound product in outputBindings.
+        // (The drag gesture always emits the "next available" output slot.)
+        const recipe = getRecipeById(b.recipeId)
+        const unboundProduct = recipe?.products.find(p => b.outputBindings[p] === null) ?? recipe?.products[0]
+        if (unboundProduct) {
+          // Did we drop on an existing rail? (Convert the release world point back
+          // to screen for hit-testing.) Rail hit → bind to it; else create a bus.
+          const dropScreen = worldToScreen(emit.endWorld, viewport)
+          const hit = hitTest(dropScreen, viewport, bubblesMap, railsMap)
+          if (hit?.kind === 'rail') {
+            // setOutputBinding handles adding the product to rail.resourceTypes
+            setOutputBinding(b.id, unboundProduct, hit.id)
+            autosave(bubblesMap, railsMap)
+          } else {
+            // Empty space → create a new single-resource bus starting at the output
+            // port (so the derived connector is degenerate until things move).
+            const end = orthoSnap(emit.startPort, emit.endWorld)
+            const rail: Rail = {
+              id: generateId(),
+              resourceTypes: [unboundProduct],
+              label: undefined,
+              points: [emit.startPort, end],
+              isSupply: true,
+              parametricOrigin: null,
+            }
+            addRail(rail)
+            setOutputBinding(b.id, unboundProduct, rail.id)
+            autosave(bubblesMap, railsMap)
           }
-          addRail(rail)
-          setBubbleOutputTarget(b.id, rail.id)
-          autosave(
-            { ...bubblesMap, [b.id]: { ...b, outputTarget: rail.id } },
-            { ...railsMap, [rail.id]: rail }
-          )
         }
       }
     }
@@ -559,9 +554,9 @@ export default function Canvas() {
           screenPos={contextMenu.screenPos}
           onClose={() => setContextMenu(null)}
           onOpenRecipeEditor={() => {
-            const productId = (contextMenu.entity as Bubble).productId
+            const recipeId = (contextMenu.entity as Bubble).recipeId
             setContextMenu(null)
-            openRecipeEditor(productId)
+            openRecipeEditor(recipeId)
           }}
         />
       )}

@@ -7,6 +7,7 @@
  */
 
 import type { Bubble, Rail } from '../scene/types'
+import type { RecipeMap } from '../recipes/types'
 
 const AUTOSAVE_KEY = 'factorio-plotter-diagram'
 
@@ -39,24 +40,78 @@ function normalizeRail(r: Rail & { resourceType?: string }): Rail {
 }
 
 /**
- * Normalize a persisted bubble. Backfills `outputTarget` for diagrams saved
- * before output bindings existed.
+ * Old persisted bubble shape (pre-recipe-centric refactor).
+ * productId + recipeVariantId + outputTarget → recipeId + outputBindings
  */
-function normalizeBubble(b: Bubble): Bubble {
+interface LegacyBubble {
+  id: string
+  position: { x: number; y: number }
+  productId?: string
+  recipeVariantId?: string | null
+  outputTarget?: string | null
+  recipeId?: string
+  outputBindings?: Record<string, string | null>
+  isPrivate?: boolean
+}
+
+/**
+ * Normalize a persisted bubble to the current shape.
+ *
+ * Migration paths:
+ * - Old shape (productId + recipeVariantId + outputTarget):
+ *   → recipeId derived from productId + recipeVariantId via recipeMap lookup.
+ *   → outputBindings backfilled as { [productId]: outputTarget ?? null }.
+ * - New shape (recipeId + outputBindings): passed through as-is.
+ * - Missing outputBindings: initialized to {}.
+ */
+function normalizeBubble(b: LegacyBubble, recipeMap: RecipeMap): Bubble {
+  // New shape — already has recipeId
+  if (b.recipeId) {
+    return {
+      id: b.id,
+      position: b.position,
+      recipeId: b.recipeId,
+      isPrivate: b.isPrivate ?? false,
+      outputBindings: b.outputBindings ?? {},
+    }
+  }
+
+  // Old shape — derive recipeId from productId + recipeVariantId
+  const productId = b.productId ?? 'unknown'
+  const variantId = b.recipeVariantId ?? null
+
+  // Look up recipe id: variantId === null or 'default' → productId; else product-variantId
+  let recipeId: string
+  if (!variantId || variantId === 'default') {
+    recipeId = productId
+  } else {
+    recipeId = `${productId}-${variantId}`
+  }
+
+  // Verify the id exists in the map; if not, fall back to productId
+  if (!recipeMap[recipeId]) {
+    recipeId = productId
+  }
+
+  // Backfill outputBindings from single outputTarget
+  const outputTarget = b.outputTarget ?? null
+  const outputBindings: Record<string, string | null> = {
+    [productId]: outputTarget,
+  }
+
   return {
     id: b.id,
     position: b.position,
-    productId: b.productId,
-    recipeVariantId: b.recipeVariantId ?? null,
+    recipeId,
     isPrivate: b.isPrivate ?? false,
-    outputTarget: b.outputTarget ?? null,
+    outputBindings,
   }
 }
 
-function normalizeDiagram(data: DiagramJson): DiagramJson {
+function normalizeDiagram(data: DiagramJson, recipeMap: RecipeMap): DiagramJson {
   return {
     ...data,
-    bubbles: (data.bubbles ?? []).map(normalizeBubble),
+    bubbles: (data.bubbles ?? []).map(b => normalizeBubble(b as LegacyBubble, recipeMap)),
     rails: (data.rails ?? []).map(normalizeRail),
   }
 }
@@ -78,13 +133,13 @@ export function autosave(bubbles: Record<string, Bubble>, rails: Record<string, 
   }
 }
 
-export function loadAutosave(): DiagramJson | null {
+export function loadAutosave(recipeMap: RecipeMap): DiagramJson | null {
   try {
     const raw = localStorage.getItem(AUTOSAVE_KEY)
     if (!raw) return null
     const data = JSON.parse(raw) as DiagramJson
     if (data.version !== 1) return null
-    return normalizeDiagram(data)
+    return normalizeDiagram(data, recipeMap)
   } catch {
     return null
   }
@@ -117,7 +172,7 @@ export function exportDiagramJson(
 // JSON file import
 // ============================================================
 
-export function importDiagramJson(): Promise<DiagramJson | null> {
+export function importDiagramJson(recipeMap: RecipeMap): Promise<DiagramJson | null> {
   return new Promise(resolve => {
     const input = document.createElement('input')
     input.type = 'file'
@@ -136,7 +191,7 @@ export function importDiagramJson(): Promise<DiagramJson | null> {
             resolve(null)
             return
           }
-          resolve(normalizeDiagram(data))
+          resolve(normalizeDiagram(data, recipeMap))
         } catch {
           resolve(null)
         }

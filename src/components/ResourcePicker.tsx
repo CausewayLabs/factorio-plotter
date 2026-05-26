@@ -14,7 +14,7 @@ interface Props {
 
 export default function ResourcePicker({ onSelect, onClose }: Props) {
   const getAllProductIds = useRecipeStore(s => s.getAllProductIds)
-  const getVariantsForProduct = useRecipeStore(s => s.getVariantsForProduct)
+  const getRecipesForProduct = useRecipeStore(s => s.getRecipesForProduct)
   const [filter, setFilter] = useState('')
   const [customType, setCustomType] = useState('')
   const [highlight, setHighlight] = useState(0)
@@ -89,8 +89,8 @@ export default function ResourcePicker({ onSelect, onClose }: Props) {
 
         <div style={{ overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
           {filtered.map((productId, i) => {
-            const v = getVariantsForProduct(productId)
-            const label = v[0]?.label ?? productId
+            const recipes = getRecipesForProduct(productId)
+            const label = recipes[0]?.label ?? productId
             const isActive = i === highlight
             return (
               <div

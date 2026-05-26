@@ -12,7 +12,7 @@
  */
 
 import type { Bubble, Feeder, FeederSource, InputSide, InputSlot, OutputConnector, Point, Rail } from '../scene/types'
-import type { RecipeVariant } from '../recipes/types'
+import type { Recipe } from '../recipes/types'
 import { assignSideIndices, bubbleInputBox, bubbleOutputPort, nearestPointOnPolyline, orthogonalConnector } from '../scene/geometry'
 import { resolveRailPolyline } from '../scene/geometry'
 import { canonicalProductKey } from '../recipes/normalize'
@@ -24,7 +24,7 @@ import { canonicalProductKey } from '../recipes/normalize'
 export interface SolverInput {
   bubbles: Record<string, Bubble>
   rails: Record<string, Rail>
-  resolveRecipe: (product: string, variantId: string | null) => RecipeVariant | null
+  resolveRecipe: (id: string) => Recipe | null
 }
 
 export interface SolverOutput {
@@ -71,7 +71,7 @@ export function solveScene(input: SolverInput): SolverOutput {
   const supplyRails = railArray.filter(r => r.isSupply)
 
   for (const bubble of bubbleArray) {
-    const recipe = resolveRecipe(bubble.productId, bubble.recipeVariantId)
+    const recipe = resolveRecipe(bubble.recipeId)
     const inputs = recipe?.inputs ?? []
 
     // Pass 1: find the nearest source for each input using the bubble CENTER as
@@ -142,28 +142,30 @@ export function solveScene(input: SolverInput): SolverOutput {
     }
   }
 
-  // Output connectors: each bubble bound to a bus emits a derived orthogonal
-  // line from its output port to the nearest point on that bus. The product is
-  // already present in the rail's resourceTypes (the binding gesture adds it), so
-  // downstream feeders tap it off the bus with no extra solver work here.
+  // Output connectors: one per non-null entry in outputBindings.
+  // Each bound product emits a derived orthogonal line from the bubble's output
+  // port to the nearest point on the bound rail.
   for (const bubble of bubbleArray) {
-    if (!bubble.outputTarget) continue
-    const rail = rails[bubble.outputTarget]
-    if (!rail) continue
-    const pts = resolvedRailPoints.get(rail.id) ?? rail.points
-    if (pts.length < 1) continue
-
     const port = bubbleOutputPort(bubble.position)
-    const target =
-      pts.length >= 2 ? nearestPointOnPolyline(pts, port).point : pts[0]
 
-    outputConnectors.push({
-      id: nextConnectorId(),
-      bubbleId: bubble.id,
-      railId: rail.id,
-      resourceType: bubble.productId,
-      pathPoints: orthogonalConnector(port, target),
-    })
+    for (const [productId, railId] of Object.entries(bubble.outputBindings)) {
+      if (!railId) continue
+      const rail = rails[railId]
+      if (!rail) continue
+      const pts = resolvedRailPoints.get(rail.id) ?? rail.points
+      if (pts.length < 1) continue
+
+      const target =
+        pts.length >= 2 ? nearestPointOnPolyline(pts, port).point : pts[0]
+
+      outputConnectors.push({
+        id: nextConnectorId(),
+        bubbleId: bubble.id,
+        railId: rail.id,
+        resourceType: productId,
+        pathPoints: orthogonalConnector(port, target),
+      })
+    }
   }
 
   return { feeders, outputConnectors, missingInputs, inputLayouts }
@@ -201,26 +203,33 @@ function findNearestSource(
     const pts = resolvedRailPoints.get(rail.id) ?? rail.points
     if (pts.length < 2) continue
 
-    const { point, distSq } = nearestPointOnPolyline(pts, queryPoint)
+    const { point, distSq: dSq } = nearestPointOnPolyline(pts, queryPoint)
 
-    if (best === null || distSq < best.distSq) {
+    if (best === null || dSq < best.distSq) {
       best = {
         feederSource: { kind: 'rail', railId: rail.id, attachPoint: point },
         attachPoint: point,
-        distSq,
+        distSq: dSq,
       }
     }
   }
 
-  // Check non-private bubble outputs — a bubble source attaches at its CENTER
-  // (the feeder renders behind the bubble, so it reads as emanating from it).
+  // Check non-private bubble outputs — a bubble is a valid source for a
+  // resourceType if it appears in outputBindings with a null value (unbound
+  // output still available as a direct bubble-to-bubble feeder source).
   for (const sourceBubble of allBubbles) {
     if (sourceBubble.id === queryBubbleId) continue
     if (sourceBubble.isPrivate) continue
-    if (canonicalProductKey(sourceBubble.productId) !== wantKey) continue
+
+    // Check if this bubble produces the wanted resource type as an unbound output
+    const hasUnbound = Object.entries(sourceBubble.outputBindings).some(
+      ([productId, railId]) =>
+        canonicalProductKey(productId) === wantKey && railId === null
+    )
+    if (!hasUnbound) continue
 
     const center = sourceBubble.position
-    const dSq = distSq(queryPoint, center)
+    const dSq = distSqPoints(queryPoint, center)
 
     if (best === null || dSq < best.distSq) {
       best = {
@@ -234,7 +243,7 @@ function findNearestSource(
   return best
 }
 
-function distSq(a: Point, b: Point): number {
+function distSqPoints(a: Point, b: Point): number {
   const dx = a.x - b.x
   const dy = a.y - b.y
   return dx * dx + dy * dy
