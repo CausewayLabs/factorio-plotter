@@ -33,13 +33,17 @@
 import { writeFile } from 'node:fs/promises'
 
 const DATA_URL = 'https://raw.githubusercontent.com/factoriolab/factoriolab/main/src/data/spa/data.json'
+const ICONS_URL = 'https://raw.githubusercontent.com/factoriolab/factoriolab/main/src/data/spa/icons.webp'
+
+/** Sprite cell size in the FactorioLab sheet (px). */
+const SPRITE_SIZE = 66
 
 const title = s => s.split(' ').map(w => (w ? w[0].toUpperCase() + w.slice(1) : w)).join(' ')
 
 const res = await fetch(DATA_URL)
 if (!res.ok) throw new Error(`fetch failed: ${res.status}`)
 const data = await res.json()
-const { items, recipes } = data
+const { items, recipes, icons: iconDefs } = data
 const itemName = new Map(items.map(i => [i.id, i.name]))
 
 // ──────────────────────────────────────────────────────────────
@@ -197,6 +201,34 @@ const clean = out.map(({ id, label, inputs, products }) => ({ id, label, inputs,
 
 await writeFile(new URL('../src/recipes/bundled.json', import.meta.url), JSON.stringify(clean, null, 2) + '\n')
 
+// ──────────────────────────────────────────────────────────────
+// Build icon atlas from data.icons array.
+// Each entry: { id, position: "-Xpx -Ypx", color }
+// position is a CSS background-position string with negative offsets.
+// We negate them to get the sprite's top-left corner in the sheet.
+// ──────────────────────────────────────────────────────────────
+const entries = {}
+if (Array.isArray(iconDefs)) {
+  for (const icon of iconDefs) {
+    if (!icon.id || !icon.position) continue
+    // Parse "-66px 0px" → x=66, y=0
+    const match = icon.position.match(/^(-?\d+)px\s+(-?\d+)px$/)
+    if (!match) continue
+    const x = -parseInt(match[1], 10)
+    const y = -parseInt(match[2], 10)
+    entries[icon.id] = { x, y }
+  }
+}
+
+const atlas = { spriteSize: SPRITE_SIZE, entries }
+await writeFile(new URL('../src/recipes/iconAtlas.json', import.meta.url), JSON.stringify(atlas, null, 2) + '\n')
+
+// Download and write the sprite sheet binary
+const iconsRes = await fetch(ICONS_URL)
+if (!iconsRes.ok) throw new Error(`icons.webp fetch failed: ${iconsRes.status} — cannot proceed without sprite sheet`)
+const iconsBuffer = Buffer.from(await iconsRes.arrayBuffer())
+await writeFile(new URL('../src/recipes/icons.webp', import.meta.url), iconsBuffer)
+
 // Stats
 const multiProductRecipes = clean.filter(r => r.products.length > 1)
 console.log(`source items=${items.length} recipes=${recipes.length}`)
@@ -210,3 +242,6 @@ console.log('\nAmmonia recipe:', JSON.stringify(ammoniaRecipe))
 console.log('Scrap recycling:', JSON.stringify(clean.find(r => r.id === 'scrap-recycling')))
 console.log('Kovarex:', JSON.stringify(clean.find(r => r.id === 'kovarex-enrichment-process')))
 console.log('Advanced oil:', JSON.stringify(clean.find(r => r.id === 'advanced-oil-processing')))
+console.log(`\nIcon atlas: ${Object.keys(entries).length} entries, spriteSize=${SPRITE_SIZE}`)
+console.log('Sample entries:', JSON.stringify({ 'iron-plate': entries['iron-plate'], 'copper-plate': entries['copper-plate'], 'electronic-circuit': entries['electronic-circuit'] }))
+console.log(`icons.webp: ${iconsBuffer.byteLength} bytes written`)

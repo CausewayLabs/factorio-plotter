@@ -3,6 +3,8 @@ import { BUBBLE_RADIUS, bubbleInputBox, assignSideIndices } from '../scene/geome
 import { getResourceColor } from '../scene/colors'
 import { useRecipeStore } from '../recipes/store'
 import { useSceneStore } from '../scene/store'
+import { getIconCoords, resolveRecipeIconId, SPRITE_SIZE, iconsUrl } from '../recipes/iconAtlas'
+import type { Recipe } from '../recipes/types'
 
 interface Props {
   bubbles: Bubble[]
@@ -82,6 +84,7 @@ export default function BubbleLayer({ bubbles }: Props) {
             label={label}
             primaryProduct={primaryProduct}
             hasMissing={hasMissing}
+            recipe={recipe ?? null}
           />
         )
       })}
@@ -96,17 +99,36 @@ interface BubbleNodeProps {
   label: string
   primaryProduct: string
   hasMissing: boolean
+  recipe: Recipe | null
 }
 
 const UNSAT_COLOR = '#e0556a'
 
-function BubbleNode({ bubble, inputs, outputs, label, primaryProduct, hasMissing }: BubbleNodeProps) {
+function BubbleNode({ bubble, inputs, outputs, label, primaryProduct, hasMissing, recipe }: BubbleNodeProps) {
   const cx = bubble.position.x
   const cy = bubble.position.y
   const primaryColor = getResourceColor(primaryProduct)
 
+  // Resolve sprite coordinates for the primary product icon.
+  const iconId = recipe != null ? resolveRecipeIconId(recipe) : undefined
+  const coords = iconId != null ? getIconCoords(iconId) : undefined
+  const clipId = `bubble-clip-${bubble.id}`
+  const clipR = BUBBLE_RADIUS - 4
+
   return (
     <g data-bubble-id={bubble.id}>
+      {/* Native browser tooltip with the recipe name */}
+      <title>{label}</title>
+
+      {/* Clip path used by the sprite icon */}
+      {coords != null && (
+        <defs>
+          <clipPath id={clipId}>
+            <circle cx={cx} cy={cy} r={clipR} />
+          </clipPath>
+        </defs>
+      )}
+
       {/* Main circle — stroke tinted by primary product */}
       <circle
         cx={cx}
@@ -117,21 +139,33 @@ function BubbleNode({ bubble, inputs, outputs, label, primaryProduct, hasMissing
         strokeWidth={2}
       />
 
-      {/* Label */}
-      <text
-        x={cx}
-        y={cy}
-        textAnchor="middle"
-        dominantBaseline="middle"
-        fontSize={11}
-        fill="#e0e0ff"
-        stroke="#16213e"
-        strokeWidth={3}
-        paintOrder="stroke"
-        style={{ userSelect: 'none', pointerEvents: 'none' }}
-      >
-        {label.length > 16 ? label.slice(0, 14) + '…' : label}
-      </text>
+      {/* Sprite icon — full sheet translated so the chosen cell is centred on
+          the bubble, clipped to a circle for a clean look.
+          Falls back to the truncated text label when no atlas entry exists. */}
+      {coords != null ? (
+        <image
+          href={iconsUrl}
+          x={cx - coords.x - SPRITE_SIZE / 2}
+          y={cy - coords.y - SPRITE_SIZE / 2}
+          clipPath={`url(#${clipId})`}
+          style={{ pointerEvents: 'none' }}
+        />
+      ) : (
+        <text
+          x={cx}
+          y={cy}
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fontSize={11}
+          fill="#e0e0ff"
+          stroke="#16213e"
+          strokeWidth={3}
+          paintOrder="stroke"
+          style={{ userSelect: 'none', pointerEvents: 'none' }}
+        >
+          {label.length > 16 ? label.slice(0, 14) + '…' : label}
+        </text>
+      )}
 
       {/* Output tabs — mirror of input tabs. Each tab is a draggable handle:
           drag it to bind that specific product to a bus. Bound = filled; unbound = hollow. */}

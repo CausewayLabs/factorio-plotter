@@ -4,7 +4,7 @@
 import type { Point } from './types'
 import type { Rail, InputSide } from './types'
 
-export const BUBBLE_RADIUS = 36
+export const BUBBLE_RADIUS = 40
 export const BUBBLE_OUTPUT_PORT_OFFSET = BUBBLE_RADIUS // right edge
 export const INPUT_PORT_RADIUS = 5
 

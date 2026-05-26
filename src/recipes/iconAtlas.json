@@ -1,0 +1,3589 @@
+{
+  "spriteSize": 66,
+  "entries": {
+    "wooden-chest": {
+      "x": 0,
+      "y": 0
+    },
+    "iron-chest": {
+      "x": 66,
+      "y": 0
+    },
+    "steel-chest": {
+      "x": 0,
+      "y": 66
+    },
+    "storage-tank": {
+      "x": 66,
+      "y": 66
+    },
+    "transport-belt": {
+      "x": 132,
+      "y": 0
+    },
+    "fast-transport-belt": {
+      "x": 132,
+      "y": 66
+    },
+    "express-transport-belt": {
+      "x": 0,
+      "y": 132
+    },
+    "turbo-transport-belt": {
+      "x": 66,
+      "y": 132
+    },
+    "underground-belt": {
+      "x": 132,
+      "y": 132
+    },
+    "fast-underground-belt": {
+      "x": 198,
+      "y": 0
+    },
+    "express-underground-belt": {
+      "x": 198,
+      "y": 66
+    },
+    "turbo-underground-belt": {
+      "x": 198,
+      "y": 132
+    },
+    "splitter": {
+      "x": 0,
+      "y": 198
+    },
+    "fast-splitter": {
+      "x": 66,
+      "y": 198
+    },
+    "express-splitter": {
+      "x": 132,
+      "y": 198
+    },
+    "turbo-splitter": {
+      "x": 198,
+      "y": 198
+    },
+    "burner-inserter": {
+      "x": 264,
+      "y": 0
+    },
+    "inserter": {
+      "x": 264,
+      "y": 66
+    },
+    "long-handed-inserter": {
+      "x": 264,
+      "y": 132
+    },
+    "fast-inserter": {
+      "x": 264,
+      "y": 198
+    },
+    "bulk-inserter": {
+      "x": 0,
+      "y": 264
+    },
+    "stack-inserter": {
+      "x": 66,
+      "y": 264
+    },
+    "small-electric-pole": {
+      "x": 132,
+      "y": 264
+    },
+    "medium-electric-pole": {
+      "x": 198,
+      "y": 264
+    },
+    "big-electric-pole": {
+      "x": 264,
+      "y": 264
+    },
+    "substation": {
+      "x": 330,
+      "y": 0
+    },
+    "pipe": {
+      "x": 330,
+      "y": 66
+    },
+    "pipe-to-ground": {
+      "x": 330,
+      "y": 132
+    },
+    "pump": {
+      "x": 330,
+      "y": 198
+    },
+    "rail": {
+      "x": 330,
+      "y": 264
+    },
+    "rail-ramp": {
+      "x": 0,
+      "y": 330
+    },
+    "rail-support": {
+      "x": 66,
+      "y": 330
+    },
+    "train-stop": {
+      "x": 132,
+      "y": 330
+    },
+    "rail-signal": {
+      "x": 198,
+      "y": 330
+    },
+    "rail-chain-signal": {
+      "x": 264,
+      "y": 330
+    },
+    "locomotive": {
+      "x": 330,
+      "y": 330
+    },
+    "cargo-wagon": {
+      "x": 396,
+      "y": 0
+    },
+    "fluid-wagon": {
+      "x": 396,
+      "y": 66
+    },
+    "artillery-wagon": {
+      "x": 396,
+      "y": 132
+    },
+    "car": {
+      "x": 396,
+      "y": 198
+    },
+    "tank": {
+      "x": 396,
+      "y": 264
+    },
+    "spidertron": {
+      "x": 396,
+      "y": 330
+    },
+    "logistic-robot": {
+      "x": 0,
+      "y": 396
+    },
+    "construction-robot": {
+      "x": 66,
+      "y": 396
+    },
+    "active-provider-chest": {
+      "x": 132,
+      "y": 396
+    },
+    "passive-provider-chest": {
+      "x": 198,
+      "y": 396
+    },
+    "storage-chest": {
+      "x": 264,
+      "y": 396
+    },
+    "buffer-chest": {
+      "x": 330,
+      "y": 396
+    },
+    "requester-chest": {
+      "x": 396,
+      "y": 396
+    },
+    "roboport": {
+      "x": 462,
+      "y": 0
+    },
+    "small-lamp": {
+      "x": 462,
+      "y": 66
+    },
+    "arithmetic-combinator": {
+      "x": 462,
+      "y": 132
+    },
+    "decider-combinator": {
+      "x": 462,
+      "y": 198
+    },
+    "selector-combinator": {
+      "x": 462,
+      "y": 264
+    },
+    "constant-combinator": {
+      "x": 462,
+      "y": 330
+    },
+    "power-switch": {
+      "x": 462,
+      "y": 396
+    },
+    "programmable-speaker": {
+      "x": 0,
+      "y": 462
+    },
+    "display-panel": {
+      "x": 66,
+      "y": 462
+    },
+    "stone-brick": {
+      "x": 132,
+      "y": 462
+    },
+    "concrete": {
+      "x": 198,
+      "y": 462
+    },
+    "hazard-concrete": {
+      "x": 264,
+      "y": 462
+    },
+    "refined-concrete": {
+      "x": 330,
+      "y": 462
+    },
+    "refined-hazard-concrete": {
+      "x": 396,
+      "y": 462
+    },
+    "landfill": {
+      "x": 462,
+      "y": 462
+    },
+    "artificial-yumako-soil": {
+      "x": 528,
+      "y": 0
+    },
+    "overgrowth-yumako-soil": {
+      "x": 528,
+      "y": 66
+    },
+    "artificial-jellynut-soil": {
+      "x": 528,
+      "y": 132
+    },
+    "overgrowth-jellynut-soil": {
+      "x": 528,
+      "y": 198
+    },
+    "ice-platform": {
+      "x": 528,
+      "y": 264
+    },
+    "foundation": {
+      "x": 528,
+      "y": 330
+    },
+    "cliff-explosives": {
+      "x": 528,
+      "y": 396
+    },
+    "repair-pack": {
+      "x": 528,
+      "y": 462
+    },
+    "boiler": {
+      "x": 0,
+      "y": 528
+    },
+    "steam-engine": {
+      "x": 66,
+      "y": 528
+    },
+    "solar-panel": {
+      "x": 132,
+      "y": 528
+    },
+    "accumulator": {
+      "x": 198,
+      "y": 528
+    },
+    "nuclear-reactor": {
+      "x": 264,
+      "y": 528
+    },
+    "heat-pipe": {
+      "x": 330,
+      "y": 528
+    },
+    "heat-exchanger": {
+      "x": 396,
+      "y": 528
+    },
+    "steam-turbine": {
+      "x": 462,
+      "y": 528
+    },
+    "fusion-reactor": {
+      "x": 528,
+      "y": 528
+    },
+    "fusion-generator": {
+      "x": 594,
+      "y": 0
+    },
+    "burner-mining-drill": {
+      "x": 594,
+      "y": 66
+    },
+    "electric-mining-drill": {
+      "x": 594,
+      "y": 132
+    },
+    "big-mining-drill": {
+      "x": 594,
+      "y": 198
+    },
+    "offshore-pump": {
+      "x": 594,
+      "y": 264
+    },
+    "pumpjack": {
+      "x": 594,
+      "y": 330
+    },
+    "stone-furnace": {
+      "x": 594,
+      "y": 396
+    },
+    "steel-furnace": {
+      "x": 594,
+      "y": 462
+    },
+    "electric-furnace": {
+      "x": 594,
+      "y": 528
+    },
+    "foundry": {
+      "x": 0,
+      "y": 594
+    },
+    "recycler": {
+      "x": 66,
+      "y": 594
+    },
+    "agricultural-tower": {
+      "x": 132,
+      "y": 594
+    },
+    "biochamber": {
+      "x": 198,
+      "y": 594
+    },
+    "captive-biter-spawner": {
+      "x": 264,
+      "y": 594
+    },
+    "assembling-machine-1": {
+      "x": 330,
+      "y": 594
+    },
+    "assembling-machine-2": {
+      "x": 396,
+      "y": 594
+    },
+    "assembling-machine-3": {
+      "x": 462,
+      "y": 594
+    },
+    "oil-refinery": {
+      "x": 528,
+      "y": 594
+    },
+    "chemical-plant": {
+      "x": 594,
+      "y": 594
+    },
+    "centrifuge": {
+      "x": 660,
+      "y": 0
+    },
+    "electromagnetic-plant": {
+      "x": 660,
+      "y": 66
+    },
+    "cryogenic-plant": {
+      "x": 660,
+      "y": 132
+    },
+    "lab": {
+      "x": 660,
+      "y": 198
+    },
+    "biolab": {
+      "x": 660,
+      "y": 264
+    },
+    "lightning-rod": {
+      "x": 660,
+      "y": 330
+    },
+    "lightning-collector": {
+      "x": 660,
+      "y": 396
+    },
+    "heating-tower": {
+      "x": 660,
+      "y": 462
+    },
+    "beacon": {
+      "x": 660,
+      "y": 528
+    },
+    "speed-module": {
+      "x": 660,
+      "y": 594
+    },
+    "speed-module-2": {
+      "x": 0,
+      "y": 660
+    },
+    "speed-module-3": {
+      "x": 66,
+      "y": 660
+    },
+    "efficiency-module": {
+      "x": 132,
+      "y": 660
+    },
+    "efficiency-module-2": {
+      "x": 198,
+      "y": 660
+    },
+    "efficiency-module-3": {
+      "x": 264,
+      "y": 660
+    },
+    "productivity-module": {
+      "x": 330,
+      "y": 660
+    },
+    "productivity-module-2": {
+      "x": 396,
+      "y": 660
+    },
+    "productivity-module-3": {
+      "x": 462,
+      "y": 660
+    },
+    "quality-module": {
+      "x": 528,
+      "y": 660
+    },
+    "quality-module-2": {
+      "x": 594,
+      "y": 660
+    },
+    "quality-module-3": {
+      "x": 660,
+      "y": 660
+    },
+    "wood": {
+      "x": 726,
+      "y": 0
+    },
+    "coal": {
+      "x": 726,
+      "y": 66
+    },
+    "stone": {
+      "x": 726,
+      "y": 132
+    },
+    "iron-ore": {
+      "x": 726,
+      "y": 198
+    },
+    "copper-ore": {
+      "x": 726,
+      "y": 264
+    },
+    "uranium-ore": {
+      "x": 726,
+      "y": 330
+    },
+    "raw-fish": {
+      "x": 726,
+      "y": 396
+    },
+    "ice": {
+      "x": 726,
+      "y": 462
+    },
+    "iron-plate": {
+      "x": 726,
+      "y": 528
+    },
+    "copper-plate": {
+      "x": 726,
+      "y": 594
+    },
+    "steel-plate": {
+      "x": 726,
+      "y": 660
+    },
+    "solid-fuel": {
+      "x": 0,
+      "y": 726
+    },
+    "plastic-bar": {
+      "x": 66,
+      "y": 726
+    },
+    "sulfur": {
+      "x": 132,
+      "y": 726
+    },
+    "battery": {
+      "x": 198,
+      "y": 726
+    },
+    "explosives": {
+      "x": 264,
+      "y": 726
+    },
+    "carbon": {
+      "x": 330,
+      "y": 726
+    },
+    "water-barrel": {
+      "x": 396,
+      "y": 726
+    },
+    "crude-oil-barrel": {
+      "x": 462,
+      "y": 726
+    },
+    "petroleum-gas-barrel": {
+      "x": 528,
+      "y": 726
+    },
+    "light-oil-barrel": {
+      "x": 594,
+      "y": 726
+    },
+    "heavy-oil-barrel": {
+      "x": 660,
+      "y": 726
+    },
+    "lubricant-barrel": {
+      "x": 726,
+      "y": 726
+    },
+    "sulfuric-acid-barrel": {
+      "x": 792,
+      "y": 0
+    },
+    "fluoroketone-hot-barrel": {
+      "x": 792,
+      "y": 66
+    },
+    "fluoroketone-cold-barrel": {
+      "x": 792,
+      "y": 132
+    },
+    "iron-gear-wheel": {
+      "x": 792,
+      "y": 198
+    },
+    "iron-stick": {
+      "x": 792,
+      "y": 264
+    },
+    "copper-cable": {
+      "x": 792,
+      "y": 330
+    },
+    "barrel": {
+      "x": 792,
+      "y": 396
+    },
+    "electronic-circuit": {
+      "x": 792,
+      "y": 462
+    },
+    "advanced-circuit": {
+      "x": 792,
+      "y": 528
+    },
+    "processing-unit": {
+      "x": 792,
+      "y": 594
+    },
+    "engine-unit": {
+      "x": 792,
+      "y": 660
+    },
+    "electric-engine-unit": {
+      "x": 792,
+      "y": 726
+    },
+    "flying-robot-frame": {
+      "x": 0,
+      "y": 792
+    },
+    "low-density-structure": {
+      "x": 66,
+      "y": 792
+    },
+    "rocket-fuel": {
+      "x": 132,
+      "y": 792
+    },
+    "uranium-235": {
+      "x": 198,
+      "y": 792
+    },
+    "uranium-238": {
+      "x": 264,
+      "y": 792
+    },
+    "uranium-fuel-cell": {
+      "x": 330,
+      "y": 792
+    },
+    "depleted-uranium-fuel-cell": {
+      "x": 396,
+      "y": 792
+    },
+    "nuclear-fuel": {
+      "x": 462,
+      "y": 792
+    },
+    "calcite": {
+      "x": 528,
+      "y": 792
+    },
+    "tungsten-ore": {
+      "x": 594,
+      "y": 792
+    },
+    "tungsten-carbide": {
+      "x": 660,
+      "y": 792
+    },
+    "tungsten-plate": {
+      "x": 726,
+      "y": 792
+    },
+    "scrap": {
+      "x": 792,
+      "y": 792
+    },
+    "holmium-ore": {
+      "x": 858,
+      "y": 0
+    },
+    "holmium-plate": {
+      "x": 858,
+      "y": 66
+    },
+    "superconductor": {
+      "x": 858,
+      "y": 132
+    },
+    "supercapacitor": {
+      "x": 858,
+      "y": 198
+    },
+    "yumako-seed": {
+      "x": 858,
+      "y": 264
+    },
+    "jellynut-seed": {
+      "x": 858,
+      "y": 330
+    },
+    "yumako": {
+      "x": 858,
+      "y": 396
+    },
+    "jellynut": {
+      "x": 858,
+      "y": 462
+    },
+    "iron-bacteria": {
+      "x": 858,
+      "y": 528
+    },
+    "copper-bacteria": {
+      "x": 858,
+      "y": 594
+    },
+    "spoilage": {
+      "x": 858,
+      "y": 660
+    },
+    "nutrients": {
+      "x": 858,
+      "y": 726
+    },
+    "bioflux": {
+      "x": 858,
+      "y": 792
+    },
+    "yumako-mash": {
+      "x": 0,
+      "y": 858
+    },
+    "jelly": {
+      "x": 66,
+      "y": 858
+    },
+    "carbon-fiber": {
+      "x": 132,
+      "y": 858
+    },
+    "biter-egg": {
+      "x": 198,
+      "y": 858
+    },
+    "pentapod-egg": {
+      "x": 264,
+      "y": 858
+    },
+    "tree-seed": {
+      "x": 330,
+      "y": 858
+    },
+    "lithium": {
+      "x": 396,
+      "y": 858
+    },
+    "lithium-plate": {
+      "x": 462,
+      "y": 858
+    },
+    "quantum-processor": {
+      "x": 528,
+      "y": 858
+    },
+    "fusion-power-cell": {
+      "x": 594,
+      "y": 858
+    },
+    "automation-science-pack": {
+      "x": 660,
+      "y": 858
+    },
+    "logistic-science-pack": {
+      "x": 726,
+      "y": 858
+    },
+    "military-science-pack": {
+      "x": 792,
+      "y": 858
+    },
+    "chemical-science-pack": {
+      "x": 858,
+      "y": 858
+    },
+    "production-science-pack": {
+      "x": 924,
+      "y": 0
+    },
+    "utility-science-pack": {
+      "x": 924,
+      "y": 66
+    },
+    "space-science-pack": {
+      "x": 924,
+      "y": 132
+    },
+    "metallurgic-science-pack": {
+      "x": 924,
+      "y": 198
+    },
+    "agricultural-science-pack": {
+      "x": 924,
+      "y": 264
+    },
+    "electromagnetic-science-pack": {
+      "x": 924,
+      "y": 330
+    },
+    "cryogenic-science-pack": {
+      "x": 924,
+      "y": 396
+    },
+    "promethium-science-pack": {
+      "x": 924,
+      "y": 462
+    },
+    "rocket-silo": {
+      "x": 924,
+      "y": 528
+    },
+    "rocket-part": {
+      "x": 924,
+      "y": 594
+    },
+    "cargo-landing-pad": {
+      "x": 924,
+      "y": 660
+    },
+    "space-platform-foundation": {
+      "x": 924,
+      "y": 726
+    },
+    "cargo-bay": {
+      "x": 924,
+      "y": 792
+    },
+    "asteroid-collector": {
+      "x": 924,
+      "y": 858
+    },
+    "crusher": {
+      "x": 0,
+      "y": 924
+    },
+    "thruster": {
+      "x": 66,
+      "y": 924
+    },
+    "space-platform-starter-pack": {
+      "x": 132,
+      "y": 924
+    },
+    "metallic-asteroid-chunk": {
+      "x": 198,
+      "y": 924
+    },
+    "carbonic-asteroid-chunk": {
+      "x": 264,
+      "y": 924
+    },
+    "oxide-asteroid-chunk": {
+      "x": 330,
+      "y": 924
+    },
+    "promethium-asteroid-chunk": {
+      "x": 396,
+      "y": 924
+    },
+    "submachine-gun": {
+      "x": 462,
+      "y": 924
+    },
+    "railgun": {
+      "x": 528,
+      "y": 924
+    },
+    "teslagun": {
+      "x": 594,
+      "y": 924
+    },
+    "shotgun": {
+      "x": 660,
+      "y": 924
+    },
+    "combat-shotgun": {
+      "x": 726,
+      "y": 924
+    },
+    "rocket-launcher": {
+      "x": 792,
+      "y": 924
+    },
+    "flamethrower": {
+      "x": 858,
+      "y": 924
+    },
+    "firearm-magazine": {
+      "x": 924,
+      "y": 924
+    },
+    "piercing-rounds-magazine": {
+      "x": 990,
+      "y": 0
+    },
+    "uranium-rounds-magazine": {
+      "x": 990,
+      "y": 66
+    },
+    "shotgun-shell": {
+      "x": 990,
+      "y": 132
+    },
+    "piercing-shotgun-shell": {
+      "x": 990,
+      "y": 198
+    },
+    "cannon-shell": {
+      "x": 990,
+      "y": 264
+    },
+    "explosive-cannon-shell": {
+      "x": 990,
+      "y": 330
+    },
+    "uranium-cannon-shell": {
+      "x": 990,
+      "y": 396
+    },
+    "explosive-uranium-cannon-shell": {
+      "x": 990,
+      "y": 462
+    },
+    "artillery-shell": {
+      "x": 990,
+      "y": 528
+    },
+    "rocket": {
+      "x": 990,
+      "y": 594
+    },
+    "explosive-rocket": {
+      "x": 990,
+      "y": 660
+    },
+    "atomic-bomb": {
+      "x": 990,
+      "y": 726
+    },
+    "capture-robot-rocket": {
+      "x": 990,
+      "y": 792
+    },
+    "flamethrower-ammo": {
+      "x": 990,
+      "y": 858
+    },
+    "railgun-ammo": {
+      "x": 990,
+      "y": 924
+    },
+    "tesla-ammo": {
+      "x": 0,
+      "y": 990
+    },
+    "grenade": {
+      "x": 66,
+      "y": 990
+    },
+    "cluster-grenade": {
+      "x": 132,
+      "y": 990
+    },
+    "poison-capsule": {
+      "x": 198,
+      "y": 990
+    },
+    "slowdown-capsule": {
+      "x": 264,
+      "y": 990
+    },
+    "defender-capsule": {
+      "x": 330,
+      "y": 990
+    },
+    "distractor-capsule": {
+      "x": 396,
+      "y": 990
+    },
+    "destroyer-capsule": {
+      "x": 462,
+      "y": 990
+    },
+    "light-armor": {
+      "x": 528,
+      "y": 990
+    },
+    "heavy-armor": {
+      "x": 594,
+      "y": 990
+    },
+    "modular-armor": {
+      "x": 660,
+      "y": 990
+    },
+    "power-armor": {
+      "x": 726,
+      "y": 990
+    },
+    "power-armor-mk2": {
+      "x": 792,
+      "y": 990
+    },
+    "mech-armor": {
+      "x": 858,
+      "y": 990
+    },
+    "solar-panel-equipment": {
+      "x": 924,
+      "y": 990
+    },
+    "fission-reactor-equipment": {
+      "x": 990,
+      "y": 990
+    },
+    "fusion-reactor-equipment": {
+      "x": 1056,
+      "y": 0
+    },
+    "battery-equipment": {
+      "x": 1056,
+      "y": 66
+    },
+    "battery-mk2-equipment": {
+      "x": 1056,
+      "y": 132
+    },
+    "battery-mk3-equipment": {
+      "x": 1056,
+      "y": 198
+    },
+    "belt-immunity-equipment": {
+      "x": 1056,
+      "y": 264
+    },
+    "exoskeleton-equipment": {
+      "x": 1056,
+      "y": 330
+    },
+    "personal-roboport-equipment": {
+      "x": 1056,
+      "y": 396
+    },
+    "personal-roboport-mk2-equipment": {
+      "x": 1056,
+      "y": 462
+    },
+    "night-vision-equipment": {
+      "x": 1056,
+      "y": 528
+    },
+    "toolbelt-equipment": {
+      "x": 1056,
+      "y": 594
+    },
+    "energy-shield-equipment": {
+      "x": 1056,
+      "y": 660
+    },
+    "energy-shield-mk2-equipment": {
+      "x": 1056,
+      "y": 726
+    },
+    "personal-laser-defense-equipment": {
+      "x": 1056,
+      "y": 792
+    },
+    "discharge-defense-equipment": {
+      "x": 1056,
+      "y": 858
+    },
+    "stone-wall": {
+      "x": 1056,
+      "y": 924
+    },
+    "gate": {
+      "x": 1056,
+      "y": 990
+    },
+    "radar": {
+      "x": 0,
+      "y": 1056
+    },
+    "land-mine": {
+      "x": 66,
+      "y": 1056
+    },
+    "gun-turret": {
+      "x": 132,
+      "y": 1056
+    },
+    "laser-turret": {
+      "x": 198,
+      "y": 1056
+    },
+    "flamethrower-turret": {
+      "x": 264,
+      "y": 1056
+    },
+    "artillery-turret": {
+      "x": 330,
+      "y": 1056
+    },
+    "rocket-turret": {
+      "x": 396,
+      "y": 1056
+    },
+    "tesla-turret": {
+      "x": 462,
+      "y": 1056
+    },
+    "railgun-turret": {
+      "x": 528,
+      "y": 1056
+    },
+    "water": {
+      "x": 594,
+      "y": 1056
+    },
+    "steam": {
+      "x": 660,
+      "y": 1056
+    },
+    "crude-oil": {
+      "x": 726,
+      "y": 1056
+    },
+    "petroleum-gas": {
+      "x": 792,
+      "y": 1056
+    },
+    "light-oil": {
+      "x": 858,
+      "y": 1056
+    },
+    "heavy-oil": {
+      "x": 924,
+      "y": 1056
+    },
+    "lubricant": {
+      "x": 990,
+      "y": 1056
+    },
+    "sulfuric-acid": {
+      "x": 1056,
+      "y": 1056
+    },
+    "thruster-fuel": {
+      "x": 1122,
+      "y": 0
+    },
+    "thruster-oxidizer": {
+      "x": 1122,
+      "y": 66
+    },
+    "lava": {
+      "x": 1122,
+      "y": 132
+    },
+    "molten-iron": {
+      "x": 1122,
+      "y": 198
+    },
+    "molten-copper": {
+      "x": 1122,
+      "y": 264
+    },
+    "holmium-solution": {
+      "x": 1122,
+      "y": 330
+    },
+    "electrolyte": {
+      "x": 1122,
+      "y": 396
+    },
+    "ammoniacal-solution": {
+      "x": 1122,
+      "y": 462
+    },
+    "ammonia": {
+      "x": 1122,
+      "y": 528
+    },
+    "fluorine": {
+      "x": 1122,
+      "y": 594
+    },
+    "fluoroketone-hot": {
+      "x": 1122,
+      "y": 660
+    },
+    "fluoroketone-cold": {
+      "x": 1122,
+      "y": 726
+    },
+    "lithium-brine": {
+      "x": 1122,
+      "y": 792
+    },
+    "casting-pipe": {
+      "x": 1122,
+      "y": 858
+    },
+    "casting-pipe-to-ground": {
+      "x": 1122,
+      "y": 924
+    },
+    "stone-brick-recycling": {
+      "x": 1122,
+      "y": 990
+    },
+    "stone-wall-recycling": {
+      "x": 1122,
+      "y": 1056
+    },
+    "hazard-concrete-recycling": {
+      "x": 0,
+      "y": 1122
+    },
+    "refined-hazard-concrete-recycling": {
+      "x": 66,
+      "y": 1122
+    },
+    "landfill-recycling": {
+      "x": 132,
+      "y": 1122
+    },
+    "captive-biter-spawner-recycling": {
+      "x": 198,
+      "y": 1122
+    },
+    "biolab-recycling": {
+      "x": 264,
+      "y": 1122
+    },
+    "basic-oil-processing": {
+      "x": 330,
+      "y": 1122
+    },
+    "advanced-oil-processing": {
+      "x": 396,
+      "y": 1122
+    },
+    "simple-coal-liquefaction": {
+      "x": 462,
+      "y": 1122
+    },
+    "coal-liquefaction": {
+      "x": 528,
+      "y": 1122
+    },
+    "heavy-oil-cracking": {
+      "x": 594,
+      "y": 1122
+    },
+    "light-oil-cracking": {
+      "x": 660,
+      "y": 1122
+    },
+    "solid-fuel-from-petroleum-gas": {
+      "x": 726,
+      "y": 1122
+    },
+    "solid-fuel-from-light-oil": {
+      "x": 792,
+      "y": 1122
+    },
+    "solid-fuel-from-heavy-oil": {
+      "x": 858,
+      "y": 1122
+    },
+    "acid-neutralisation": {
+      "x": 924,
+      "y": 1122
+    },
+    "steam-condensation": {
+      "x": 990,
+      "y": 1122
+    },
+    "ice-melting": {
+      "x": 1056,
+      "y": 1122
+    },
+    "wood-recycling": {
+      "x": 1122,
+      "y": 1122
+    },
+    "wooden-chest-recycling": {
+      "x": 1188,
+      "y": 0
+    },
+    "coal-recycling": {
+      "x": 1188,
+      "y": 66
+    },
+    "stone-furnace-recycling": {
+      "x": 1188,
+      "y": 132
+    },
+    "stone-recycling": {
+      "x": 1188,
+      "y": 198
+    },
+    "iron-ore-recycling": {
+      "x": 1188,
+      "y": 264
+    },
+    "copper-ore-recycling": {
+      "x": 1188,
+      "y": 330
+    },
+    "uranium-ore-recycling": {
+      "x": 1188,
+      "y": 396
+    },
+    "raw-fish-recycling": {
+      "x": 1188,
+      "y": 462
+    },
+    "ice-platform-recycling": {
+      "x": 1188,
+      "y": 528
+    },
+    "ice-recycling": {
+      "x": 1188,
+      "y": 594
+    },
+    "firearm-magazine-recycling": {
+      "x": 1188,
+      "y": 660
+    },
+    "iron-chest-recycling": {
+      "x": 1188,
+      "y": 726
+    },
+    "iron-gear-wheel-recycling": {
+      "x": 1188,
+      "y": 792
+    },
+    "iron-plate-recycling": {
+      "x": 1188,
+      "y": 858
+    },
+    "iron-stick-recycling": {
+      "x": 1188,
+      "y": 924
+    },
+    "light-armor-recycling": {
+      "x": 1188,
+      "y": 990
+    },
+    "pipe-recycling": {
+      "x": 1188,
+      "y": 1056
+    },
+    "copper-cable-recycling": {
+      "x": 1188,
+      "y": 1122
+    },
+    "copper-plate-recycling": {
+      "x": 0,
+      "y": 1188
+    },
+    "steel-chest-recycling": {
+      "x": 66,
+      "y": 1188
+    },
+    "steel-plate-recycling": {
+      "x": 132,
+      "y": 1188
+    },
+    "rocket-fuel-recycling": {
+      "x": 198,
+      "y": 1188
+    },
+    "solid-fuel-recycling": {
+      "x": 264,
+      "y": 1188
+    },
+    "plastic-bar-recycling": {
+      "x": 330,
+      "y": 1188
+    },
+    "sulfur-recycling": {
+      "x": 396,
+      "y": 1188
+    },
+    "explosives-recycling": {
+      "x": 462,
+      "y": 1188
+    },
+    "carbon-recycling": {
+      "x": 528,
+      "y": 1188
+    },
+    "coal-synthesis": {
+      "x": 594,
+      "y": 1188
+    },
+    "crude-oil-barrel-recycling": {
+      "x": 660,
+      "y": 1188
+    },
+    "fluoroketone-cold-barrel-recycling": {
+      "x": 726,
+      "y": 1188
+    },
+    "fluoroketone-hot-barrel-recycling": {
+      "x": 792,
+      "y": 1188
+    },
+    "heavy-oil-barrel-recycling": {
+      "x": 858,
+      "y": 1188
+    },
+    "light-oil-barrel-recycling": {
+      "x": 924,
+      "y": 1188
+    },
+    "lubricant-barrel-recycling": {
+      "x": 990,
+      "y": 1188
+    },
+    "petroleum-gas-barrel-recycling": {
+      "x": 1056,
+      "y": 1188
+    },
+    "sulfuric-acid-barrel-recycling": {
+      "x": 1122,
+      "y": 1188
+    },
+    "water-barrel-recycling": {
+      "x": 1188,
+      "y": 1188
+    },
+    "water-barrel-0": {
+      "x": 1254,
+      "y": 0
+    },
+    "crude-oil-barrel-0": {
+      "x": 1254,
+      "y": 66
+    },
+    "petroleum-gas-barrel-0": {
+      "x": 1254,
+      "y": 132
+    },
+    "light-oil-barrel-0": {
+      "x": 1254,
+      "y": 198
+    },
+    "heavy-oil-barrel-0": {
+      "x": 1254,
+      "y": 264
+    },
+    "lubricant-barrel-0": {
+      "x": 1254,
+      "y": 330
+    },
+    "sulfuric-acid-barrel-0": {
+      "x": 1254,
+      "y": 396
+    },
+    "fluoroketone-hot-barrel-0": {
+      "x": 1254,
+      "y": 462
+    },
+    "fluoroketone-cold-barrel-0": {
+      "x": 1254,
+      "y": 528
+    },
+    "empty-water-barrel": {
+      "x": 1254,
+      "y": 594
+    },
+    "empty-crude-oil-barrel": {
+      "x": 1254,
+      "y": 660
+    },
+    "empty-petroleum-gas-barrel": {
+      "x": 1254,
+      "y": 726
+    },
+    "empty-light-oil-barrel": {
+      "x": 1254,
+      "y": 792
+    },
+    "empty-heavy-oil-barrel": {
+      "x": 1254,
+      "y": 858
+    },
+    "empty-lubricant-barrel": {
+      "x": 1254,
+      "y": 924
+    },
+    "empty-sulfuric-acid-barrel": {
+      "x": 1254,
+      "y": 990
+    },
+    "empty-fluoroketone-hot-barrel": {
+      "x": 1254,
+      "y": 1056
+    },
+    "empty-fluoroketone-cold-barrel": {
+      "x": 1254,
+      "y": 1122
+    },
+    "barrel-recycling": {
+      "x": 1254,
+      "y": 1188
+    },
+    "nuclear-fuel-recycling": {
+      "x": 0,
+      "y": 1254
+    },
+    "uranium-processing": {
+      "x": 66,
+      "y": 1254
+    },
+    "uranium-235-recycling": {
+      "x": 132,
+      "y": 1254
+    },
+    "uranium-238-recycling": {
+      "x": 198,
+      "y": 1254
+    },
+    "uranium-fuel-cell-recycling": {
+      "x": 264,
+      "y": 1254
+    },
+    "depleted-uranium-fuel-cell-recycling": {
+      "x": 330,
+      "y": 1254
+    },
+    "nuclear-fuel-reprocessing": {
+      "x": 396,
+      "y": 1254
+    },
+    "kovarex-enrichment-process": {
+      "x": 462,
+      "y": 1254
+    },
+    "calcite-recycling": {
+      "x": 528,
+      "y": 1254
+    },
+    "molten-iron-from-lava": {
+      "x": 594,
+      "y": 1254
+    },
+    "molten-copper-from-lava": {
+      "x": 660,
+      "y": 1254
+    },
+    "molten-iron-0": {
+      "x": 726,
+      "y": 1254
+    },
+    "molten-copper-0": {
+      "x": 792,
+      "y": 1254
+    },
+    "casting-iron": {
+      "x": 858,
+      "y": 1254
+    },
+    "casting-copper": {
+      "x": 924,
+      "y": 1254
+    },
+    "casting-steel": {
+      "x": 990,
+      "y": 1254
+    },
+    "casting-iron-gear-wheel": {
+      "x": 1056,
+      "y": 1254
+    },
+    "casting-iron-stick": {
+      "x": 1122,
+      "y": 1254
+    },
+    "casting-low-density-structure": {
+      "x": 1188,
+      "y": 1254
+    },
+    "concrete-from-molten-iron": {
+      "x": 1254,
+      "y": 1254
+    },
+    "casting-copper-cable": {
+      "x": 1320,
+      "y": 0
+    },
+    "tungsten-ore-recycling": {
+      "x": 1320,
+      "y": 66
+    },
+    "tungsten-carbide-recycling": {
+      "x": 1320,
+      "y": 132
+    },
+    "tungsten-plate-recycling": {
+      "x": 1320,
+      "y": 198
+    },
+    "supercapacitor-recycling": {
+      "x": 1320,
+      "y": 264
+    },
+    "scrap-recycling": {
+      "x": 1320,
+      "y": 330
+    },
+    "holmium-ore-recycling": {
+      "x": 1320,
+      "y": 396
+    },
+    "holmium-plate-recycling": {
+      "x": 1320,
+      "y": 462
+    },
+    "superconductor-recycling": {
+      "x": 1320,
+      "y": 528
+    },
+    "yumako-processing": {
+      "x": 1320,
+      "y": 594
+    },
+    "yumako-tree": {
+      "x": 1320,
+      "y": 660
+    },
+    "yumako-seed-recycling": {
+      "x": 1320,
+      "y": 726
+    },
+    "jellynut-processing": {
+      "x": 1320,
+      "y": 792
+    },
+    "jellystem": {
+      "x": 1320,
+      "y": 858
+    },
+    "jellynut-seed-recycling": {
+      "x": 1320,
+      "y": 924
+    },
+    "yumako-recycling": {
+      "x": 1320,
+      "y": 990
+    },
+    "jellynut-recycling": {
+      "x": 1320,
+      "y": 1056
+    },
+    "iron-bacteria-recycling": {
+      "x": 1320,
+      "y": 1122
+    },
+    "iron-bacteria-cultivation": {
+      "x": 1320,
+      "y": 1188
+    },
+    "copper-bacteria-recycling": {
+      "x": 1320,
+      "y": 1254
+    },
+    "copper-bacteria-cultivation": {
+      "x": 0,
+      "y": 1320
+    },
+    "nutrients-recycling": {
+      "x": 66,
+      "y": 1320
+    },
+    "spoilage-recycling": {
+      "x": 132,
+      "y": 1320
+    },
+    "nutrients-from-spoilage": {
+      "x": 198,
+      "y": 1320
+    },
+    "nutrients-from-yumako-mash": {
+      "x": 264,
+      "y": 1320
+    },
+    "nutrients-from-bioflux": {
+      "x": 330,
+      "y": 1320
+    },
+    "pentapod-egg-0": {
+      "x": 396,
+      "y": 1320
+    },
+    "bioflux-recycling": {
+      "x": 462,
+      "y": 1320
+    },
+    "yumako-mash-recycling": {
+      "x": 528,
+      "y": 1320
+    },
+    "jelly-recycling": {
+      "x": 594,
+      "y": 1320
+    },
+    "rocket-fuel-from-jelly": {
+      "x": 660,
+      "y": 1320
+    },
+    "biolubricant": {
+      "x": 726,
+      "y": 1320
+    },
+    "bioplastic": {
+      "x": 792,
+      "y": 1320
+    },
+    "biosulfur": {
+      "x": 858,
+      "y": 1320
+    },
+    "carbon-fiber-recycling": {
+      "x": 924,
+      "y": 1320
+    },
+    "burnt-spoilage": {
+      "x": 990,
+      "y": 1320
+    },
+    "biter-egg-recycling": {
+      "x": 1056,
+      "y": 1320
+    },
+    "pentapod-egg-recycling": {
+      "x": 1122,
+      "y": 1320
+    },
+    "wood-processing": {
+      "x": 1188,
+      "y": 1320
+    },
+    "tree-plant": {
+      "x": 1254,
+      "y": 1320
+    },
+    "tree-seed-recycling": {
+      "x": 1320,
+      "y": 1320
+    },
+    "fish-breeding": {
+      "x": 1386,
+      "y": 0
+    },
+    "nutrients-from-fish": {
+      "x": 1386,
+      "y": 66
+    },
+    "nutrients-from-biter-egg": {
+      "x": 1386,
+      "y": 132
+    },
+    "quantum-processor-recycling": {
+      "x": 1386,
+      "y": 198
+    },
+    "ammoniacal-solution-separation": {
+      "x": 1386,
+      "y": 264
+    },
+    "solid-fuel-from-ammonia": {
+      "x": 1386,
+      "y": 330
+    },
+    "ammonia-rocket-fuel": {
+      "x": 1386,
+      "y": 396
+    },
+    "fluoroketone-cooling": {
+      "x": 1386,
+      "y": 462
+    },
+    "lithium-recycling": {
+      "x": 1386,
+      "y": 528
+    },
+    "lithium-plate-recycling": {
+      "x": 1386,
+      "y": 594
+    },
+    "fusion-power-cell-recycling": {
+      "x": 1386,
+      "y": 660
+    },
+    "automation-science-pack-recycling": {
+      "x": 1386,
+      "y": 726
+    },
+    "logistic-science-pack-recycling": {
+      "x": 1386,
+      "y": 792
+    },
+    "military-science-pack-recycling": {
+      "x": 1386,
+      "y": 858
+    },
+    "chemical-science-pack-recycling": {
+      "x": 1386,
+      "y": 924
+    },
+    "production-science-pack-recycling": {
+      "x": 1386,
+      "y": 990
+    },
+    "utility-science-pack-recycling": {
+      "x": 1386,
+      "y": 1056
+    },
+    "space-science-pack-recycling": {
+      "x": 1386,
+      "y": 1122
+    },
+    "metallurgic-science-pack-recycling": {
+      "x": 1386,
+      "y": 1188
+    },
+    "agricultural-science-pack-recycling": {
+      "x": 1386,
+      "y": 1254
+    },
+    "electromagnetic-science-pack-recycling": {
+      "x": 1386,
+      "y": 1320
+    },
+    "cryogenic-science-pack-recycling": {
+      "x": 0,
+      "y": 1386
+    },
+    "promethium-science-pack-recycling": {
+      "x": 66,
+      "y": 1386
+    },
+    "metallic-asteroid-chunk-recycling": {
+      "x": 132,
+      "y": 1386
+    },
+    "carbonic-asteroid-chunk-recycling": {
+      "x": 198,
+      "y": 1386
+    },
+    "oxide-asteroid-chunk-recycling": {
+      "x": 264,
+      "y": 1386
+    },
+    "promethium-asteroid-chunk-recycling": {
+      "x": 330,
+      "y": 1386
+    },
+    "metallic-asteroid-crushing": {
+      "x": 396,
+      "y": 1386
+    },
+    "carbonic-asteroid-crushing": {
+      "x": 462,
+      "y": 1386
+    },
+    "oxide-asteroid-crushing": {
+      "x": 528,
+      "y": 1386
+    },
+    "metallic-asteroid-reprocessing": {
+      "x": 594,
+      "y": 1386
+    },
+    "carbonic-asteroid-reprocessing": {
+      "x": 660,
+      "y": 1386
+    },
+    "oxide-asteroid-reprocessing": {
+      "x": 726,
+      "y": 1386
+    },
+    "advanced-metallic-asteroid-crushing": {
+      "x": 792,
+      "y": 1386
+    },
+    "advanced-carbonic-asteroid-crushing": {
+      "x": 858,
+      "y": 1386
+    },
+    "advanced-oxide-asteroid-crushing": {
+      "x": 924,
+      "y": 1386
+    },
+    "advanced-thruster-fuel": {
+      "x": 990,
+      "y": 1386
+    },
+    "advanced-thruster-oxidizer": {
+      "x": 1056,
+      "y": 1386
+    },
+    "flamethrower-ammo-recycling": {
+      "x": 1122,
+      "y": 1386
+    },
+    "accumulator-recycling": {
+      "x": 1188,
+      "y": 1386
+    },
+    "active-provider-chest-recycling": {
+      "x": 1254,
+      "y": 1386
+    },
+    "advanced-circuit-recycling": {
+      "x": 1320,
+      "y": 1386
+    },
+    "agricultural-tower-recycling": {
+      "x": 1386,
+      "y": 1386
+    },
+    "arithmetic-combinator-recycling": {
+      "x": 1452,
+      "y": 0
+    },
+    "artificial-jellynut-soil-recycling": {
+      "x": 1452,
+      "y": 66
+    },
+    "artificial-yumako-soil-recycling": {
+      "x": 1452,
+      "y": 132
+    },
+    "artillery-shell-recycling": {
+      "x": 1452,
+      "y": 198
+    },
+    "artillery-turret-recycling": {
+      "x": 1452,
+      "y": 264
+    },
+    "artillery-wagon-recycling": {
+      "x": 1452,
+      "y": 330
+    },
+    "assembling-machine-1-recycling": {
+      "x": 1452,
+      "y": 396
+    },
+    "assembling-machine-2-recycling": {
+      "x": 1452,
+      "y": 462
+    },
+    "assembling-machine-3-recycling": {
+      "x": 1452,
+      "y": 528
+    },
+    "asteroid-collector-recycling": {
+      "x": 1452,
+      "y": 594
+    },
+    "atomic-bomb-recycling": {
+      "x": 1452,
+      "y": 660
+    },
+    "battery-equipment-recycling": {
+      "x": 1452,
+      "y": 726
+    },
+    "battery-mk2-equipment-recycling": {
+      "x": 1452,
+      "y": 792
+    },
+    "battery-mk3-equipment-recycling": {
+      "x": 1452,
+      "y": 858
+    },
+    "battery-recycling": {
+      "x": 1452,
+      "y": 924
+    },
+    "beacon-recycling": {
+      "x": 1452,
+      "y": 990
+    },
+    "belt-immunity-equipment-recycling": {
+      "x": 1452,
+      "y": 1056
+    },
+    "big-electric-pole-recycling": {
+      "x": 1452,
+      "y": 1122
+    },
+    "big-mining-drill-recycling": {
+      "x": 1452,
+      "y": 1188
+    },
+    "biochamber-recycling": {
+      "x": 1452,
+      "y": 1254
+    },
+    "boiler-recycling": {
+      "x": 1452,
+      "y": 1320
+    },
+    "buffer-chest-recycling": {
+      "x": 1452,
+      "y": 1386
+    },
+    "bulk-inserter-recycling": {
+      "x": 0,
+      "y": 1452
+    },
+    "burner-inserter-recycling": {
+      "x": 66,
+      "y": 1452
+    },
+    "burner-mining-drill-recycling": {
+      "x": 132,
+      "y": 1452
+    },
+    "cannon-shell-recycling": {
+      "x": 198,
+      "y": 1452
+    },
+    "capture-robot-rocket-recycling": {
+      "x": 264,
+      "y": 1452
+    },
+    "car-recycling": {
+      "x": 330,
+      "y": 1452
+    },
+    "cargo-bay-recycling": {
+      "x": 396,
+      "y": 1452
+    },
+    "cargo-landing-pad-recycling": {
+      "x": 462,
+      "y": 1452
+    },
+    "cargo-wagon-recycling": {
+      "x": 528,
+      "y": 1452
+    },
+    "centrifuge-recycling": {
+      "x": 594,
+      "y": 1452
+    },
+    "chemical-plant-recycling": {
+      "x": 660,
+      "y": 1452
+    },
+    "cliff-explosives-recycling": {
+      "x": 726,
+      "y": 1452
+    },
+    "cluster-grenade-recycling": {
+      "x": 792,
+      "y": 1452
+    },
+    "combat-shotgun-recycling": {
+      "x": 858,
+      "y": 1452
+    },
+    "concrete-recycling": {
+      "x": 924,
+      "y": 1452
+    },
+    "constant-combinator-recycling": {
+      "x": 990,
+      "y": 1452
+    },
+    "construction-robot-recycling": {
+      "x": 1056,
+      "y": 1452
+    },
+    "crusher-recycling": {
+      "x": 1122,
+      "y": 1452
+    },
+    "cryogenic-plant-recycling": {
+      "x": 1188,
+      "y": 1452
+    },
+    "decider-combinator-recycling": {
+      "x": 1254,
+      "y": 1452
+    },
+    "defender-capsule-recycling": {
+      "x": 1320,
+      "y": 1452
+    },
+    "destroyer-capsule-recycling": {
+      "x": 1386,
+      "y": 1452
+    },
+    "discharge-defense-equipment-recycling": {
+      "x": 1452,
+      "y": 1452
+    },
+    "display-panel-recycling": {
+      "x": 1518,
+      "y": 0
+    },
+    "distractor-capsule-recycling": {
+      "x": 1518,
+      "y": 66
+    },
+    "efficiency-module-2-recycling": {
+      "x": 1518,
+      "y": 132
+    },
+    "efficiency-module-3-recycling": {
+      "x": 1518,
+      "y": 198
+    },
+    "efficiency-module-recycling": {
+      "x": 1518,
+      "y": 264
+    },
+    "electric-engine-unit-recycling": {
+      "x": 1518,
+      "y": 330
+    },
+    "electric-furnace-recycling": {
+      "x": 1518,
+      "y": 396
+    },
+    "electric-mining-drill-recycling": {
+      "x": 1518,
+      "y": 462
+    },
+    "electromagnetic-plant-recycling": {
+      "x": 1518,
+      "y": 528
+    },
+    "electronic-circuit-recycling": {
+      "x": 1518,
+      "y": 594
+    },
+    "energy-shield-equipment-recycling": {
+      "x": 1518,
+      "y": 660
+    },
+    "energy-shield-mk2-equipment-recycling": {
+      "x": 1518,
+      "y": 726
+    },
+    "engine-unit-recycling": {
+      "x": 1518,
+      "y": 792
+    },
+    "exoskeleton-equipment-recycling": {
+      "x": 1518,
+      "y": 858
+    },
+    "explosive-cannon-shell-recycling": {
+      "x": 1518,
+      "y": 924
+    },
+    "explosive-rocket-recycling": {
+      "x": 1518,
+      "y": 990
+    },
+    "explosive-uranium-cannon-shell-recycling": {
+      "x": 1518,
+      "y": 1056
+    },
+    "express-splitter-recycling": {
+      "x": 1518,
+      "y": 1122
+    },
+    "express-transport-belt-recycling": {
+      "x": 1518,
+      "y": 1188
+    },
+    "express-underground-belt-recycling": {
+      "x": 1518,
+      "y": 1254
+    },
+    "fast-inserter-recycling": {
+      "x": 1518,
+      "y": 1320
+    },
+    "fast-splitter-recycling": {
+      "x": 1518,
+      "y": 1386
+    },
+    "fast-transport-belt-recycling": {
+      "x": 1518,
+      "y": 1452
+    },
+    "fast-underground-belt-recycling": {
+      "x": 0,
+      "y": 1518
+    },
+    "fission-reactor-equipment-recycling": {
+      "x": 66,
+      "y": 1518
+    },
+    "flamethrower-recycling": {
+      "x": 132,
+      "y": 1518
+    },
+    "flamethrower-turret-recycling": {
+      "x": 198,
+      "y": 1518
+    },
+    "fluid-wagon-recycling": {
+      "x": 264,
+      "y": 1518
+    },
+    "flying-robot-frame-recycling": {
+      "x": 330,
+      "y": 1518
+    },
+    "foundation-recycling": {
+      "x": 396,
+      "y": 1518
+    },
+    "foundry-recycling": {
+      "x": 462,
+      "y": 1518
+    },
+    "fusion-generator-recycling": {
+      "x": 528,
+      "y": 1518
+    },
+    "fusion-reactor-equipment-recycling": {
+      "x": 594,
+      "y": 1518
+    },
+    "fusion-reactor-recycling": {
+      "x": 660,
+      "y": 1518
+    },
+    "gate-recycling": {
+      "x": 726,
+      "y": 1518
+    },
+    "grenade-recycling": {
+      "x": 792,
+      "y": 1518
+    },
+    "gun-turret-recycling": {
+      "x": 858,
+      "y": 1518
+    },
+    "heat-exchanger-recycling": {
+      "x": 924,
+      "y": 1518
+    },
+    "heat-pipe-recycling": {
+      "x": 990,
+      "y": 1518
+    },
+    "heating-tower-recycling": {
+      "x": 1056,
+      "y": 1518
+    },
+    "heavy-armor-recycling": {
+      "x": 1122,
+      "y": 1518
+    },
+    "inserter-recycling": {
+      "x": 1188,
+      "y": 1518
+    },
+    "lab-recycling": {
+      "x": 1254,
+      "y": 1518
+    },
+    "land-mine-recycling": {
+      "x": 1320,
+      "y": 1518
+    },
+    "laser-turret-recycling": {
+      "x": 1386,
+      "y": 1518
+    },
+    "lightning-collector-recycling": {
+      "x": 1452,
+      "y": 1518
+    },
+    "lightning-rod-recycling": {
+      "x": 1518,
+      "y": 1518
+    },
+    "locomotive-recycling": {
+      "x": 1584,
+      "y": 0
+    },
+    "logistic-robot-recycling": {
+      "x": 1584,
+      "y": 66
+    },
+    "long-handed-inserter-recycling": {
+      "x": 1584,
+      "y": 132
+    },
+    "low-density-structure-recycling": {
+      "x": 1584,
+      "y": 198
+    },
+    "mech-armor-recycling": {
+      "x": 1584,
+      "y": 264
+    },
+    "medium-electric-pole-recycling": {
+      "x": 1584,
+      "y": 330
+    },
+    "modular-armor-recycling": {
+      "x": 1584,
+      "y": 396
+    },
+    "night-vision-equipment-recycling": {
+      "x": 1584,
+      "y": 462
+    },
+    "nuclear-reactor-recycling": {
+      "x": 1584,
+      "y": 528
+    },
+    "offshore-pump-recycling": {
+      "x": 1584,
+      "y": 594
+    },
+    "oil-refinery-recycling": {
+      "x": 1584,
+      "y": 660
+    },
+    "overgrowth-jellynut-soil-recycling": {
+      "x": 1584,
+      "y": 726
+    },
+    "overgrowth-yumako-soil-recycling": {
+      "x": 1584,
+      "y": 792
+    },
+    "passive-provider-chest-recycling": {
+      "x": 1584,
+      "y": 858
+    },
+    "personal-laser-defense-equipment-recycling": {
+      "x": 1584,
+      "y": 924
+    },
+    "personal-roboport-equipment-recycling": {
+      "x": 1584,
+      "y": 990
+    },
+    "personal-roboport-mk2-equipment-recycling": {
+      "x": 1584,
+      "y": 1056
+    },
+    "piercing-rounds-magazine-recycling": {
+      "x": 1584,
+      "y": 1122
+    },
+    "piercing-shotgun-shell-recycling": {
+      "x": 1584,
+      "y": 1188
+    },
+    "pipe-to-ground-recycling": {
+      "x": 1584,
+      "y": 1254
+    },
+    "poison-capsule-recycling": {
+      "x": 1584,
+      "y": 1320
+    },
+    "power-armor-mk2-recycling": {
+      "x": 1584,
+      "y": 1386
+    },
+    "power-armor-recycling": {
+      "x": 1584,
+      "y": 1452
+    },
+    "power-switch-recycling": {
+      "x": 1584,
+      "y": 1518
+    },
+    "processing-unit-recycling": {
+      "x": 0,
+      "y": 1584
+    },
+    "productivity-module-2-recycling": {
+      "x": 66,
+      "y": 1584
+    },
+    "productivity-module-3-recycling": {
+      "x": 132,
+      "y": 1584
+    },
+    "productivity-module-recycling": {
+      "x": 198,
+      "y": 1584
+    },
+    "programmable-speaker-recycling": {
+      "x": 264,
+      "y": 1584
+    },
+    "pump-recycling": {
+      "x": 330,
+      "y": 1584
+    },
+    "pumpjack-recycling": {
+      "x": 396,
+      "y": 1584
+    },
+    "quality-module-2-recycling": {
+      "x": 462,
+      "y": 1584
+    },
+    "quality-module-3-recycling": {
+      "x": 528,
+      "y": 1584
+    },
+    "quality-module-recycling": {
+      "x": 594,
+      "y": 1584
+    },
+    "radar-recycling": {
+      "x": 660,
+      "y": 1584
+    },
+    "rail-chain-signal-recycling": {
+      "x": 726,
+      "y": 1584
+    },
+    "rail-ramp-recycling": {
+      "x": 792,
+      "y": 1584
+    },
+    "rail-recycling": {
+      "x": 858,
+      "y": 1584
+    },
+    "rail-signal-recycling": {
+      "x": 924,
+      "y": 1584
+    },
+    "rail-support-recycling": {
+      "x": 990,
+      "y": 1584
+    },
+    "railgun-ammo-recycling": {
+      "x": 1056,
+      "y": 1584
+    },
+    "railgun-recycling": {
+      "x": 1122,
+      "y": 1584
+    },
+    "railgun-turret-recycling": {
+      "x": 1188,
+      "y": 1584
+    },
+    "recycler-recycling": {
+      "x": 1254,
+      "y": 1584
+    },
+    "refined-concrete-recycling": {
+      "x": 1320,
+      "y": 1584
+    },
+    "repair-pack-recycling": {
+      "x": 1386,
+      "y": 1584
+    },
+    "requester-chest-recycling": {
+      "x": 1452,
+      "y": 1584
+    },
+    "roboport-recycling": {
+      "x": 1518,
+      "y": 1584
+    },
+    "rocket-launcher-recycling": {
+      "x": 1584,
+      "y": 1584
+    },
+    "rocket-recycling": {
+      "x": 1650,
+      "y": 0
+    },
+    "rocket-silo-recycling": {
+      "x": 1650,
+      "y": 66
+    },
+    "rocket-turret-recycling": {
+      "x": 1650,
+      "y": 132
+    },
+    "selector-combinator-recycling": {
+      "x": 1650,
+      "y": 198
+    },
+    "shotgun-recycling": {
+      "x": 1650,
+      "y": 264
+    },
+    "shotgun-shell-recycling": {
+      "x": 1650,
+      "y": 330
+    },
+    "slowdown-capsule-recycling": {
+      "x": 1650,
+      "y": 396
+    },
+    "small-electric-pole-recycling": {
+      "x": 1650,
+      "y": 462
+    },
+    "small-lamp-recycling": {
+      "x": 1650,
+      "y": 528
+    },
+    "solar-panel-equipment-recycling": {
+      "x": 1650,
+      "y": 594
+    },
+    "solar-panel-recycling": {
+      "x": 1650,
+      "y": 660
+    },
+    "space-platform-foundation-recycling": {
+      "x": 1650,
+      "y": 726
+    },
+    "space-platform-starter-pack-recycling": {
+      "x": 1650,
+      "y": 792
+    },
+    "speed-module-2-recycling": {
+      "x": 1650,
+      "y": 858
+    },
+    "speed-module-3-recycling": {
+      "x": 1650,
+      "y": 924
+    },
+    "speed-module-recycling": {
+      "x": 1650,
+      "y": 990
+    },
+    "spidertron-recycling": {
+      "x": 1650,
+      "y": 1056
+    },
+    "splitter-recycling": {
+      "x": 1650,
+      "y": 1122
+    },
+    "stack-inserter-recycling": {
+      "x": 1650,
+      "y": 1188
+    },
+    "steam-engine-recycling": {
+      "x": 1650,
+      "y": 1254
+    },
+    "steam-turbine-recycling": {
+      "x": 1650,
+      "y": 1320
+    },
+    "steel-furnace-recycling": {
+      "x": 1650,
+      "y": 1386
+    },
+    "storage-chest-recycling": {
+      "x": 1650,
+      "y": 1452
+    },
+    "storage-tank-recycling": {
+      "x": 1650,
+      "y": 1518
+    },
+    "submachine-gun-recycling": {
+      "x": 1650,
+      "y": 1584
+    },
+    "substation-recycling": {
+      "x": 0,
+      "y": 1650
+    },
+    "tank-recycling": {
+      "x": 66,
+      "y": 1650
+    },
+    "tesla-ammo-recycling": {
+      "x": 132,
+      "y": 1650
+    },
+    "tesla-turret-recycling": {
+      "x": 198,
+      "y": 1650
+    },
+    "teslagun-recycling": {
+      "x": 264,
+      "y": 1650
+    },
+    "thruster-recycling": {
+      "x": 330,
+      "y": 1650
+    },
+    "toolbelt-equipment-recycling": {
+      "x": 396,
+      "y": 1650
+    },
+    "train-stop-recycling": {
+      "x": 462,
+      "y": 1650
+    },
+    "transport-belt-recycling": {
+      "x": 528,
+      "y": 1650
+    },
+    "turbo-splitter-recycling": {
+      "x": 594,
+      "y": 1650
+    },
+    "turbo-transport-belt-recycling": {
+      "x": 660,
+      "y": 1650
+    },
+    "turbo-underground-belt-recycling": {
+      "x": 726,
+      "y": 1650
+    },
+    "underground-belt-recycling": {
+      "x": 792,
+      "y": 1650
+    },
+    "uranium-cannon-shell-recycling": {
+      "x": 858,
+      "y": 1650
+    },
+    "uranium-rounds-magazine-recycling": {
+      "x": 924,
+      "y": 1650
+    },
+    "nauvis-vulcanus": {
+      "x": 990,
+      "y": 1650
+    },
+    "nauvis-gleba": {
+      "x": 1056,
+      "y": 1650
+    },
+    "nauvis-fulgora": {
+      "x": 1122,
+      "y": 1650
+    },
+    "vulcanus-gleba": {
+      "x": 1188,
+      "y": 1650
+    },
+    "gleba-fulgora": {
+      "x": 1254,
+      "y": 1650
+    },
+    "gleba-aquilo": {
+      "x": 1320,
+      "y": 1650
+    },
+    "fulgora-aquilo": {
+      "x": 1386,
+      "y": 1650
+    },
+    "aquilo-solar-system-edge": {
+      "x": 1452,
+      "y": 1650
+    },
+    "solar-system-edge-shattered-planet": {
+      "x": 1518,
+      "y": 1650
+    },
+    "solar-system-edge": {
+      "x": 1584,
+      "y": 1650
+    },
+    "shattered-planet": {
+      "x": 1650,
+      "y": 1650
+    },
+    "nauvis": {
+      "x": 1716,
+      "y": 0
+    },
+    "vulcanus": {
+      "x": 1716,
+      "y": 66
+    },
+    "gleba": {
+      "x": 1716,
+      "y": 132
+    },
+    "fulgora": {
+      "x": 1716,
+      "y": 198
+    },
+    "aquilo": {
+      "x": 1716,
+      "y": 264
+    },
+    "steam-power": {
+      "x": 1716,
+      "y": 330
+    },
+    "electronics": {
+      "x": 1716,
+      "y": 396
+    },
+    "automation-science-pack-technology": {
+      "x": 1716,
+      "y": 462
+    },
+    "steel-axe": {
+      "x": 1716,
+      "y": 528
+    },
+    "space-science-pack-technology": {
+      "x": 1716,
+      "y": 594
+    },
+    "oil-processing": {
+      "x": 1716,
+      "y": 660
+    },
+    "uranium-processing-technology": {
+      "x": 1716,
+      "y": 726
+    },
+    "recycling": {
+      "x": 1716,
+      "y": 792
+    },
+    "space-platform": {
+      "x": 1716,
+      "y": 858
+    },
+    "calcite-processing": {
+      "x": 1716,
+      "y": 924
+    },
+    "tungsten-carbide-technology": {
+      "x": 1716,
+      "y": 990
+    },
+    "big-mining-drill-technology": {
+      "x": 1716,
+      "y": 1056
+    },
+    "foundry-technology": {
+      "x": 1716,
+      "y": 1122
+    },
+    "tungsten-steel": {
+      "x": 1716,
+      "y": 1188
+    },
+    "metallurgic-science-pack-technology": {
+      "x": 1716,
+      "y": 1254
+    },
+    "agriculture": {
+      "x": 1716,
+      "y": 1320
+    },
+    "yumako-technology": {
+      "x": 1716,
+      "y": 1386
+    },
+    "biochamber-technology": {
+      "x": 1716,
+      "y": 1452
+    },
+    "jellynut-technology": {
+      "x": 1716,
+      "y": 1518
+    },
+    "bioflux-technology": {
+      "x": 1716,
+      "y": 1584
+    },
+    "artificial-soil": {
+      "x": 1716,
+      "y": 1650
+    },
+    "bacteria-cultivation": {
+      "x": 0,
+      "y": 1716
+    },
+    "bioflux-processing": {
+      "x": 66,
+      "y": 1716
+    },
+    "agricultural-science-pack-technology": {
+      "x": 132,
+      "y": 1716
+    },
+    "biter-egg-handling": {
+      "x": 198,
+      "y": 1716
+    },
+    "holmium-processing": {
+      "x": 264,
+      "y": 1716
+    },
+    "electromagnetic-plant-technology": {
+      "x": 330,
+      "y": 1716
+    },
+    "electromagnetic-science-pack-technology": {
+      "x": 396,
+      "y": 1716
+    },
+    "heating-tower-technology": {
+      "x": 462,
+      "y": 1716
+    },
+    "lithium-processing": {
+      "x": 528,
+      "y": 1716
+    },
+    "cryogenic-plant-technology": {
+      "x": 594,
+      "y": 1716
+    },
+    "cryogenic-science-pack-technology": {
+      "x": 660,
+      "y": 1716
+    },
+    "electric-mining-drill-technology": {
+      "x": 726,
+      "y": 1716
+    },
+    "repair-pack-technology": {
+      "x": 792,
+      "y": 1716
+    },
+    "radar-technology": {
+      "x": 858,
+      "y": 1716
+    },
+    "physical-projectile-damage-1": {
+      "x": 924,
+      "y": 1716
+    },
+    "weapon-shooting-speed-1": {
+      "x": 990,
+      "y": 1716
+    },
+    "automation": {
+      "x": 1056,
+      "y": 1716
+    },
+    "logistic-science-pack-technology": {
+      "x": 1122,
+      "y": 1716
+    },
+    "steel-processing": {
+      "x": 1188,
+      "y": 1716
+    },
+    "military": {
+      "x": 1254,
+      "y": 1716
+    },
+    "fast-inserter-technology": {
+      "x": 1320,
+      "y": 1716
+    },
+    "logistics-technology": {
+      "x": 1386,
+      "y": 1716
+    },
+    "lamp": {
+      "x": 1452,
+      "y": 1716
+    },
+    "heavy-armor-technology": {
+      "x": 1518,
+      "y": 1716
+    },
+    "gun-turret-technology": {
+      "x": 1584,
+      "y": 1716
+    },
+    "stone-wall-technology": {
+      "x": 1650,
+      "y": 1716
+    },
+    "stronger-explosives-1": {
+      "x": 1716,
+      "y": 1716
+    },
+    "bulk-inserter-technology": {
+      "x": 1782,
+      "y": 0
+    },
+    "inserter-capacity-bonus-1": {
+      "x": 1782,
+      "y": 66
+    },
+    "automation-2": {
+      "x": 1782,
+      "y": 132
+    },
+    "railway": {
+      "x": 1782,
+      "y": 198
+    },
+    "automated-rail-transportation": {
+      "x": 1782,
+      "y": 264
+    },
+    "automobilism": {
+      "x": 1782,
+      "y": 330
+    },
+    "solar-energy": {
+      "x": 1782,
+      "y": 396
+    },
+    "research-speed-1": {
+      "x": 1782,
+      "y": 462
+    },
+    "electric-energy-distribution-1": {
+      "x": 1782,
+      "y": 528
+    },
+    "advanced-material-processing": {
+      "x": 1782,
+      "y": 594
+    },
+    "concrete-technology": {
+      "x": 1782,
+      "y": 660
+    },
+    "engine": {
+      "x": 1782,
+      "y": 726
+    },
+    "landfill-technology": {
+      "x": 1782,
+      "y": 792
+    },
+    "logistics-2": {
+      "x": 1782,
+      "y": 858
+    },
+    "toolbelt": {
+      "x": 1782,
+      "y": 924
+    },
+    "gate-technology": {
+      "x": 1782,
+      "y": 990
+    },
+    "chemical-science-pack-technology": {
+      "x": 1782,
+      "y": 1056
+    },
+    "military-science-pack-technology": {
+      "x": 1782,
+      "y": 1122
+    },
+    "explosives-technology": {
+      "x": 1782,
+      "y": 1188
+    },
+    "flammables": {
+      "x": 1782,
+      "y": 1254
+    },
+    "advanced-circuit-technology": {
+      "x": 1782,
+      "y": 1320
+    },
+    "fluid-wagon-technology": {
+      "x": 1782,
+      "y": 1386
+    },
+    "modular-armor-technology": {
+      "x": 1782,
+      "y": 1452
+    },
+    "electric-energy-accumulators": {
+      "x": 1782,
+      "y": 1518
+    },
+    "battery-technology": {
+      "x": 1782,
+      "y": 1584
+    },
+    "night-vision-equipment-technology": {
+      "x": 1782,
+      "y": 1650
+    },
+    "belt-immunity-equipment-technology": {
+      "x": 1782,
+      "y": 1716
+    },
+    "battery-equipment-technology": {
+      "x": 0,
+      "y": 1782
+    },
+    "solar-panel-equipment-technology": {
+      "x": 66,
+      "y": 1782
+    },
+    "fluid-handling": {
+      "x": 132,
+      "y": 1782
+    },
+    "oil-gathering": {
+      "x": 198,
+      "y": 1782
+    },
+    "sulfur-processing": {
+      "x": 264,
+      "y": 1782
+    },
+    "plastics": {
+      "x": 330,
+      "y": 1782
+    },
+    "modules": {
+      "x": 396,
+      "y": 1782
+    },
+    "speed-module-technology": {
+      "x": 462,
+      "y": 1782
+    },
+    "productivity-module-technology": {
+      "x": 528,
+      "y": 1782
+    },
+    "efficiency-module-technology": {
+      "x": 594,
+      "y": 1782
+    },
+    "mining-productivity-1": {
+      "x": 660,
+      "y": 1782
+    },
+    "circuit-network": {
+      "x": 726,
+      "y": 1782
+    },
+    "quality-module-technology": {
+      "x": 792,
+      "y": 1782
+    },
+    "fish-breeding-technology": {
+      "x": 858,
+      "y": 1782
+    },
+    "stronger-explosives-2": {
+      "x": 924,
+      "y": 1782
+    },
+    "refined-flammables-1": {
+      "x": 990,
+      "y": 1782
+    },
+    "weapon-shooting-speed-3": {
+      "x": 1056,
+      "y": 1782
+    },
+    "follower-robot-count-1": {
+      "x": 1122,
+      "y": 1782
+    },
+    "land-mine-technology": {
+      "x": 1188,
+      "y": 1782
+    },
+    "flamethrower-technology": {
+      "x": 1254,
+      "y": 1782
+    },
+    "rocketry": {
+      "x": 1320,
+      "y": 1782
+    },
+    "energy-shield-equipment-technology": {
+      "x": 1386,
+      "y": 1782
+    },
+    "defender": {
+      "x": 1452,
+      "y": 1782
+    },
+    "production-science-pack-technology": {
+      "x": 1518,
+      "y": 1782
+    },
+    "utility-science-pack-technology": {
+      "x": 1584,
+      "y": 1782
+    },
+    "processing-unit-technology": {
+      "x": 1650,
+      "y": 1782
+    },
+    "braking-force-1": {
+      "x": 1716,
+      "y": 1782
+    },
+    "laser": {
+      "x": 1782,
+      "y": 1782
+    },
+    "power-armor-technology": {
+      "x": 1848,
+      "y": 0
+    },
+    "robotics": {
+      "x": 1848,
+      "y": 66
+    },
+    "rocket-fuel-technology": {
+      "x": 1848,
+      "y": 132
+    },
+    "low-density-structure-technology": {
+      "x": 1848,
+      "y": 198
+    },
+    "rocket-silo-technology": {
+      "x": 1848,
+      "y": 264
+    },
+    "electric-energy-distribution-2": {
+      "x": 1848,
+      "y": 330
+    },
+    "advanced-material-processing-2": {
+      "x": 1848,
+      "y": 396
+    },
+    "lubricant-technology": {
+      "x": 1848,
+      "y": 462
+    },
+    "electric-engine": {
+      "x": 1848,
+      "y": 528
+    },
+    "construction-robotics": {
+      "x": 1848,
+      "y": 594
+    },
+    "logistic-robotics": {
+      "x": 1848,
+      "y": 660
+    },
+    "worker-robots-speed-1": {
+      "x": 1848,
+      "y": 726
+    },
+    "worker-robots-storage-1": {
+      "x": 1848,
+      "y": 792
+    },
+    "exoskeleton-equipment-technology": {
+      "x": 1848,
+      "y": 858
+    },
+    "personal-roboport-equipment-technology": {
+      "x": 1848,
+      "y": 924
+    },
+    "advanced-oil-processing-technology": {
+      "x": 1848,
+      "y": 990
+    },
+    "uranium-mining": {
+      "x": 1848,
+      "y": 1056
+    },
+    "nuclear-power": {
+      "x": 1848,
+      "y": 1122
+    },
+    "advanced-combinators": {
+      "x": 1848,
+      "y": 1188
+    },
+    "health": {
+      "x": 1848,
+      "y": 1254
+    },
+    "physical-projectile-damage-5": {
+      "x": 1848,
+      "y": 1320
+    },
+    "weapon-shooting-speed-5": {
+      "x": 1848,
+      "y": 1386
+    },
+    "laser-shooting-speed-3": {
+      "x": 1848,
+      "y": 1452
+    },
+    "tank-technology": {
+      "x": 1848,
+      "y": 1518
+    },
+    "explosive-rocketry": {
+      "x": 1848,
+      "y": 1584
+    },
+    "personal-laser-defense-equipment-technology": {
+      "x": 1848,
+      "y": 1650
+    },
+    "discharge-defense-equipment-technology": {
+      "x": 1848,
+      "y": 1716
+    },
+    "distractor": {
+      "x": 1848,
+      "y": 1782
+    },
+    "stronger-explosives-3": {
+      "x": 0,
+      "y": 1848
+    },
+    "laser-weapons-damage-1": {
+      "x": 66,
+      "y": 1848
+    },
+    "laser-turret-technology": {
+      "x": 132,
+      "y": 1848
+    },
+    "automation-3": {
+      "x": 198,
+      "y": 1848
+    },
+    "logistics-3": {
+      "x": 264,
+      "y": 1848
+    },
+    "effect-transmission": {
+      "x": 330,
+      "y": 1848
+    },
+    "nuclear-fuel-reprocessing-technology": {
+      "x": 396,
+      "y": 1848
+    },
+    "elevated-rail": {
+      "x": 462,
+      "y": 1848
+    },
+    "steel-plate-productivity": {
+      "x": 528,
+      "y": 1848
+    },
+    "battery-mk2-equipment-technology": {
+      "x": 594,
+      "y": 1848
+    },
+    "logistic-system": {
+      "x": 660,
+      "y": 1848
+    },
+    "speed-module-2-technology": {
+      "x": 726,
+      "y": 1848
+    },
+    "productivity-module-2-technology": {
+      "x": 792,
+      "y": 1848
+    },
+    "efficiency-module-2-technology": {
+      "x": 858,
+      "y": 1848
+    },
+    "kovarex-enrichment-process-technology": {
+      "x": 924,
+      "y": 1848
+    },
+    "quality-module-2-technology": {
+      "x": 990,
+      "y": 1848
+    },
+    "space-platform-thruster": {
+      "x": 1056,
+      "y": 1848
+    },
+    "planet-discovery-vulcanus": {
+      "x": 1122,
+      "y": 1848
+    },
+    "planet-discovery-gleba": {
+      "x": 1188,
+      "y": 1848
+    },
+    "planet-discovery-fulgora": {
+      "x": 1254,
+      "y": 1848
+    },
+    "uranium-ammo": {
+      "x": 1320,
+      "y": 1848
+    },
+    "power-armor-mk2-technology": {
+      "x": 1386,
+      "y": 1848
+    },
+    "fission-reactor-equipment-technology": {
+      "x": 1452,
+      "y": 1848
+    },
+    "destroyer": {
+      "x": 1518,
+      "y": 1848
+    },
+    "electric-weapons-damage-1": {
+      "x": 1584,
+      "y": 1848
+    },
+    "cliff-explosives-technology": {
+      "x": 1650,
+      "y": 1848
+    },
+    "coal-liquefaction-technology": {
+      "x": 1716,
+      "y": 1848
+    },
+    "speed-module-3-technology": {
+      "x": 1782,
+      "y": 1848
+    },
+    "asteroid-reprocessing": {
+      "x": 1848,
+      "y": 1848
+    },
+    "low-density-structure-productivity": {
+      "x": 1914,
+      "y": 0
+    },
+    "productivity-module-3-technology": {
+      "x": 1914,
+      "y": 66
+    },
+    "efficiency-module-3-technology": {
+      "x": 1914,
+      "y": 132
+    },
+    "toolbelt-equipment-technology": {
+      "x": 1914,
+      "y": 198
+    },
+    "tree-seeding": {
+      "x": 1914,
+      "y": 264
+    },
+    "carbon-fiber-technology": {
+      "x": 1914,
+      "y": 330
+    },
+    "plastic-bar-productivity": {
+      "x": 1914,
+      "y": 396
+    },
+    "rocket-fuel-productivity": {
+      "x": 1914,
+      "y": 462
+    },
+    "quality-module-3-technology": {
+      "x": 1914,
+      "y": 528
+    },
+    "lightning-collector-technology": {
+      "x": 1914,
+      "y": 594
+    },
+    "processing-unit-productivity": {
+      "x": 1914,
+      "y": 660
+    },
+    "scrap-recycling-productivity": {
+      "x": 1914,
+      "y": 726
+    },
+    "rocket-part-productivity": {
+      "x": 1914,
+      "y": 792
+    },
+    "atomic-bomb-technology": {
+      "x": 1914,
+      "y": 858
+    },
+    "turbo-transport-belt-technology": {
+      "x": 1914,
+      "y": 924
+    },
+    "epic-quality": {
+      "x": 1914,
+      "y": 990
+    },
+    "rocket-turret-technology": {
+      "x": 1914,
+      "y": 1056
+    },
+    "captivity": {
+      "x": 1914,
+      "y": 1122
+    },
+    "personal-roboport-mk2-equipment-technology": {
+      "x": 1914,
+      "y": 1188
+    },
+    "battery-mk3-equipment-technology": {
+      "x": 1914,
+      "y": 1254
+    },
+    "artillery-shell-range-1": {
+      "x": 1914,
+      "y": 1320
+    },
+    "artillery-shell-speed-1": {
+      "x": 1914,
+      "y": 1386
+    },
+    "artillery": {
+      "x": 1914,
+      "y": 1452
+    },
+    "artillery-shell-damage-1": {
+      "x": 1914,
+      "y": 1518
+    },
+    "stack-inserter-technology": {
+      "x": 1914,
+      "y": 1584
+    },
+    "transport-belt-capacity-1": {
+      "x": 1914,
+      "y": 1650
+    },
+    "overgrowth-soil": {
+      "x": 1914,
+      "y": 1716
+    },
+    "advanced-asteroid-processing": {
+      "x": 1914,
+      "y": 1782
+    },
+    "asteroid-productivity": {
+      "x": 1914,
+      "y": 1848
+    },
+    "energy-shield-mk2-equipment-technology": {
+      "x": 0,
+      "y": 1914
+    },
+    "mech-armor-technology": {
+      "x": 66,
+      "y": 1914
+    },
+    "tesla-weapons": {
+      "x": 132,
+      "y": 1914
+    },
+    "railgun-damage-1": {
+      "x": 198,
+      "y": 1914
+    },
+    "biolab-technology": {
+      "x": 264,
+      "y": 1914
+    },
+    "spidertron-technology": {
+      "x": 330,
+      "y": 1914
+    },
+    "rail-support-foundations": {
+      "x": 396,
+      "y": 1914
+    },
+    "railgun-shooting-speed-1": {
+      "x": 462,
+      "y": 1914
+    },
+    "planet-discovery-aquilo": {
+      "x": 528,
+      "y": 1914
+    },
+    "legendary-quality": {
+      "x": 594,
+      "y": 1914
+    },
+    "railgun-technology": {
+      "x": 660,
+      "y": 1914
+    },
+    "quantum-processor-technology": {
+      "x": 726,
+      "y": 1914
+    },
+    "fusion-reactor-technology": {
+      "x": 792,
+      "y": 1914
+    },
+    "fusion-reactor-equipment-technology": {
+      "x": 858,
+      "y": 1914
+    },
+    "promethium-science-pack-technology": {
+      "x": 924,
+      "y": 1914
+    },
+    "foundation-technology": {
+      "x": 990,
+      "y": 1914
+    },
+    "captive-biter-spawner-technology": {
+      "x": 1056,
+      "y": 1914
+    },
+    "research-productivity": {
+      "x": 1122,
+      "y": 1914
+    },
+    "logistics": {
+      "x": 1188,
+      "y": 1914
+    },
+    "production": {
+      "x": 1254,
+      "y": 1914
+    },
+    "intermediate-products": {
+      "x": 1320,
+      "y": 1914
+    },
+    "space": {
+      "x": 1386,
+      "y": 1914
+    },
+    "combat": {
+      "x": 1452,
+      "y": 1914
+    },
+    "fluids": {
+      "x": 1518,
+      "y": 1914
+    },
+    "other": {
+      "x": 1584,
+      "y": 1914
+    },
+    "space-platform-0": {
+      "x": 1650,
+      "y": 1914
+    }
+  }
+}
