@@ -2,31 +2,33 @@
 
 *Active plan written by `/next-plan`. Overwritten each time `/next-plan` runs. Check off steps as you complete them. Create a handoff doc in `memory/handoffs/` only if work genuinely gets stuck mid-plan — most plans should resume from this file + recent git activity without ceremony.*
 
-## Plan: Replace bubble-anchored rails with the output-connector model
+## Plan: Drag-from-missing-input → create producer bubble
 
-**Why:** Anchoring a rail to a bubble (`bubbleOrigin`) made every drag either slope the rail or silently re-derive its length. A bubble's output is the *mirror of its input* — model it as an explicit binding plus a derived orthogonal connector (a feeder reversed). Rails stay free, orthogonal, authored geometry. Charter already updated (architecture spine, Codebase Guide invariants, editing + scene subdocs, editing-log).
+**Why:** A bubble with an unsatisfied input currently shows only a missing-requirement flag. Letting the user drag *from* that input to empty canvas and drop a new bubble pre-wired to a recipe that produces the needed product turns the missing-requirement signal into the primary authoring gesture for backfilling upstream production. Mirror of the existing output-emit-drag, reversed.
 
 **Model (locked):**
-- `Bubble.outputTarget: railId | null` — the bus this bubble's output is bound to (authored).
-- Drop emit-drag on a rail → add product to `rail.resourceTypes` + set `outputTarget`. Drop on empty → create a new single-resource rail + bind.
-- Solver draws a derived **orthogonal** output connector: `bubbleOutputPort` → nearest point on resolved rail. Re-routes on any move.
-- Downstream consumption is automatic — `rail.resourceTypes` stays the single source of truth for "what's on a bus"; no solver *matching* change.
+- Drag originates at an **unsatisfied** input port (`InputSlot.satisfied === false`). Satisfied inputs stay drag-inert (they already have a feeder).
+- Live preview = direct line from input port to cursor (matches the eventual feeder visual).
+- Drop on **empty canvas** → resolve a recipe producing the needed product, create bubble at drop point, leave its outputs **unbound** (Option 2). Solver picks up the new bubble as a feeder source via the existing bubble-output-as-source path; the original consumer's missing-requirement flag clears automatically.
+- Drop on existing bubble / existing rail → out of scope for this plan.
+
+**Recipe selection:**
+Need a `recipesByProduct: Map<productId, Recipe[]>` index in `src/recipes/`. When multiple recipes produce the product, pick deterministically (first by id sort) for v1; disambiguation UI is a follow-up.
 
 ### Steps
 
-- [x] **1. Back out `bubbleOrigin`.** Removed from `Rail` (`scene/types.ts`), its branch in `resolveRailPolyline` (`scene/geometry.ts`; signature now `(rail, rails)`), anchored-start handling in `hitTest.ts`/`RailLayer.tsx`, the whole `bubbleBusDrag` path in `Canvas.tsx`, and normalization in `persistence.ts` (dropped on load).
-- [x] **2. Add the binding.** `Bubble.outputTarget: railId | null` added; `setBubbleOutputTarget` store action; `normalizeBubble` backfills on load; bubble literals in `App.tsx`/`Canvas.tsx` updated.
-- [x] **3. Emit gesture (Canvas).** Output-port drag reworked: drop on a rail (`hitTest` via `worldToScreen`) → `setBubbleOutputTarget` + add productId to `resourceTypes` (canonical dedupe); drop on empty → create rail + bind. Live preview = `orthogonalConnector` port→cursor.
-- [x] **4. Solver output connectors.** Distinct `OutputConnector` type; `orthogonalConnector` helper in `geometry.ts`; solver emits port → nearest point on resolved rail; published in `SolverOutput` + threaded through store/reactivity/Toolbar.
-- [x] **5. Render.** `OutputConnectorLayer.tsx` (solid orthogonal, colored by product), drawn after feeders inside the halo mask. Non-interactive.
-- [x] **6. Delete cleanup.** `deleteRail` clears `outputTarget` on bubbles pointing at the deleted rail. (Bubble delete drops its own binding automatically.)
-- [x] **7. Typecheck.** `npx tsc --noEmit` passes clean. Manual in-app smoke still pending (see below).
+- [x] **1. Recipe index.** Already present as `useRecipeStore.getRecipesForProduct(productId)` (store.ts:103) — primary-product-first then id-sorted. No new code needed.
+- [x] **2. Input-port hit testing.** Added `hitTestUnsatisfiedInputTab` in `editing/hitTest.ts` — mirrors `hitTestBubbleOutputTab` but filters `slot.satisfied === false`.
+- [x] **3. Drag gesture in `Canvas.tsx`.** Added `inputFillDrag` ref mirroring `outputDrag`; mousedown after output-tab check, mousemove updates `endWorld`, dashed straight-line preview from port→cursor, crosshair cursor while dragging, hover affordance on unsatisfied tabs.
+- [x] **4. Drop handler.** Mouseup picks first recipe from `getRecipesForProduct(resourceType)`, builds `outputBindings` with all-null per product, `addBubble({ position: dropPoint, recipeId, ... })`, autosaves. Outputs stay unbound — solver wires consumer via existing bubble-as-feeder-source path.
+- [x] **5. No-recipe fallback.** Empty recipes array → drop is a no-op (silent). Hint deferred.
+- [x] **6. Typecheck.** `npx tsc --noEmit` passes. Manual in-app smoke still pending.
 
-### Chosen: distinct `OutputConnector` type
-Decided distinct over tagged-feeder — feeders are direct, connectors orthogonal; conflating muddies routing/rendering.
+### Decisions
 
-### Remaining: manual smoke test
-Verify in-app: emit onto existing bus, emit to empty space, drag bubble (connector re-routes orthogonally), drag rail (connector re-routes), downstream bubble auto-feeds off the bus.
+- **Output binding = Option 2 (unbound).** New bubble's outputs stay null; solver wires the consumer via bubble-output feeder. No auto-bind to nearby bus. Consistent with existing bubble↔bubble feeder behavior; user can always emit-drag later to put the product onto a bus.
+- **Multi-producer recipes:** first by sorted id for v1. Disambiguation UI deferred.
 
-### Doc drift noted (separate, not this plan)
-Codebase Guide once said "orthogonal feeder routing," but feeders are direct 2-point (`pathPoints:[attachPoint, inputPort]`). Spine's "direct (straight-line)" is correct; the Guide line was stale. (Now consistent after this edit pass.)
+### Open (non-blocking)
+
+- Visual affordance on unsatisfied inputs (dashed/pulsing tab) to advertise the gesture — likely a follow-up plan, not in scope here.

@@ -313,8 +313,8 @@
     ]
   },
   {
-    "id": "pipe-casting-pipe",
-    "label": "Pipe (Casting Pipe)",
+    "id": "casting-pipe",
+    "label": "Casting Pipe",
     "inputs": [
       "molten-iron"
     ],
@@ -334,8 +334,8 @@
     ]
   },
   {
-    "id": "pipe-to-ground-casting-pipe-to-ground",
-    "label": "Pipe To Ground (Casting Pipe To Ground)",
+    "id": "casting-pipe-to-ground",
+    "label": "Casting Pipe To Ground",
     "inputs": [
       "molten-iron",
       "pipe"
@@ -725,8 +725,8 @@
     ]
   },
   {
-    "id": "concrete-concrete-from-molten-iron",
-    "label": "Concrete (Concrete From Molten Iron)",
+    "id": "concrete-from-molten-iron",
+    "label": "Concrete From Molten Iron",
     "inputs": [
       "molten-iron",
       "water",
@@ -1483,8 +1483,8 @@
     ]
   },
   {
-    "id": "wood",
-    "label": "Wood",
+    "id": "tree-plant",
+    "label": "Tree",
     "inputs": [
       "tree-seed"
     ],
@@ -1493,7 +1493,7 @@
     ]
   },
   {
-    "id": "coal",
+    "id": "coal-default",
     "label": "Coal",
     "inputs": [],
     "products": [
@@ -1501,8 +1501,8 @@
     ]
   },
   {
-    "id": "coal-coal-synthesis",
-    "label": "Coal (Coal Synthesis)",
+    "id": "coal-synthesis",
+    "label": "Coal Synthesis",
     "inputs": [
       "carbon",
       "sulfur",
@@ -1513,7 +1513,7 @@
     ]
   },
   {
-    "id": "stone",
+    "id": "stone-default",
     "label": "Stone",
     "inputs": [],
     "products": [
@@ -1521,18 +1521,7 @@
     ]
   },
   {
-    "id": "stone-molten-iron-from-lava",
-    "label": "Stone (Molten Iron From Lava)",
-    "inputs": [
-      "lava",
-      "calcite"
-    ],
-    "products": [
-      "stone"
-    ]
-  },
-  {
-    "id": "iron-ore",
+    "id": "iron-ore-default",
     "label": "Iron Ore",
     "inputs": [],
     "products": [
@@ -1540,7 +1529,7 @@
     ]
   },
   {
-    "id": "iron-ore-iron-ore",
+    "id": "iron-ore",
     "label": "Iron Ore",
     "inputs": [
       "iron-bacteria"
@@ -1550,17 +1539,30 @@
     ]
   },
   {
-    "id": "iron-ore-metallic-asteroid-crushing",
-    "label": "Iron Ore (Metallic Asteroid Crushing)",
+    "id": "metallic-asteroid-crushing",
+    "label": "Metallic Asteroid Crushing",
     "inputs": [
       "metallic-asteroid-chunk"
     ],
     "products": [
-      "iron-ore"
+      "iron-ore",
+      "metallic-asteroid-chunk"
     ]
   },
   {
-    "id": "copper-ore",
+    "id": "advanced-metallic-asteroid-crushing",
+    "label": "Advanced Metallic Asteroid Crushing",
+    "inputs": [
+      "metallic-asteroid-chunk"
+    ],
+    "products": [
+      "iron-ore",
+      "copper-ore",
+      "metallic-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "copper-ore-default",
     "label": "Copper Ore",
     "inputs": [],
     "products": [
@@ -1568,7 +1570,7 @@
     ]
   },
   {
-    "id": "copper-ore-copper-ore",
+    "id": "copper-ore",
     "label": "Copper Ore",
     "inputs": [
       "copper-bacteria"
@@ -1578,17 +1580,7 @@
     ]
   },
   {
-    "id": "copper-ore-advanced-metallic-asteroid-crushing",
-    "label": "Copper Ore (Advanced Metallic Asteroid Crushing)",
-    "inputs": [
-      "metallic-asteroid-chunk"
-    ],
-    "products": [
-      "copper-ore"
-    ]
-  },
-  {
-    "id": "uranium-ore",
+    "id": "uranium-ore-default",
     "label": "Uranium Ore",
     "inputs": [],
     "products": [
@@ -1596,8 +1588,8 @@
     ]
   },
   {
-    "id": "raw-fish",
-    "label": "Raw Fish",
+    "id": "fish-breeding",
+    "label": "Fish Breeding",
     "inputs": [
       "raw-fish",
       "nutrients",
@@ -1608,23 +1600,37 @@
     ]
   },
   {
-    "id": "ice",
-    "label": "Ice",
+    "id": "ammoniacal-solution-separation",
+    "label": "Ammoniacal Solution Separation",
     "inputs": [
       "ammoniacal-solution"
     ],
     "products": [
-      "ice"
+      "ice",
+      "ammonia"
     ]
   },
   {
-    "id": "ice-oxide-asteroid-crushing",
-    "label": "Ice (Oxide Asteroid Crushing)",
+    "id": "oxide-asteroid-crushing",
+    "label": "Oxide Asteroid Crushing",
     "inputs": [
       "oxide-asteroid-chunk"
     ],
     "products": [
-      "ice"
+      "ice",
+      "oxide-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "advanced-oxide-asteroid-crushing",
+    "label": "Advanced Oxide Asteroid Crushing",
+    "inputs": [
+      "oxide-asteroid-chunk"
+    ],
+    "products": [
+      "ice",
+      "calcite",
+      "oxide-asteroid-chunk"
     ]
   },
   {
@@ -1638,8 +1644,8 @@
     ]
   },
   {
-    "id": "iron-plate-casting-iron",
-    "label": "Iron Plate (Casting Iron)",
+    "id": "casting-iron",
+    "label": "Casting Iron",
     "inputs": [
       "molten-iron"
     ],
@@ -1658,8 +1664,8 @@
     ]
   },
   {
-    "id": "copper-plate-casting-copper",
-    "label": "Copper Plate (Casting Copper)",
+    "id": "casting-copper",
+    "label": "Casting Copper",
     "inputs": [
       "molten-copper"
     ],
@@ -1678,8 +1684,8 @@
     ]
   },
   {
-    "id": "steel-plate-casting-steel",
-    "label": "Steel Plate (Casting Steel)",
+    "id": "casting-steel",
+    "label": "Casting Steel",
     "inputs": [
       "molten-iron"
     ],
@@ -1688,8 +1694,8 @@
     ]
   },
   {
-    "id": "solid-fuel",
-    "label": "Solid Fuel",
+    "id": "solid-fuel-from-petroleum-gas",
+    "label": "Solid Fuel From Petroleum Gas",
     "inputs": [
       "petroleum-gas"
     ],
@@ -1698,8 +1704,8 @@
     ]
   },
   {
-    "id": "solid-fuel-solid-fuel-from-light-oil",
-    "label": "Solid Fuel (Solid Fuel From Light Oil)",
+    "id": "solid-fuel-from-light-oil",
+    "label": "Solid Fuel From Light Oil",
     "inputs": [
       "light-oil"
     ],
@@ -1708,8 +1714,8 @@
     ]
   },
   {
-    "id": "solid-fuel-solid-fuel-from-heavy-oil",
-    "label": "Solid Fuel (Solid Fuel From Heavy Oil)",
+    "id": "solid-fuel-from-heavy-oil",
+    "label": "Solid Fuel From Heavy Oil",
     "inputs": [
       "heavy-oil"
     ],
@@ -1718,8 +1724,8 @@
     ]
   },
   {
-    "id": "solid-fuel-solid-fuel-from-ammonia",
-    "label": "Solid Fuel (Solid Fuel From Ammonia)",
+    "id": "solid-fuel-from-ammonia",
+    "label": "Solid Fuel From Ammonia",
     "inputs": [
       "ammonia",
       "crude-oil"
@@ -1740,8 +1746,8 @@
     ]
   },
   {
-    "id": "plastic-bar-bioplastic",
-    "label": "Plastic Bar (Bioplastic)",
+    "id": "bioplastic",
+    "label": "Bioplastic",
     "inputs": [
       "bioflux",
       "yumako-mash"
@@ -1762,21 +1768,11 @@
     ]
   },
   {
-    "id": "sulfur-biosulfur",
-    "label": "Sulfur (Biosulfur)",
+    "id": "biosulfur",
+    "label": "Biosulfur",
     "inputs": [
       "spoilage",
       "bioflux"
-    ],
-    "products": [
-      "sulfur"
-    ]
-  },
-  {
-    "id": "sulfur-advanced-carbonic-asteroid-crushing",
-    "label": "Sulfur (Advanced Carbonic Asteroid Crushing)",
-    "inputs": [
-      "carbonic-asteroid-chunk"
     ],
     "products": [
       "sulfur"
@@ -1818,8 +1814,8 @@
     ]
   },
   {
-    "id": "carbon-burnt-spoilage",
-    "label": "Carbon (Burnt Spoilage)",
+    "id": "burnt-spoilage",
+    "label": "Burnt Spoilage",
     "inputs": [
       "spoilage"
     ],
@@ -1828,17 +1824,30 @@
     ]
   },
   {
-    "id": "carbon-carbonic-asteroid-crushing",
-    "label": "Carbon (Carbonic Asteroid Crushing)",
+    "id": "carbonic-asteroid-crushing",
+    "label": "Carbonic Asteroid Crushing",
     "inputs": [
       "carbonic-asteroid-chunk"
     ],
     "products": [
-      "carbon"
+      "carbon",
+      "carbonic-asteroid-chunk"
     ]
   },
   {
-    "id": "water-barrel",
+    "id": "advanced-carbonic-asteroid-crushing",
+    "label": "Advanced Carbonic Asteroid Crushing",
+    "inputs": [
+      "carbonic-asteroid-chunk"
+    ],
+    "products": [
+      "carbon",
+      "sulfur",
+      "carbonic-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "water-barrel-default",
     "label": "Water Barrel",
     "inputs": [],
     "products": [
@@ -1846,7 +1855,7 @@
     ]
   },
   {
-    "id": "crude-oil-barrel",
+    "id": "crude-oil-barrel-default",
     "label": "Crude Oil Barrel",
     "inputs": [],
     "products": [
@@ -1854,7 +1863,7 @@
     ]
   },
   {
-    "id": "petroleum-gas-barrel",
+    "id": "petroleum-gas-barrel-default",
     "label": "Petroleum Gas Barrel",
     "inputs": [],
     "products": [
@@ -1862,7 +1871,7 @@
     ]
   },
   {
-    "id": "light-oil-barrel",
+    "id": "light-oil-barrel-default",
     "label": "Light Oil Barrel",
     "inputs": [],
     "products": [
@@ -1870,7 +1879,7 @@
     ]
   },
   {
-    "id": "heavy-oil-barrel",
+    "id": "heavy-oil-barrel-default",
     "label": "Heavy Oil Barrel",
     "inputs": [],
     "products": [
@@ -1878,7 +1887,7 @@
     ]
   },
   {
-    "id": "lubricant-barrel",
+    "id": "lubricant-barrel-default",
     "label": "Lubricant Barrel",
     "inputs": [],
     "products": [
@@ -1886,7 +1895,7 @@
     ]
   },
   {
-    "id": "sulfuric-acid-barrel",
+    "id": "sulfuric-acid-barrel-default",
     "label": "Sulfuric Acid Barrel",
     "inputs": [],
     "products": [
@@ -1894,7 +1903,7 @@
     ]
   },
   {
-    "id": "fluoroketone-hot-barrel",
+    "id": "fluoroketone-hot-barrel-default",
     "label": "Fluoroketone (Hot) Barrel",
     "inputs": [],
     "products": [
@@ -1902,7 +1911,7 @@
     ]
   },
   {
-    "id": "fluoroketone-cold-barrel",
+    "id": "fluoroketone-cold-barrel-default",
     "label": "Fluoroketone (Cold) Barrel",
     "inputs": [],
     "products": [
@@ -1920,13 +1929,34 @@
     ]
   },
   {
-    "id": "iron-gear-wheel-casting-iron-gear-wheel",
-    "label": "Iron Gear Wheel (Casting Iron Gear Wheel)",
+    "id": "casting-iron-gear-wheel",
+    "label": "Casting Iron Gear Wheel",
     "inputs": [
       "molten-iron"
     ],
     "products": [
       "iron-gear-wheel"
+    ]
+  },
+  {
+    "id": "scrap-recycling",
+    "label": "Scrap Recycling",
+    "inputs": [
+      "scrap"
+    ],
+    "products": [
+      "iron-gear-wheel",
+      "solid-fuel",
+      "concrete",
+      "ice",
+      "steel-plate",
+      "battery",
+      "stone",
+      "advanced-circuit",
+      "copper-cable",
+      "processing-unit",
+      "low-density-structure",
+      "holmium-ore"
     ]
   },
   {
@@ -1940,8 +1970,8 @@
     ]
   },
   {
-    "id": "iron-stick-casting-iron-stick",
-    "label": "Iron Stick (Casting Iron Stick)",
+    "id": "casting-iron-stick",
+    "label": "Casting Iron Stick",
     "inputs": [
       "molten-iron"
     ],
@@ -1960,8 +1990,8 @@
     ]
   },
   {
-    "id": "copper-cable-casting-copper-cable",
-    "label": "Copper Cable (Casting Copper Cable)",
+    "id": "casting-copper-cable",
+    "label": "Casting Copper Cable",
     "inputs": [
       "molten-copper"
     ],
@@ -1970,7 +2000,7 @@
     ]
   },
   {
-    "id": "barrel",
+    "id": "barrel-default",
     "label": "Barrel",
     "inputs": [],
     "products": [
@@ -2062,8 +2092,8 @@
     ]
   },
   {
-    "id": "low-density-structure-casting-low-density-structure",
-    "label": "Low Density Structure (Casting Low Density Structure)",
+    "id": "casting-low-density-structure",
+    "label": "Casting Low Density Structure",
     "inputs": [
       "molten-iron",
       "molten-copper",
@@ -2085,8 +2115,8 @@
     ]
   },
   {
-    "id": "rocket-fuel-rocket-fuel-from-jelly",
-    "label": "Rocket Fuel (Rocket Fuel From Jelly)",
+    "id": "rocket-fuel-from-jelly",
+    "label": "Rocket Fuel From Jelly",
     "inputs": [
       "water",
       "jelly",
@@ -2097,8 +2127,8 @@
     ]
   },
   {
-    "id": "rocket-fuel-ammonia-rocket-fuel",
-    "label": "Rocket Fuel (Ammonia Rocket Fuel)",
+    "id": "ammonia-rocket-fuel",
+    "label": "Ammonia Rocket Fuel",
     "inputs": [
       "solid-fuel",
       "water",
@@ -2109,52 +2139,44 @@
     ]
   },
   {
-    "id": "uranium-235",
-    "label": "Uranium-235",
+    "id": "nuclear-fuel-recycling",
+    "label": "Nuclear Fuel Recycling",
+    "inputs": [
+      "nuclear-fuel"
+    ],
+    "products": [
+      "uranium-235",
+      "rocket-fuel"
+    ]
+  },
+  {
+    "id": "uranium-processing",
+    "label": "Uranium Processing",
     "inputs": [
       "uranium-ore"
     ],
     "products": [
-      "uranium-235"
+      "uranium-235",
+      "uranium-238"
     ]
   },
   {
-    "id": "uranium-235-kovarex-enrichment-process",
-    "label": "Uranium-235 (Kovarex Enrichment Process)",
+    "id": "kovarex-enrichment-process",
+    "label": "Kovarex Enrichment Process",
     "inputs": [
       "uranium-235",
       "uranium-238"
     ],
     "products": [
-      "uranium-235"
-    ]
-  },
-  {
-    "id": "uranium-238-uranium-processing",
-    "label": "Uranium-238 (Uranium Processing)",
-    "inputs": [
-      "uranium-ore"
-    ],
-    "products": [
+      "uranium-235",
       "uranium-238"
     ]
   },
   {
-    "id": "uranium-238",
-    "label": "Uranium-238",
+    "id": "nuclear-fuel-reprocessing",
+    "label": "Nuclear Fuel Reprocessing",
     "inputs": [
       "depleted-uranium-fuel-cell"
-    ],
-    "products": [
-      "uranium-238"
-    ]
-  },
-  {
-    "id": "uranium-238-kovarex-enrichment-process",
-    "label": "Uranium-238 (Kovarex Enrichment Process)",
-    "inputs": [
-      "uranium-235",
-      "uranium-238"
     ],
     "products": [
       "uranium-238"
@@ -2194,7 +2216,7 @@
     ]
   },
   {
-    "id": "calcite",
+    "id": "calcite-default",
     "label": "Calcite",
     "inputs": [],
     "products": [
@@ -2202,17 +2224,7 @@
     ]
   },
   {
-    "id": "calcite-advanced-oxide-asteroid-crushing",
-    "label": "Calcite (Advanced Oxide Asteroid Crushing)",
-    "inputs": [
-      "oxide-asteroid-chunk"
-    ],
-    "products": [
-      "calcite"
-    ]
-  },
-  {
-    "id": "tungsten-ore",
+    "id": "tungsten-ore-default",
     "label": "Tungsten Ore",
     "inputs": [],
     "products": [
@@ -2243,7 +2255,7 @@
     ]
   },
   {
-    "id": "scrap",
+    "id": "scrap-default",
     "label": "Scrap",
     "inputs": [],
     "products": [
@@ -2251,7 +2263,7 @@
     ]
   },
   {
-    "id": "holmium-ore",
+    "id": "holmium-ore-default",
     "label": "Holmium Ore",
     "inputs": [],
     "products": [
@@ -2296,28 +2308,30 @@
     ]
   },
   {
-    "id": "yumako-seed",
-    "label": "Yumako Seed",
+    "id": "yumako-processing",
+    "label": "Yumako Processing",
     "inputs": [
       "yumako"
     ],
     "products": [
-      "yumako-seed"
+      "yumako-seed",
+      "yumako-mash"
     ]
   },
   {
-    "id": "jellynut-seed",
-    "label": "Jellynut Seed",
+    "id": "jellynut-processing",
+    "label": "Jellynut Processing",
     "inputs": [
       "jellynut"
     ],
     "products": [
-      "jellynut-seed"
+      "jellynut-seed",
+      "jelly"
     ]
   },
   {
-    "id": "yumako",
-    "label": "Yumako",
+    "id": "yumako-tree",
+    "label": "Yumako Tree",
     "inputs": [
       "yumako-seed"
     ],
@@ -2326,8 +2340,8 @@
     ]
   },
   {
-    "id": "jellynut",
-    "label": "Jellynut",
+    "id": "jellystem",
+    "label": "Jellystem",
     "inputs": [
       "jellynut-seed"
     ],
@@ -2342,12 +2356,13 @@
       "jelly"
     ],
     "products": [
-      "iron-bacteria"
+      "iron-bacteria",
+      "spoilage"
     ]
   },
   {
-    "id": "iron-bacteria-iron-bacteria-cultivation",
-    "label": "Iron Bacteria (Iron Bacteria Cultivation)",
+    "id": "iron-bacteria-cultivation",
+    "label": "Iron Bacteria Cultivation",
     "inputs": [
       "iron-bacteria",
       "bioflux"
@@ -2363,12 +2378,13 @@
       "yumako-mash"
     ],
     "products": [
-      "copper-bacteria"
+      "copper-bacteria",
+      "spoilage"
     ]
   },
   {
-    "id": "copper-bacteria-copper-bacteria-cultivation",
-    "label": "Copper Bacteria (Copper Bacteria Cultivation)",
+    "id": "copper-bacteria-cultivation",
+    "label": "Copper Bacteria Cultivation",
     "inputs": [
       "copper-bacteria",
       "bioflux"
@@ -2388,8 +2404,8 @@
     ]
   },
   {
-    "id": "spoilage-yumako-spoil",
-    "label": "Spoilage (Yumako : Spoilage)",
+    "id": "yumako-spoil",
+    "label": "Yumako : Spoilage",
     "inputs": [
       "yumako"
     ],
@@ -2398,8 +2414,8 @@
     ]
   },
   {
-    "id": "spoilage-jellynut-spoil",
-    "label": "Spoilage (Jellynut : Spoilage)",
+    "id": "jellynut-spoil",
+    "label": "Jellynut : Spoilage",
     "inputs": [
       "jellynut"
     ],
@@ -2408,8 +2424,8 @@
     ]
   },
   {
-    "id": "spoilage-nutrients-spoil",
-    "label": "Spoilage (Nutrients : Spoilage)",
+    "id": "nutrients-spoil",
+    "label": "Nutrients : Spoilage",
     "inputs": [
       "nutrients"
     ],
@@ -2418,8 +2434,8 @@
     ]
   },
   {
-    "id": "spoilage-bioflux-spoil",
-    "label": "Spoilage (Bioflux : Spoilage)",
+    "id": "bioflux-spoil",
+    "label": "Bioflux : Spoilage",
     "inputs": [
       "bioflux"
     ],
@@ -2428,8 +2444,8 @@
     ]
   },
   {
-    "id": "spoilage-yumako-mash-spoil",
-    "label": "Spoilage (Yumako Mash : Spoilage)",
+    "id": "yumako-mash-spoil",
+    "label": "Yumako Mash : Spoilage",
     "inputs": [
       "yumako-mash"
     ],
@@ -2438,8 +2454,8 @@
     ]
   },
   {
-    "id": "spoilage-jelly-spoil",
-    "label": "Spoilage (Jelly : Spoilage)",
+    "id": "jelly-spoil",
+    "label": "Jelly : Spoilage",
     "inputs": [
       "jelly"
     ],
@@ -2448,8 +2464,8 @@
     ]
   },
   {
-    "id": "spoilage-agricultural-science-pack-spoil",
-    "label": "Spoilage (Agricultural Science Pack : Spoilage)",
+    "id": "agricultural-science-pack-spoil",
+    "label": "Agricultural Science Pack : Spoilage",
     "inputs": [
       "agricultural-science-pack"
     ],
@@ -2458,8 +2474,8 @@
     ]
   },
   {
-    "id": "nutrients",
-    "label": "Nutrients",
+    "id": "nutrients-from-spoilage",
+    "label": "Nutrients From Spoilage",
     "inputs": [
       "spoilage"
     ],
@@ -2468,8 +2484,8 @@
     ]
   },
   {
-    "id": "nutrients-nutrients-from-yumako-mash",
-    "label": "Nutrients (Nutrients From Yumako Mash)",
+    "id": "nutrients-from-yumako-mash",
+    "label": "Nutrients From Yumako Mash",
     "inputs": [
       "yumako-mash"
     ],
@@ -2478,8 +2494,8 @@
     ]
   },
   {
-    "id": "nutrients-nutrients-from-bioflux",
-    "label": "Nutrients (Nutrients From Bioflux)",
+    "id": "nutrients-from-bioflux",
+    "label": "Nutrients From Bioflux",
     "inputs": [
       "bioflux"
     ],
@@ -2488,8 +2504,8 @@
     ]
   },
   {
-    "id": "nutrients-nutrients-from-fish",
-    "label": "Nutrients (Nutrients From Fish)",
+    "id": "nutrients-from-fish",
+    "label": "Nutrients From Fish",
     "inputs": [
       "raw-fish"
     ],
@@ -2498,8 +2514,8 @@
     ]
   },
   {
-    "id": "nutrients-nutrients-from-biter-egg",
-    "label": "Nutrients (Nutrients From Biter Egg)",
+    "id": "nutrients-from-biter-egg",
+    "label": "Nutrients From Biter Egg",
     "inputs": [
       "biter-egg"
     ],
@@ -2519,21 +2535,17 @@
     ]
   },
   {
-    "id": "yumako-mash",
+    "id": "yumako-mash-default",
     "label": "Yumako Mash",
-    "inputs": [
-      "yumako"
-    ],
+    "inputs": [],
     "products": [
       "yumako-mash"
     ]
   },
   {
-    "id": "jelly",
+    "id": "jelly-default",
     "label": "Jelly",
-    "inputs": [
-      "jellynut"
-    ],
+    "inputs": [],
     "products": [
       "jelly"
     ]
@@ -2570,8 +2582,8 @@
     ]
   },
   {
-    "id": "tree-seed",
-    "label": "Tree Seed",
+    "id": "wood-processing",
+    "label": "Wood Processing",
     "inputs": [
       "wood"
     ],
@@ -2613,7 +2625,8 @@
       "fluoroketone-cold"
     ],
     "products": [
-      "quantum-processor"
+      "quantum-processor",
+      "fluoroketone-hot"
     ]
   },
   {
@@ -2755,7 +2768,8 @@
       "fluoroketone-cold"
     ],
     "products": [
-      "cryogenic-science-pack"
+      "cryogenic-science-pack",
+      "fluoroketone-hot"
     ]
   },
   {
@@ -2880,121 +2894,205 @@
     ]
   },
   {
-    "id": "metallic-asteroid-chunk-metallic-asteroid-crushing",
-    "label": "Metallic Asteroid Chunk (Metallic Asteroid Crushing)",
-    "inputs": [
-      "metallic-asteroid-chunk"
-    ],
-    "products": [
-      "metallic-asteroid-chunk"
-    ]
-  },
-  {
-    "id": "metallic-asteroid-chunk-carbonic-asteroid-reprocessing",
-    "label": "Metallic Asteroid Chunk (Carbonic Asteroid Reprocessing)",
-    "inputs": [
-      "carbonic-asteroid-chunk"
-    ],
-    "products": [
-      "metallic-asteroid-chunk"
-    ]
-  },
-  {
-    "id": "metallic-asteroid-chunk-oxide-asteroid-reprocessing",
-    "label": "Metallic Asteroid Chunk (Oxide Asteroid Reprocessing)",
-    "inputs": [
-      "oxide-asteroid-chunk"
-    ],
-    "products": [
-      "metallic-asteroid-chunk"
-    ]
-  },
-  {
-    "id": "metallic-asteroid-chunk",
-    "label": "Metallic Asteroid Chunk",
+    "id": "nauvis-vulcanus",
+    "label": "Space Route From Nauvis To Vulcanus",
     "inputs": [],
     "products": [
-      "metallic-asteroid-chunk"
-    ]
-  },
-  {
-    "id": "carbonic-asteroid-chunk-carbonic-asteroid-crushing",
-    "label": "Carbonic Asteroid Chunk (Carbonic Asteroid Crushing)",
-    "inputs": [
-      "carbonic-asteroid-chunk"
-    ],
-    "products": [
-      "carbonic-asteroid-chunk"
-    ]
-  },
-  {
-    "id": "carbonic-asteroid-chunk-metallic-asteroid-reprocessing",
-    "label": "Carbonic Asteroid Chunk (Metallic Asteroid Reprocessing)",
-    "inputs": [
-      "metallic-asteroid-chunk"
-    ],
-    "products": [
-      "carbonic-asteroid-chunk"
-    ]
-  },
-  {
-    "id": "carbonic-asteroid-chunk-oxide-asteroid-reprocessing",
-    "label": "Carbonic Asteroid Chunk (Oxide Asteroid Reprocessing)",
-    "inputs": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
       "oxide-asteroid-chunk"
-    ],
-    "products": [
-      "carbonic-asteroid-chunk"
     ]
   },
   {
-    "id": "carbonic-asteroid-chunk",
-    "label": "Carbonic Asteroid Chunk",
+    "id": "metallic-asteroid-reprocessing",
+    "label": "Metallic Asteroid Reprocessing",
+    "inputs": [
+      "metallic-asteroid-chunk"
+    ],
+    "products": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
+      "oxide-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "nauvis-gleba",
+    "label": "Space Route From Nauvis To Gleba",
     "inputs": [],
     "products": [
-      "carbonic-asteroid-chunk"
-    ]
-  },
-  {
-    "id": "oxide-asteroid-chunk-oxide-asteroid-crushing",
-    "label": "Oxide Asteroid Chunk (Oxide Asteroid Crushing)",
-    "inputs": [
-      "oxide-asteroid-chunk"
-    ],
-    "products": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
       "oxide-asteroid-chunk"
     ]
   },
   {
-    "id": "oxide-asteroid-chunk-metallic-asteroid-reprocessing",
-    "label": "Oxide Asteroid Chunk (Metallic Asteroid Reprocessing)",
-    "inputs": [
-      "metallic-asteroid-chunk"
-    ],
-    "products": [
-      "oxide-asteroid-chunk"
-    ]
-  },
-  {
-    "id": "oxide-asteroid-chunk-carbonic-asteroid-reprocessing",
-    "label": "Oxide Asteroid Chunk (Carbonic Asteroid Reprocessing)",
-    "inputs": [
-      "carbonic-asteroid-chunk"
-    ],
-    "products": [
-      "oxide-asteroid-chunk"
-    ]
-  },
-  {
-    "id": "oxide-asteroid-chunk",
-    "label": "Oxide Asteroid Chunk",
+    "id": "nauvis-fulgora",
+    "label": "Space Route From Nauvis To Fulgora",
     "inputs": [],
     "products": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
       "oxide-asteroid-chunk"
     ]
   },
   {
-    "id": "promethium-asteroid-chunk",
+    "id": "vulcanus-gleba",
+    "label": "Space Route From Vulcanus To Gleba",
+    "inputs": [],
+    "products": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
+      "oxide-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "gleba-fulgora",
+    "label": "Space Route From Gleba To Fulgora",
+    "inputs": [],
+    "products": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
+      "oxide-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "gleba-aquilo",
+    "label": "Space Route From Gleba To Aquilo",
+    "inputs": [],
+    "products": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
+      "oxide-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "fulgora-aquilo",
+    "label": "Space Route From Fulgora To Aquilo",
+    "inputs": [],
+    "products": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
+      "oxide-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "aquilo-solar-system-edge",
+    "label": "Space Route From Aquilo To Solar System Edge",
+    "inputs": [],
+    "products": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
+      "oxide-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "solar-system-edge-shattered-planet",
+    "label": "Space Route From Solar System Edge To Shattered Planet",
+    "inputs": [],
+    "products": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
+      "oxide-asteroid-chunk",
+      "promethium-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "solar-system-edge",
+    "label": "Solar System Edge",
+    "inputs": [],
+    "products": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
+      "oxide-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "shattered-planet",
+    "label": "Shattered Planet",
+    "inputs": [],
+    "products": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
+      "oxide-asteroid-chunk",
+      "promethium-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "nauvis",
+    "label": "Nauvis",
+    "inputs": [],
+    "products": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
+      "oxide-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "vulcanus",
+    "label": "Vulcanus",
+    "inputs": [],
+    "products": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
+      "oxide-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "gleba",
+    "label": "Gleba",
+    "inputs": [],
+    "products": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
+      "oxide-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "fulgora",
+    "label": "Fulgora",
+    "inputs": [],
+    "products": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
+      "oxide-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "aquilo",
+    "label": "Aquilo",
+    "inputs": [],
+    "products": [
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk",
+      "oxide-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "carbonic-asteroid-reprocessing",
+    "label": "Carbonic Asteroid Reprocessing",
+    "inputs": [
+      "carbonic-asteroid-chunk"
+    ],
+    "products": [
+      "carbonic-asteroid-chunk",
+      "metallic-asteroid-chunk",
+      "oxide-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "oxide-asteroid-reprocessing",
+    "label": "Oxide Asteroid Reprocessing",
+    "inputs": [
+      "oxide-asteroid-chunk"
+    ],
+    "products": [
+      "oxide-asteroid-chunk",
+      "metallic-asteroid-chunk",
+      "carbonic-asteroid-chunk"
+    ]
+  },
+  {
+    "id": "promethium-asteroid-chunk-default",
     "label": "Promethium Asteroid Chunk",
     "inputs": [],
     "products": [
@@ -3767,7 +3865,7 @@
     ]
   },
   {
-    "id": "water",
+    "id": "water-default",
     "label": "Water",
     "inputs": [],
     "products": [
@@ -3775,8 +3873,8 @@
     ]
   },
   {
-    "id": "water-steam-condensation",
-    "label": "Water (Steam Condensation)",
+    "id": "steam-condensation",
+    "label": "Steam Condensation",
     "inputs": [
       "steam"
     ],
@@ -3785,8 +3883,8 @@
     ]
   },
   {
-    "id": "water-steam-condensation-steam-165",
-    "label": "Water (Steam Condensation)",
+    "id": "steam-condensation-steam-165",
+    "label": "Steam Condensation",
     "inputs": [
       "steam-165"
     ],
@@ -3795,8 +3893,8 @@
     ]
   },
   {
-    "id": "water-ice-melting",
-    "label": "Water (Ice Melting)",
+    "id": "ice-melting",
+    "label": "Ice Melting",
     "inputs": [
       "ice"
     ],
@@ -3805,8 +3903,8 @@
     ]
   },
   {
-    "id": "steam",
-    "label": "Steam (500°C)",
+    "id": "acid-neutralisation",
+    "label": "Acid Neutralisation",
     "inputs": [
       "calcite",
       "sulfuric-acid"
@@ -3816,8 +3914,8 @@
     ]
   },
   {
-    "id": "steam-heat-exchanger-steam-boil",
-    "label": "Steam (500°C) (Heat Exchanger : Steam)",
+    "id": "heat-exchanger-steam-boil",
+    "label": "Heat Exchanger : Steam",
     "inputs": [
       "water"
     ],
@@ -3826,8 +3924,8 @@
     ]
   },
   {
-    "id": "steam-165",
-    "label": "Steam (165°C)",
+    "id": "steam",
+    "label": "Boiler : Steam",
     "inputs": [
       "water"
     ],
@@ -3836,7 +3934,7 @@
     ]
   },
   {
-    "id": "crude-oil",
+    "id": "crude-oil-default",
     "label": "Crude Oil",
     "inputs": [],
     "products": [
@@ -3844,8 +3942,8 @@
     ]
   },
   {
-    "id": "petroleum-gas",
-    "label": "Petroleum Gas",
+    "id": "basic-oil-processing",
+    "label": "Basic Oil Processing",
     "inputs": [
       "crude-oil"
     ],
@@ -3854,43 +3952,8 @@
     ]
   },
   {
-    "id": "petroleum-gas-advanced-oil-processing",
-    "label": "Petroleum Gas (Advanced Oil Processing)",
-    "inputs": [
-      "water",
-      "crude-oil"
-    ],
-    "products": [
-      "petroleum-gas"
-    ]
-  },
-  {
-    "id": "petroleum-gas-coal-liquefaction",
-    "label": "Petroleum Gas (Coal Liquefaction)",
-    "inputs": [
-      "coal",
-      "heavy-oil",
-      "steam"
-    ],
-    "products": [
-      "petroleum-gas"
-    ]
-  },
-  {
-    "id": "petroleum-gas-coal-liquefaction-steam-165",
-    "label": "Petroleum Gas (Coal Liquefaction)",
-    "inputs": [
-      "coal",
-      "heavy-oil",
-      "steam-165"
-    ],
-    "products": [
-      "petroleum-gas"
-    ]
-  },
-  {
-    "id": "petroleum-gas-light-oil-cracking",
-    "label": "Petroleum Gas (Light Oil Cracking To Petroleum Gas)",
+    "id": "light-oil-cracking",
+    "label": "Light Oil Cracking To Petroleum Gas",
     "inputs": [
       "water",
       "light-oil"
@@ -3900,43 +3963,8 @@
     ]
   },
   {
-    "id": "light-oil-advanced-oil-processing",
-    "label": "Light Oil (Advanced Oil Processing)",
-    "inputs": [
-      "water",
-      "crude-oil"
-    ],
-    "products": [
-      "light-oil"
-    ]
-  },
-  {
-    "id": "light-oil-coal-liquefaction",
-    "label": "Light Oil (Coal Liquefaction)",
-    "inputs": [
-      "coal",
-      "heavy-oil",
-      "steam"
-    ],
-    "products": [
-      "light-oil"
-    ]
-  },
-  {
-    "id": "light-oil-coal-liquefaction-steam-165",
-    "label": "Light Oil (Coal Liquefaction)",
-    "inputs": [
-      "coal",
-      "heavy-oil",
-      "steam-165"
-    ],
-    "products": [
-      "light-oil"
-    ]
-  },
-  {
-    "id": "light-oil",
-    "label": "Light Oil",
+    "id": "heavy-oil-cracking",
+    "label": "Heavy Oil Cracking To Light Oil",
     "inputs": [
       "water",
       "heavy-oil"
@@ -3946,7 +3974,7 @@
     ]
   },
   {
-    "id": "heavy-oil",
+    "id": "heavy-oil-default",
     "label": "Heavy Oil",
     "inputs": [],
     "products": [
@@ -3954,19 +3982,21 @@
     ]
   },
   {
-    "id": "heavy-oil-advanced-oil-processing",
-    "label": "Heavy Oil (Advanced Oil Processing)",
+    "id": "advanced-oil-processing",
+    "label": "Advanced Oil Processing",
     "inputs": [
       "water",
       "crude-oil"
     ],
     "products": [
-      "heavy-oil"
+      "heavy-oil",
+      "light-oil",
+      "petroleum-gas"
     ]
   },
   {
-    "id": "heavy-oil-simple-coal-liquefaction",
-    "label": "Heavy Oil (Simple Coal Liquefaction)",
+    "id": "simple-coal-liquefaction",
+    "label": "Simple Coal Liquefaction",
     "inputs": [
       "coal",
       "calcite",
@@ -3977,27 +4007,31 @@
     ]
   },
   {
-    "id": "heavy-oil-coal-liquefaction",
-    "label": "Heavy Oil (Coal Liquefaction)",
+    "id": "coal-liquefaction",
+    "label": "Coal Liquefaction",
     "inputs": [
       "coal",
       "heavy-oil",
       "steam"
     ],
     "products": [
-      "heavy-oil"
+      "heavy-oil",
+      "light-oil",
+      "petroleum-gas"
     ]
   },
   {
-    "id": "heavy-oil-coal-liquefaction-steam-165",
-    "label": "Heavy Oil (Coal Liquefaction)",
+    "id": "coal-liquefaction-steam-165",
+    "label": "Coal Liquefaction",
     "inputs": [
       "coal",
       "heavy-oil",
       "steam-165"
     ],
     "products": [
-      "heavy-oil"
+      "heavy-oil",
+      "light-oil",
+      "petroleum-gas"
     ]
   },
   {
@@ -4011,8 +4045,8 @@
     ]
   },
   {
-    "id": "lubricant-biolubricant",
-    "label": "Lubricant (Biolubricant)",
+    "id": "biolubricant",
+    "label": "Biolubricant",
     "inputs": [
       "jelly"
     ],
@@ -4021,7 +4055,7 @@
     ]
   },
   {
-    "id": "sulfuric-acid",
+    "id": "sulfuric-acid-default",
     "label": "Sulfuric Acid",
     "inputs": [],
     "products": [
@@ -4029,7 +4063,7 @@
     ]
   },
   {
-    "id": "sulfuric-acid-sulfuric-acid",
+    "id": "sulfuric-acid",
     "label": "Sulfuric Acid",
     "inputs": [
       "sulfur",
@@ -4052,8 +4086,8 @@
     ]
   },
   {
-    "id": "thruster-fuel-advanced-thruster-fuel",
-    "label": "Thruster Fuel (Advanced Thruster Fuel)",
+    "id": "advanced-thruster-fuel",
+    "label": "Advanced Thruster Fuel",
     "inputs": [
       "carbon",
       "calcite",
@@ -4075,8 +4109,8 @@
     ]
   },
   {
-    "id": "thruster-oxidizer-advanced-thruster-oxidizer",
-    "label": "Thruster Oxidizer (Advanced Thruster Oxidizer)",
+    "id": "advanced-thruster-oxidizer",
+    "label": "Advanced Thruster Oxidizer",
     "inputs": [
       "iron-ore",
       "calcite",
@@ -4087,22 +4121,11 @@
     ]
   },
   {
-    "id": "lava",
+    "id": "lava-default",
     "label": "Lava",
     "inputs": [],
     "products": [
       "lava"
-    ]
-  },
-  {
-    "id": "molten-iron-molten-iron-from-lava",
-    "label": "Molten Iron (Molten Iron From Lava)",
-    "inputs": [
-      "lava",
-      "calcite"
-    ],
-    "products": [
-      "molten-iron"
     ]
   },
   {
@@ -4117,14 +4140,15 @@
     ]
   },
   {
-    "id": "molten-copper-molten-copper-from-lava",
-    "label": "Molten Copper (Molten Copper From Lava)",
+    "id": "molten-iron-from-lava",
+    "label": "Molten Iron From Lava",
     "inputs": [
       "lava",
       "calcite"
     ],
     "products": [
-      "molten-copper"
+      "molten-iron",
+      "stone"
     ]
   },
   {
@@ -4136,6 +4160,18 @@
     ],
     "products": [
       "molten-copper"
+    ]
+  },
+  {
+    "id": "molten-copper-from-lava",
+    "label": "Molten Copper From Lava",
+    "inputs": [
+      "lava",
+      "calcite"
+    ],
+    "products": [
+      "molten-copper",
+      "stone"
     ]
   },
   {
@@ -4163,7 +4199,7 @@
     ]
   },
   {
-    "id": "ammoniacal-solution",
+    "id": "ammoniacal-solution-default",
     "label": "Ammoniacal Solution",
     "inputs": [],
     "products": [
@@ -4171,17 +4207,15 @@
     ]
   },
   {
-    "id": "ammonia",
+    "id": "ammonia-default",
     "label": "Ammonia",
-    "inputs": [
-      "ammoniacal-solution"
-    ],
+    "inputs": [],
     "products": [
       "ammonia"
     ]
   },
   {
-    "id": "fluorine",
+    "id": "fluorine-default",
     "label": "Fluorine",
     "inputs": [],
     "products": [
@@ -4189,8 +4223,8 @@
     ]
   },
   {
-    "id": "fluoroketone-hot",
-    "label": "Fluoroketone (Hot)",
+    "id": "fluoroketone",
+    "label": "Fluoroketone",
     "inputs": [
       "fluorine",
       "ammonia",
@@ -4202,8 +4236,8 @@
     ]
   },
   {
-    "id": "fluoroketone-cold",
-    "label": "Fluoroketone (Cold)",
+    "id": "fluoroketone-cooling",
+    "label": "Cooling Hot Fluoroketone",
     "inputs": [
       "fluoroketone-hot"
     ],
@@ -4212,7 +4246,7 @@
     ]
   },
   {
-    "id": "lithium-brine",
+    "id": "lithium-brine-default",
     "label": "Lithium Brine",
     "inputs": [],
     "products": [
@@ -4220,7 +4254,7 @@
     ]
   },
   {
-    "id": "steam-power",
+    "id": "steam-power-default",
     "label": "Steam Power",
     "inputs": [],
     "products": [
@@ -4228,7 +4262,7 @@
     ]
   },
   {
-    "id": "electronics",
+    "id": "electronics-default",
     "label": "Electronics",
     "inputs": [],
     "products": [
@@ -4236,7 +4270,7 @@
     ]
   },
   {
-    "id": "automation-science-pack-technology",
+    "id": "automation-science-pack-technology-default",
     "label": "Automation Science Pack",
     "inputs": [],
     "products": [
@@ -4244,7 +4278,7 @@
     ]
   },
   {
-    "id": "steel-axe",
+    "id": "steel-axe-default",
     "label": "Steel Axe",
     "inputs": [],
     "products": [
@@ -4252,7 +4286,7 @@
     ]
   },
   {
-    "id": "space-science-pack-technology",
+    "id": "space-science-pack-technology-default",
     "label": "Space Science Pack",
     "inputs": [],
     "products": [
@@ -4260,7 +4294,7 @@
     ]
   },
   {
-    "id": "oil-processing",
+    "id": "oil-processing-default",
     "label": "Oil Processing",
     "inputs": [],
     "products": [
@@ -4268,7 +4302,7 @@
     ]
   },
   {
-    "id": "uranium-processing-technology",
+    "id": "uranium-processing-technology-default",
     "label": "Uranium Processing",
     "inputs": [],
     "products": [
@@ -4276,7 +4310,7 @@
     ]
   },
   {
-    "id": "recycling",
+    "id": "recycling-default",
     "label": "Recycling",
     "inputs": [],
     "products": [
@@ -4284,7 +4318,7 @@
     ]
   },
   {
-    "id": "space-platform",
+    "id": "space-platform-default",
     "label": "Space Platform",
     "inputs": [],
     "products": [
@@ -4292,7 +4326,7 @@
     ]
   },
   {
-    "id": "calcite-processing",
+    "id": "calcite-processing-default",
     "label": "Calcite Processing",
     "inputs": [],
     "products": [
@@ -4300,7 +4334,7 @@
     ]
   },
   {
-    "id": "tungsten-carbide-technology",
+    "id": "tungsten-carbide-technology-default",
     "label": "Tungsten Carbide",
     "inputs": [],
     "products": [
@@ -4308,7 +4342,7 @@
     ]
   },
   {
-    "id": "big-mining-drill-technology",
+    "id": "big-mining-drill-technology-default",
     "label": "Big Mining Drill",
     "inputs": [],
     "products": [
@@ -4316,7 +4350,7 @@
     ]
   },
   {
-    "id": "foundry-technology",
+    "id": "foundry-technology-default",
     "label": "Foundry",
     "inputs": [],
     "products": [
@@ -4324,7 +4358,7 @@
     ]
   },
   {
-    "id": "tungsten-steel",
+    "id": "tungsten-steel-default",
     "label": "Tungsten Steel",
     "inputs": [],
     "products": [
@@ -4332,7 +4366,7 @@
     ]
   },
   {
-    "id": "metallurgic-science-pack-technology",
+    "id": "metallurgic-science-pack-technology-default",
     "label": "Metallurgic Science Pack",
     "inputs": [],
     "products": [
@@ -4340,7 +4374,7 @@
     ]
   },
   {
-    "id": "agriculture",
+    "id": "agriculture-default",
     "label": "Agriculture",
     "inputs": [],
     "products": [
@@ -4348,7 +4382,7 @@
     ]
   },
   {
-    "id": "yumako-technology",
+    "id": "yumako-technology-default",
     "label": "Yumako",
     "inputs": [],
     "products": [
@@ -4356,7 +4390,7 @@
     ]
   },
   {
-    "id": "biochamber-technology",
+    "id": "biochamber-technology-default",
     "label": "Biochamber",
     "inputs": [],
     "products": [
@@ -4364,7 +4398,7 @@
     ]
   },
   {
-    "id": "jellynut-technology",
+    "id": "jellynut-technology-default",
     "label": "Jellynut",
     "inputs": [],
     "products": [
@@ -4372,7 +4406,7 @@
     ]
   },
   {
-    "id": "bioflux-technology",
+    "id": "bioflux-technology-default",
     "label": "Bioflux",
     "inputs": [],
     "products": [
@@ -4380,7 +4414,7 @@
     ]
   },
   {
-    "id": "artificial-soil",
+    "id": "artificial-soil-default",
     "label": "Artificial Soil",
     "inputs": [],
     "products": [
@@ -4388,7 +4422,7 @@
     ]
   },
   {
-    "id": "bacteria-cultivation",
+    "id": "bacteria-cultivation-default",
     "label": "Bacteria Cultivation",
     "inputs": [],
     "products": [
@@ -4396,7 +4430,7 @@
     ]
   },
   {
-    "id": "bioflux-processing",
+    "id": "bioflux-processing-default",
     "label": "Bioflux Processing",
     "inputs": [],
     "products": [
@@ -4404,7 +4438,7 @@
     ]
   },
   {
-    "id": "agricultural-science-pack-technology",
+    "id": "agricultural-science-pack-technology-default",
     "label": "Agricultural Science Pack",
     "inputs": [],
     "products": [
@@ -4412,7 +4446,7 @@
     ]
   },
   {
-    "id": "biter-egg-handling",
+    "id": "biter-egg-handling-default",
     "label": "Biter Egg Handling",
     "inputs": [],
     "products": [
@@ -4420,7 +4454,7 @@
     ]
   },
   {
-    "id": "holmium-processing",
+    "id": "holmium-processing-default",
     "label": "Holmium Processing",
     "inputs": [],
     "products": [
@@ -4428,7 +4462,7 @@
     ]
   },
   {
-    "id": "electromagnetic-plant-technology",
+    "id": "electromagnetic-plant-technology-default",
     "label": "Electromagnetic Plant",
     "inputs": [],
     "products": [
@@ -4436,7 +4470,7 @@
     ]
   },
   {
-    "id": "electromagnetic-science-pack-technology",
+    "id": "electromagnetic-science-pack-technology-default",
     "label": "Electromagnetic Science Pack",
     "inputs": [],
     "products": [
@@ -4444,7 +4478,7 @@
     ]
   },
   {
-    "id": "heating-tower-technology",
+    "id": "heating-tower-technology-default",
     "label": "Heating Tower",
     "inputs": [],
     "products": [
@@ -4452,7 +4486,7 @@
     ]
   },
   {
-    "id": "lithium-processing",
+    "id": "lithium-processing-default",
     "label": "Lithium Processing",
     "inputs": [],
     "products": [
@@ -4460,7 +4494,7 @@
     ]
   },
   {
-    "id": "cryogenic-plant-technology",
+    "id": "cryogenic-plant-technology-default",
     "label": "Cryogenic Plant",
     "inputs": [],
     "products": [
@@ -4468,7 +4502,7 @@
     ]
   },
   {
-    "id": "cryogenic-science-pack-technology",
+    "id": "cryogenic-science-pack-technology-default",
     "label": "Cryogenic Science Pack",
     "inputs": [],
     "products": [

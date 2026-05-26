@@ -8,6 +8,23 @@ export const BUBBLE_RADIUS = 36
 export const BUBBLE_OUTPUT_PORT_OFFSET = BUBBLE_RADIUS // right edge
 export const INPUT_PORT_RADIUS = 5
 
+/**
+ * How far an output tab's chevron tip extends past the rectangular tab edge.
+ * Shared by the renderer (BubbleLayer), hit-tester (hitTest), and solver
+ * (so output connectors originate at the visible chevron tip).
+ */
+export const OUTPUT_TAB_TIP_EXT = 8
+
+/**
+ * Compute the chevron-tip emit port for an output tab. The tip sits on the
+ * outer side of `box` (right tab → tip is to the right of the rectangle;
+ * left tab → tip is to the left).
+ */
+export function outputTabTip(box: { x: number; width: number; centerY: number; side: InputSide }): Point {
+  const x = box.side === 'right' ? box.x + box.width + OUTPUT_TAB_TIP_EXT : box.x - OUTPUT_TAB_TIP_EXT
+  return { x, y: box.centerY }
+}
+
 // --- Input box layout ---
 // Each recipe input is drawn as a rectangular tab on the left of the bubble.
 // Tabs stack vertically AND stagger further left with each index, so the

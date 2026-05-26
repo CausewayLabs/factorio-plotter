@@ -8,12 +8,12 @@
  * - Uses screen↔world transform from the viewport.
  */
 
-import type { Point } from '../scene/types'
+import type { Point, InputSlot, OutputSlot } from '../scene/types'
 import type { Bubble, Rail } from '../scene/types'
 import type { ViewportTransform } from '../scene/types'
 import { screenToWorld } from '../scene/viewport'
 import { nearestPointOnPolyline } from '../scene/geometry'
-import { BUBBLE_RADIUS, bubbleOutputPort } from '../scene/geometry'
+import { BUBBLE_RADIUS, bubbleInputBox } from '../scene/geometry'
 import { resolveRailPolyline } from '../scene/geometry'
 
 export interface HitResult {
@@ -125,32 +125,90 @@ export function hitTestRailEndpoint(
 }
 
 /**
- * Hit-test a screen point against bubble output ports (the branch-a-bus handle).
- * Returns the bubble id whose output dot is within threshold, or null. Checked
- * before the bubble body so dragging the dot pulls a bus while dragging the body
- * relocates the bubble.
+ * Hit-test a screen point against bubble output tabs (the per-product emit
+ * handles). Returns the specific bubble+product whose tab box contains the
+ * point, plus the tab's outer port (where the connector originates). Checked
+ * before the bubble body so dragging a tab emits its product onto a bus while
+ * dragging the body relocates the bubble.
  */
-const OUTPUT_PORT_HIT_THRESHOLD_SCREEN = 11 // pixels
+export interface OutputTabHit {
+  bubbleId: string
+  productId: string
+  port: Point
+}
 
-export function hitTestBubbleOutputPort(
+/** Must stay in sync with the chevron extent in BubbleLayer's output-tab render. */
+const OUTPUT_TAB_TIP_EXT = 8
+
+export function hitTestBubbleOutputTab(
   screenPt: Point,
   viewport: ViewportTransform,
-  bubbles: Record<string, Bubble>
-): string | null {
+  bubbles: Record<string, Bubble>,
+  outputLayouts: Record<string, OutputSlot[]>
+): OutputTabHit | null {
   const worldPt = screenToWorld(screenPt, viewport)
-  const thresholdWorld = OUTPUT_PORT_HIT_THRESHOLD_SCREEN / viewport.zoom
-  const tSq = thresholdWorld * thresholdWorld
-  let best: string | null = null
-  let bestDistSq = tSq
   for (const bubble of Object.values(bubbles)) {
-    const port = bubbleOutputPort(bubble.position)
-    const dx = worldPt.x - port.x
-    const dy = worldPt.y - port.y
-    const distSq = dx * dx + dy * dy
-    if (distSq < bestDistSq) {
-      bestDistSq = distSq
-      best = bubble.id
+    const slots = outputLayouts[bubble.id]
+    if (!slots || slots.length === 0) continue
+    for (const slot of slots) {
+      const box = bubbleInputBox(bubble.position, slot.side, slot.sideIndex, slot.sideTotal)
+      // Expand bbox by the chevron tip extension on the outer side so the
+      // pentagon's pointed tip is hittable.
+      const left = slot.side === 'right' ? box.x : box.x - OUTPUT_TAB_TIP_EXT
+      const right = slot.side === 'right' ? box.x + box.width + OUTPUT_TAB_TIP_EXT : box.x + box.width
+      if (
+        worldPt.x >= left &&
+        worldPt.x <= right &&
+        worldPt.y >= box.y &&
+        worldPt.y <= box.y + box.height
+      ) {
+        // Tip of the chevron is the emit port (origin of the output connector).
+        const tipX =
+          slot.side === 'right' ? box.x + box.width + OUTPUT_TAB_TIP_EXT : box.x - OUTPUT_TAB_TIP_EXT
+        return {
+          bubbleId: bubble.id,
+          productId: slot.productId,
+          port: { x: tipX, y: box.centerY },
+        }
+      }
     }
   }
-  return best
+  return null
+}
+
+/**
+ * Hit-test against unsatisfied input tabs. Dragging from one of these is the
+ * "fill missing input" gesture: it spawns a producer bubble at the drop point.
+ * Satisfied input tabs are inert — the solver already wired them via a feeder.
+ */
+export interface InputTabHit {
+  bubbleId: string
+  resourceType: string
+  port: Point
+}
+
+export function hitTestUnsatisfiedInputTab(
+  screenPt: Point,
+  viewport: ViewportTransform,
+  bubbles: Record<string, Bubble>,
+  inputLayouts: Record<string, InputSlot[]>
+): InputTabHit | null {
+  const worldPt = screenToWorld(screenPt, viewport)
+  for (const bubble of Object.values(bubbles)) {
+    const slots = inputLayouts[bubble.id]
+    if (!slots || slots.length === 0) continue
+    for (const slot of slots) {
+      if (slot.satisfied) continue
+      const box = bubbleInputBox(bubble.position, slot.side, slot.sideIndex, slot.sideTotal)
+      if (
+        worldPt.x >= box.x &&
+        worldPt.x <= box.x + box.width &&
+        worldPt.y >= box.y &&
+        worldPt.y <= box.y + box.height
+      ) {
+        return { bubbleId: bubble.id, resourceType: slot.resourceType, port: box.port }
+      }
+    }
+  }
+  return null
 }

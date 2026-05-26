@@ -102,12 +102,31 @@ export type InputSide = 'left' | 'right'
 export interface InputSlot {
   resourceType: string
   side: InputSide
-  /** Index of this tab among tabs on the same side (0-based). */
+  /** Index of this tab among ALL tabs (inputs + outputs) on the same side (0-based). */
   sideIndex: number
-  /** Total number of tabs on this side. */
+  /** Total number of tabs on this side (inputs + outputs combined). */
   sideTotal: number
   /** False when no matching source exists (missing-requirement). */
   satisfied: boolean
+}
+
+/**
+ * Per-output layout slot, derived by the solver. Outputs share the side-slot
+ * pool with inputs — a tab is a tab, direction is just a flag — so they never
+ * collide on the same side. An output's side follows its bound rail's direction
+ * (mirror of how input side follows feeder direction); unbound outputs default
+ * to the right side.
+ */
+export interface OutputSlot {
+  /** The product id this output emits. */
+  productId: string
+  side: InputSide
+  /** Index of this tab among ALL tabs (inputs + outputs) on the same side. */
+  sideIndex: number
+  /** Total number of tabs on this side (inputs + outputs combined). */
+  sideTotal: number
+  /** True if this output is bound to a rail. */
+  isBound: boolean
 }
 
 /**

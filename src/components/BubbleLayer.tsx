@@ -1,5 +1,5 @@
-import type { Bubble, InputSide } from '../scene/types'
-import { BUBBLE_RADIUS, bubbleInputBox, bubbleOutputPort, assignSideIndices } from '../scene/geometry'
+import type { Bubble, InputSide, OutputSlot } from '../scene/types'
+import { BUBBLE_RADIUS, bubbleInputBox, assignSideIndices } from '../scene/geometry'
 import { getResourceColor } from '../scene/colors'
 import { useRecipeStore } from '../recipes/store'
 import { useSceneStore } from '../scene/store'
@@ -40,6 +40,7 @@ export default function BubbleLayer({ bubbles }: Props) {
   const getRecipeById = useRecipeStore(s => s.getRecipeById)
   const missingInputs = useSceneStore(s => s.missingInputs)
   const inputLayouts = useSceneStore(s => s.inputLayouts)
+  const outputLayouts = useSceneStore(s => s.outputLayouts)
 
   return (
     <g className="bubble-layer">
@@ -77,9 +78,9 @@ export default function BubbleLayer({ bubbles }: Props) {
             key={bubble.id}
             bubble={bubble}
             inputs={inputDescs}
+            outputs={outputLayouts[bubble.id] ?? []}
             label={label}
             primaryProduct={primaryProduct}
-            outputProducts={recipe?.products ?? []}
             hasMissing={hasMissing}
           />
         )
@@ -91,18 +92,17 @@ export default function BubbleLayer({ bubbles }: Props) {
 interface BubbleNodeProps {
   bubble: Bubble
   inputs: InputDesc[]
+  outputs: OutputSlot[]
   label: string
   primaryProduct: string
-  outputProducts: string[]
   hasMissing: boolean
 }
 
 const UNSAT_COLOR = '#e0556a'
 
-function BubbleNode({ bubble, inputs, label, primaryProduct, outputProducts, hasMissing }: BubbleNodeProps) {
+function BubbleNode({ bubble, inputs, outputs, label, primaryProduct, hasMissing }: BubbleNodeProps) {
   const cx = bubble.position.x
   const cy = bubble.position.y
-  const outputPort = bubbleOutputPort(bubble.position)
   const primaryColor = getResourceColor(primaryProduct)
 
   return (
@@ -133,24 +133,68 @@ function BubbleNode({ bubble, inputs, label, primaryProduct, outputProducts, has
         {label.length > 16 ? label.slice(0, 14) + '…' : label}
       </text>
 
-      {/* Output slots — one dot per product in the recipe */}
-      {outputProducts.map((productId, i) => {
-        const isBound = (bubble.outputBindings[productId] ?? null) !== null
-        const slotColor = getResourceColor(productId)
-        // Stack slots vertically around the output port
-        const slotOffset = (i - (outputProducts.length - 1) / 2) * 12
-        const slotY = outputPort.y + slotOffset
+      {/* Output tabs — mirror of input tabs. Each tab is a draggable handle:
+          drag it to bind that specific product to a bus. Bound = filled; unbound = hollow. */}
+      {outputs.map((slot) => {
+        const box = bubbleInputBox(bubble.position, slot.side, slot.sideIndex, slot.sideTotal)
+        const color = getResourceColor(slot.productId)
+        const productLabel = prettify(slot.productId)
+        const dy = box.centerY - cy
+        const onRim = Math.abs(dy) < BUBBLE_RADIUS
+        const rim = onRim ? Math.sqrt(BUBBLE_RADIUS * BUBBLE_RADIUS - dy * dy) : 4
+        const arcX = slot.side === 'left' ? cx - rim : cx + rim
+        const dim = bubble.isPrivate
+        const stroke = dim ? '#808080' : color
+        const fillCol = dim ? '#606060' : color
         return (
-          <g key={productId}>
-            <title>{productId}{isBound ? ' (bound)' : ' (unbound)'}</title>
-            <circle
-              cx={outputPort.x}
-              cy={slotY}
-              r={5}
-              fill={bubble.isPrivate ? '#606060' : isBound ? slotColor : '#1a1a2e'}
-              stroke={bubble.isPrivate ? '#808080' : slotColor}
-              strokeWidth={1.5}
+          <g key={slot.productId}>
+            <title>
+              {productLabel} — output{slot.isBound ? ' (bound)' : ' (unbound — drag to bind)'}
+            </title>
+            {/* connector from the bubble to the tab's inner edge (mirror of input connector) */}
+            <line
+              x1={box.innerX} y1={box.centerY} x2={arcX} y2={box.centerY}
+              stroke={stroke} strokeWidth={1.5} opacity={0.85}
             />
+            {/* Output tab — pentagon (rectangle + outward-pointing chevron on the
+                outer edge). Silhouette alone differentiates from rectangular input
+                tabs. The chevron tip IS the emit port (origin of the output connector). */}
+            {(() => {
+              const tipExt = 8 // how far the chevron extends past the rectangular edge
+              const innerLeft = box.x
+              const innerRight = box.x + box.width
+              const top = box.y
+              const bot = box.y + box.height
+              const my = box.centerY
+              const tipX = slot.side === 'right' ? innerRight + tipExt : innerLeft - tipExt
+              const flatX = slot.side === 'right' ? innerRight : innerLeft
+              const oppX = slot.side === 'right' ? innerLeft : innerRight
+              const pts =
+                slot.side === 'right'
+                  ? `${oppX},${top} ${flatX},${top} ${tipX},${my} ${flatX},${bot} ${oppX},${bot}`
+                  : `${oppX},${top} ${flatX},${top} ${tipX},${my} ${flatX},${bot} ${oppX},${bot}`
+              return (
+                <polygon
+                  points={pts}
+                  fill={slot.isBound ? fillCol : '#16213e'}
+                  fillOpacity={slot.isBound ? 0.32 : 1}
+                  stroke={stroke}
+                  strokeWidth={1.5}
+                />
+              )
+            })()}
+            {/* product name */}
+            <text
+              x={slot.side === 'left' ? box.x + box.width - 8 : box.x + 8}
+              y={box.centerY}
+              textAnchor={slot.side === 'left' ? 'end' : 'start'}
+              dominantBaseline="middle"
+              fontSize={9.5}
+              fill="#e8ecff"
+              style={{ userSelect: 'none', pointerEvents: 'none' }}
+            >
+              {fitLabel(productLabel, box.width)}
+            </text>
           </g>
         )
       })}
@@ -158,8 +202,9 @@ function BubbleNode({ bubble, inputs, label, primaryProduct, outputProducts, has
       {/* Private indicator */}
       {bubble.isPrivate && (
         <text
-          x={outputPort.x + 8}
-          y={outputPort.y + 4}
+          x={cx}
+          y={cy + BUBBLE_RADIUS - 4}
+          textAnchor="middle"
           fontSize={9}
           fill="#808080"
           style={{ userSelect: 'none', pointerEvents: 'none' }}

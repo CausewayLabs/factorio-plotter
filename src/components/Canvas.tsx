@@ -1,8 +1,8 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { useSceneStore, selectBubbleArray, selectRailArray, selectFeeders, selectViewport, generateId } from '../scene/store'
 import { screenToWorld, clampZoom } from '../scene/viewport'
-import { hitTest, hitTestRailEndpoint, hitTestBubbleOutputPort } from '../editing/hitTest'
-import { BUBBLE_RADIUS, resolveRailPolyline, bubbleOutputPort, orthogonalConnector } from '../scene/geometry'
+import { hitTest, hitTestRailEndpoint, hitTestBubbleOutputTab, hitTestUnsatisfiedInputTab } from '../editing/hitTest'
+import { BUBBLE_RADIUS, resolveRailPolyline, orthogonalConnector } from '../scene/geometry'
 import { useRecipeStore } from '../recipes/store'
 import { useEditingStore } from '../editing/store'
 import { autosave } from '../editing/persistence'
@@ -104,11 +104,30 @@ export default function Canvas() {
    */
   const outputDrag = useRef<{
     bubbleId: string
+    productId: string
     startPort: Point
     endWorld: Point
     downClient: { x: number; y: number }
     moved: boolean
   } | null>(null)
+  /**
+   * Active "fill a missing input" drag: started by pressing an unsatisfied input
+   * tab. On release in empty space, resolve a recipe producing the needed
+   * product and spawn a producer bubble at the drop point. The new bubble's
+   * outputs stay unbound — the solver wires the original consumer via the
+   * existing bubble-as-feeder-source path.
+   */
+  const inputFillDrag = useRef<{
+    bubbleId: string
+    resourceType: string
+    startPort: Point
+    endWorld: Point
+    downClient: { x: number; y: number }
+    moved: boolean
+  } | null>(null)
+
+  const outputLayouts = useSceneStore(s => s.outputLayouts)
+  const inputLayouts = useSceneStore(s => s.inputLayouts)
 
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null)
   const [quickAdd, setQuickAdd] = useState<QuickAddState | null>(null)
@@ -148,6 +167,7 @@ export default function Canvas() {
   }, [viewport, bubblesMap, railsMap])
 
   const getRecipeById = useRecipeStore(s => s.getRecipeById)
+  const getRecipesForProduct = useRecipeStore(s => s.getRecipesForProduct)
 
   // --- Mouse down ---
   const onMouseDown = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
@@ -161,15 +181,27 @@ export default function Canvas() {
 
     if (tool === 'select') {
       if (e.button === 0) {
-        // Output-port handle takes top priority: dragging the bubble's output dot
-        // emits its output onto a bus; dragging the bubble body (below) relocates it.
-        const portBubbleId = hitTestBubbleOutputPort(screenPt, viewport, bubblesMap)
-        if (portBubbleId) {
-          const b = bubblesMap[portBubbleId]
-          const startPort = bubbleOutputPort(b.position)
+        // Output-tab handle takes top priority: dragging a bubble's output tab
+        // emits THAT product onto a bus; dragging the bubble body (below) relocates it.
+        const tabHit = hitTestBubbleOutputTab(screenPt, viewport, bubblesMap, outputLayouts)
+        if (tabHit) {
           outputDrag.current = {
-            bubbleId: portBubbleId,
-            startPort,
+            bubbleId: tabHit.bubbleId,
+            productId: tabHit.productId,
+            startPort: tabHit.port,
+            endWorld: worldPt,
+            downClient: { x: e.clientX, y: e.clientY },
+            moved: false,
+          }
+          return
+        }
+        // Unsatisfied input tab: drag-to-empty-space spawns a producer bubble.
+        const inputHit = hitTestUnsatisfiedInputTab(screenPt, viewport, bubblesMap, inputLayouts)
+        if (inputHit) {
+          inputFillDrag.current = {
+            bubbleId: inputHit.bubbleId,
+            resourceType: inputHit.resourceType,
+            startPort: inputHit.port,
             endWorld: worldPt,
             downClient: { x: e.clientX, y: e.clientY },
             moved: false,
@@ -316,6 +348,16 @@ export default function Canvas() {
       return
     }
 
+    // --- Fill-input drag (select mode): pulling out from an unsatisfied input ---
+    if (inputFillDrag.current) {
+      const drag = inputFillDrag.current
+      drag.endWorld = worldPt
+      const dxClient = e.clientX - drag.downClient.x
+      const dyClient = e.clientY - drag.downClient.y
+      if (!drag.moved && Math.abs(dxClient) + Math.abs(dyClient) > 3) drag.moved = true
+      return
+    }
+
     // --- Rail drag (select mode): stretch an endpoint or relocate the rail ---
     if (railDrag.current) {
       const drag = railDrag.current
@@ -372,7 +414,9 @@ export default function Canvas() {
     // Hover affordance (select mode, idle): output port → branch-bus cursor,
     // endpoint handle → resize, rail body → move.
     if (tool === 'select') {
-      if (hitTestBubbleOutputPort(screenPt, viewport, bubblesMap)) {
+      if (hitTestBubbleOutputTab(screenPt, viewport, bubblesMap, outputLayouts)) {
+        setHoverMode('port')
+      } else if (hitTestUnsatisfiedInputTab(screenPt, viewport, bubblesMap, inputLayouts)) {
         setHoverMode('port')
       } else if (hitTestRailEndpoint(screenPt, viewport, railsMap)) {
         setHoverMode('endpoint')
@@ -399,36 +443,51 @@ export default function Canvas() {
     if (emit && emit.moved) {
       const b = bubblesMap[emit.bubbleId]
       if (b) {
-        // Determine which product to bind: use the first unbound product in outputBindings.
-        // (The drag gesture always emits the "next available" output slot.)
-        const recipe = getRecipeById(b.recipeId)
-        const unboundProduct = recipe?.products.find(p => b.outputBindings[p] === null) ?? recipe?.products[0]
-        if (unboundProduct) {
-          // Did we drop on an existing rail? (Convert the release world point back
-          // to screen for hit-testing.) Rail hit → bind to it; else create a bus.
-          const dropScreen = worldToScreen(emit.endWorld, viewport)
-          const hit = hitTest(dropScreen, viewport, bubblesMap, railsMap)
-          if (hit?.kind === 'rail') {
-            // setOutputBinding handles adding the product to rail.resourceTypes
-            setOutputBinding(b.id, unboundProduct, hit.id)
-            autosave(bubblesMap, railsMap)
-          } else {
-            // Empty space → create a new single-resource bus starting at the output
-            // port (so the derived connector is degenerate until things move).
-            const end = orthoSnap(emit.startPort, emit.endWorld)
-            const rail: Rail = {
-              id: generateId(),
-              resourceTypes: [unboundProduct],
-              label: undefined,
-              points: [emit.startPort, end],
-              isSupply: true,
-              parametricOrigin: null,
-            }
-            addRail(rail)
-            setOutputBinding(b.id, unboundProduct, rail.id)
-            autosave(bubblesMap, railsMap)
+        // The dragged tab carries its own productId — bind THAT product specifically.
+        const product = emit.productId
+        // Did we drop on an existing rail? Rail hit → bind to it; else create a bus.
+        const dropScreen = worldToScreen(emit.endWorld, viewport)
+        const hit = hitTest(dropScreen, viewport, bubblesMap, railsMap)
+        if (hit?.kind === 'rail') {
+          setOutputBinding(b.id, product, hit.id)
+          autosave(bubblesMap, railsMap)
+        } else {
+          // Empty space → create a new single-resource bus starting at the tab port.
+          const end = orthoSnap(emit.startPort, emit.endWorld)
+          const rail: Rail = {
+            id: generateId(),
+            resourceTypes: [product],
+            label: undefined,
+            points: [emit.startPort, end],
+            isSupply: true,
+            parametricOrigin: null,
           }
+          addRail(rail)
+          setOutputBinding(b.id, product, rail.id)
+          autosave(bubblesMap, railsMap)
         }
+      }
+    }
+
+    // Finish a fill-input drag: spawn a producer bubble at the drop point.
+    const fill = inputFillDrag.current
+    inputFillDrag.current = null
+    if (fill) setMousePosWorld(p => (p ? { ...p } : p))
+    if (fill && fill.moved) {
+      const recipes = getRecipesForProduct(fill.resourceType)
+      if (recipes.length > 0) {
+        const recipe = recipes[0]
+        const outputBindings: Record<string, string | null> = {}
+        for (const p of recipe.products) outputBindings[p] = null
+        const bubble: Bubble = {
+          id: generateId(),
+          position: fill.endWorld,
+          recipeId: recipe.id,
+          isPrivate: false,
+          outputBindings,
+        }
+        addBubble(bubble)
+        autosave({ ...bubblesMap, [bubble.id]: bubble }, railsMap)
       }
     }
 
@@ -473,6 +532,7 @@ export default function Canvas() {
     tool === 'fork-rail' ? 'crosshair' :
     isDraggingBubble.current ? 'grabbing' :
     outputDrag.current ? 'crosshair' :
+    inputFillDrag.current ? 'crosshair' :
     hoverMode === 'port' ? 'crosshair' :
     hoverMode === 'endpoint' ? 'crosshair' :
     hoverMode === 'rail' ? 'move' : 'grab'
@@ -521,6 +581,22 @@ export default function Canvas() {
                 .map(p => `${p.x},${p.y}`)
                 .join(' ')}
               fill="none"
+              stroke="#4a9eff"
+              strokeWidth={3}
+              strokeDasharray="6,4"
+              opacity={0.6}
+              style={{ pointerEvents: 'none' }}
+            />
+          )}
+
+          {/* Fill-input preview: straight line from the input port to the cursor
+              (matches the direct feeder visual that will appear on drop). */}
+          {inputFillDrag.current && mousePosWorld && (
+            <line
+              x1={inputFillDrag.current.startPort.x}
+              y1={inputFillDrag.current.startPort.y}
+              x2={mousePosWorld.x}
+              y2={mousePosWorld.y}
               stroke="#4a9eff"
               strokeWidth={3}
               strokeDasharray="6,4"

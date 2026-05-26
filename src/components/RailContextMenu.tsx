@@ -48,8 +48,10 @@ export default function RailContextMenu({ rail, screenPos, nearestT, onClose }: 
   }
 
   function handleFork() {
-    setForkTarget({ railId: liveRail.id, t: nearestT })
+    // Order matters: setTool() resets editing state to defaults (clearing
+    // forkTarget), so set the tool FIRST and the fork target SECOND.
     setTool('fork-rail')
+    setForkTarget({ railId: liveRail.id, t: nearestT })
     onClose()
   }
 

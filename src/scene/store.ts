@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { Bubble, Feeder, InputSlot, OutputConnector, Point, Rail, ViewportTransform } from './types'
+import type { Bubble, Feeder, InputSlot, OutputConnector, OutputSlot, Point, Rail, ViewportTransform } from './types'
 
 // ============================================================
 // Store shape
@@ -27,6 +27,11 @@ export interface DerivedState {
    * the solver and read by the renderer so tab geometry matches feeder endpoints.
    */
   inputLayouts: Record<string, InputSlot[]>
+  /**
+   * Per-bubble output tab layout (side assignment + per-side indices). Outputs
+   * share the side-slot pool with inputs so they never collide on the same side.
+   */
+  outputLayouts: Record<string, OutputSlot[]>
 }
 
 export interface SceneStore extends AuthoredState, DerivedState {
@@ -59,7 +64,8 @@ export interface SceneStore extends AuthoredState, DerivedState {
     feeders: Feeder[],
     outputConnectors: OutputConnector[],
     missingInputs: Set<string>,
-    inputLayouts: Record<string, InputSlot[]>
+    inputLayouts: Record<string, InputSlot[]>,
+    outputLayouts: Record<string, OutputSlot[]>
   ) => void
 
   // --- Viewport ---
@@ -107,6 +113,7 @@ export const useSceneStore = create<SceneStore>()((set, _get) => ({
   outputConnectors: [],
   missingInputs: new Set<string>(),
   inputLayouts: {},
+  outputLayouts: {},
 
   // Initial viewport
   viewport: { zoom: 1, pan: { x: 0, y: 0 } },
@@ -280,8 +287,8 @@ export const useSceneStore = create<SceneStore>()((set, _get) => ({
 
   // --- Derived state ---
 
-  setFeeders(feeders, outputConnectors, missingInputs, inputLayouts) {
-    set(() => ({ feeders, outputConnectors, missingInputs, inputLayouts }))
+  setFeeders(feeders, outputConnectors, missingInputs, inputLayouts, outputLayouts) {
+    set(() => ({ feeders, outputConnectors, missingInputs, inputLayouts, outputLayouts }))
   },
 
   // --- Viewport ---

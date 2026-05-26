@@ -27,13 +27,13 @@ function runSolverRecompute(): void {
   const sceneState = useSceneStore.getState()
   const resolveRecipe = useRecipeStore.getState().resolveRecipe
 
-  const { feeders, outputConnectors, missingInputs, inputLayouts } = solveScene({
+  const { feeders, outputConnectors, missingInputs, inputLayouts, outputLayouts } = solveScene({
     bubbles: sceneState.bubbles,
     rails: sceneState.rails,
     resolveRecipe,
   })
 
-  sceneState.setFeeders(feeders, outputConnectors, missingInputs, inputLayouts)
+  sceneState.setFeeders(feeders, outputConnectors, missingInputs, inputLayouts, outputLayouts)
 }
 
 /**

@@ -46,7 +46,7 @@ export default function Toolbar() {
     // Clear existing
     Object.keys(bubbles).forEach(id => deleteBubble(id))
     Object.keys(rails).forEach(id => deleteRail(id))
-    setFeeders([], [], new Set(), {})
+    setFeeders([], [], new Set(), {}, {})
     // Load new
     data.bubbles.forEach(b => addBubble(b))
     data.rails.forEach(r => addRail(r))
@@ -62,7 +62,7 @@ export default function Toolbar() {
     if (!confirm('Clear the entire diagram?')) return
     Object.keys(bubbles).forEach(id => deleteBubble(id))
     Object.keys(rails).forEach(id => deleteRail(id))
-    setFeeders([], [], new Set(), {})
+    setFeeders([], [], new Set(), {}, {})
     reset()
   }
 
