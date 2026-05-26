@@ -3,33 +3,32 @@
 // ============================================================
 
 /**
- * A recipe variant defines one way to make a product.
- * Products may have multiple variants (e.g. "green circuit" with or without copper-wire step).
- * A product with empty inputs[] is a raw/leaf resource — nothing feeds it.
+ * A recipe is a first-class entity describing one production process.
+ * It has inputs and products of equal weight — there is no "main product."
+ * Raw/leaf resources are recipes with empty inputs[] and a single-element products[].
+ * The primary product (for color/label anchoring) is products[0] by convention.
  */
-export interface RecipeVariant {
-  /** The product this recipe produces */
-  product: string
-  /** Unique identifier for this variant within the product (e.g. "default", "flat") */
-  variantId: string
-  /** Human-readable label shown in dropdowns */
+export interface Recipe {
+  /** Kebab-case identifier derived from the recipe label (e.g. "iron-plate-smelting") */
+  id: string
+  /** Human-readable label shown in the UI */
   label: string
   /** Named resource types this recipe consumes. Empty = raw/leaf resource. */
   inputs: string[]
-  /** Whether this is the default variant when no explicit choice is made */
-  isDefault: boolean
+  /** Named resource types this recipe produces. At least one. products[0] is the primary product. */
+  products: string[]
 }
 
 /**
- * The full recipe catalog after merging bundled + user sets.
- * Keyed by product, then by variantId.
+ * The full recipe map after merging bundled + user sets.
+ * Keyed by recipe id (flat — not nested by product).
  */
-export type RecipeCatalog = Record<string, Record<string, RecipeVariant>>
+export type RecipeMap = Record<string, Recipe>
 
 /**
  * The user-authored recipe set (persisted cross-diagram to localStorage).
- * Contains new products and additional variants for existing products.
+ * Contains new recipes and additional recipes for existing products.
  */
 export interface UserRecipeSet {
-  variants: RecipeVariant[]
+  recipes: Recipe[]
 }

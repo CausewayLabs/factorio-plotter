@@ -22,33 +22,32 @@ export interface ParametricOrigin {
 // ============================================================
 
 /**
- * A bubble represents a factory concept (intermediate product).
+ * A bubble represents a factory production step.
+ * It selects a recipe (not a product) and exposes every product in that recipe
+ * as an independently-bindable output slot.
  * It is authored by the user — placed, moved, deleted explicitly.
  */
 export interface Bubble {
   id: string
   /** World-space center position */
   position: Point
-  /** The product this bubble produces */
-  productId: string
+  /** The recipe this bubble uses (matches Recipe.id in the recipe map) */
+  recipeId: string
   /**
-   * Which recipe variant the bubble uses (matches RecipeVariant.variantId).
-   * If null, the default recipe for the product is used.
-   */
-  recipeVariantId: string | null
-  /**
-   * When true, this bubble's output is NOT available as a feeder source.
+   * When true, this bubble's outputs are NOT available as feeder sources.
    * It can still receive feeders for its own inputs.
    */
   isPrivate: boolean
   /**
-   * The bus (rail id) this bubble's output is emitted onto, or null when
-   * unbound. When set, the bubble's product is present in that rail's
-   * `resourceTypes` and the solver draws a derived orthogonal output connector
-   * from the output port to the rail. The rail itself is never anchored to the
-   * bubble — only this binding links them.
+   * Per-product output bindings. Keys are product ids from the recipe's products[].
+   * A value of null means that output is unbound (not wired to any bus).
+   * A non-null value is a rail id — the product is emitted onto that bus and
+   * the solver draws a derived orthogonal output connector from the output port
+   * to the rail. The rail is never anchored to the bubble.
+   *
+   * Initialized with one entry per product in the recipe, all null.
    */
-  outputTarget: string | null
+  outputBindings: Record<string, string | null>
 }
 
 /**
@@ -144,10 +143,11 @@ export interface Feeder {
 
 /**
  * An output connector is the mirror of a feeder: a derived ORTHOGONAL line
- * carrying a bubble's output from its output port to the bus it is bound to
- * (`Bubble.outputTarget`). Like feeders, output connectors are NEVER authored,
- * persisted, selected, or used as attachment targets — they are recomputed by
- * the solver from current geometry.
+ * carrying one of a bubble's product outputs from its output port to the bus
+ * it is bound to (via `Bubble.outputBindings`). A bubble with N non-null
+ * bindings generates N output connectors. Like feeders, output connectors are
+ * NEVER authored, persisted, selected, or used as attachment targets — they are
+ * recomputed by the solver from current geometry.
  */
 export interface OutputConnector {
   id: string
