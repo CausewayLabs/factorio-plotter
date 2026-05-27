@@ -136,11 +136,11 @@ export function solveScene(input: SolverInput): SolverOutput {
       const leftPort = bubbleInputBox(bubble.position, 'left', 0, 1).port
       const rightPort = bubbleInputBox(bubble.position, 'right', 0, 1).port
       const leftSrc = findNearestSource(
-        resourceType, leftPort, supplyRails, resolvedRailPoints,
+        resourceType, leftPort, supplyRails, rails, resolvedRailPoints,
         bubbleArray, bubble.id, sourceEmitPort
       )
       const rightSrc = findNearestSource(
-        resourceType, rightPort, supplyRails, resolvedRailPoints,
+        resourceType, rightPort, supplyRails, rails, resolvedRailPoints,
         bubbleArray, bubble.id, sourceEmitPort
       )
       let side: InputSide
@@ -297,10 +297,32 @@ interface ResolvedSource {
   distSq: number
 }
 
+/**
+ * Resource membership on a tee walks up the parent chain: a tee is a branch
+ * of its parent's bus and physically carries everything the parent carries.
+ * `seen` guards against pathological cycles (shouldn't happen but cheap).
+ */
+function railCarriesResource(
+  rail: Rail,
+  wantKey: string,
+  rails: Record<string, Rail>,
+  seen: Set<string> = new Set()
+): boolean {
+  if (seen.has(rail.id)) return false
+  seen.add(rail.id)
+  if (rail.resourceTypes.some(t => canonicalProductKey(t) === wantKey)) return true
+  if (rail.tee) {
+    const parent = rails[rail.tee.parentRailId]
+    if (parent) return railCarriesResource(parent, wantKey, rails, seen)
+  }
+  return false
+}
+
 function findNearestSource(
   resourceType: string,
   queryPoint: Point,
   supplyRails: Rail[],
+  rails: Record<string, Rail>,
   resolvedRailPoints: Map<string, Point[]>,
   allBubbles: Bubble[],
   queryBubbleId: string,
@@ -314,9 +336,11 @@ function findNearestSource(
   // "Copper Plate" still feeds a bubble needing "copper-plate".
   const wantKey = canonicalProductKey(resourceType)
 
-  // Check supply rails (a rail is a bus: it may carry several resource types)
+  // Check supply rails (a rail is a bus: it may carry several resource types).
+  // A tee is a branch of its parent's bus and physically carries everything
+  // the parent carries — so resource membership walks up the tee chain.
   for (const rail of supplyRails) {
-    if (!rail.resourceTypes.some(t => canonicalProductKey(t) === wantKey)) continue
+    if (!railCarriesResource(rail, wantKey, rails)) continue
     const pts = resolvedRailPoints.get(rail.id) ?? rail.points
     if (pts.length < 2) continue
 
