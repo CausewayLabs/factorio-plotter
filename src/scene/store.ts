@@ -54,6 +54,7 @@ export interface SceneStore extends AuthoredState, DerivedState {
   // --- Rail mutations ---
   addRail: (rail: Rail) => void
   updateRailPoints: (id: string, points: Point[]) => void
+  updateRailParametricT: (id: string, t: number) => void
   deleteRail: (id: string) => void
   setRailSupply: (id: string, isSupply: boolean) => void
   /** Replace the set of resource types a rail/bus carries (must keep ≥1). */
@@ -233,6 +234,21 @@ export const useSceneStore = create<SceneStore>()((set, _get) => ({
       const rail = state.rails[id]
       if (!rail) return state
       return { rails: { ...state.rails, [id]: { ...rail, points } } }
+    })
+    triggerSolverRecompute()
+  },
+
+  updateRailParametricT(id, t) {
+    set(state => {
+      const rail = state.rails[id]
+      if (!rail || !rail.parametricOrigin) return state
+      const clamped = Math.max(0, Math.min(1, t))
+      return {
+        rails: {
+          ...state.rails,
+          [id]: { ...rail, parametricOrigin: { ...rail.parametricOrigin, t: clamped } },
+        },
+      }
     })
     triggerSolverRecompute()
   },

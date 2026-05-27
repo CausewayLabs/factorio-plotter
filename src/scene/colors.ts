@@ -7,9 +7,9 @@ import { canonicalProductKey } from '../recipes/normalize'
 const RESOURCE_COLORS: Record<string, string> = {
   'iron-plate': '#a0a0b0',
   'copper-plate': '#c87941',
-  'coal': '#3a3a3a',
+  'coal': '#6e6e6e',
   'stone': '#a09070',
-  'crude-oil': '#2a2a2a',
+  'crude-oil': '#8a6a4a',
   'steel-plate': '#8090a0',
   'copper-cable': '#e08030',
   'iron-gear-wheel': '#909090',
@@ -60,4 +60,26 @@ export function getRailColor(rail: { resourceTypes: string[] }): string {
   return rail.resourceTypes.length === 1
     ? getResourceColor(rail.resourceTypes[0])
     : BUS_COLOR
+}
+
+/**
+ * Brighten a hex color so labels stay legible against the dark canvas
+ * background. Colors above a luminance floor pass through; darker ones are
+ * lifted toward white. (crude-oil, coal, etc. are otherwise unreadable.)
+ */
+export function getRailLabelColor(rail: { resourceTypes: string[] }): string {
+  const base = getRailColor(rail)
+  const m = /^#([0-9a-f]{6})$/i.exec(base)
+  if (!m) return base
+  const n = parseInt(m[1], 16)
+  const r = (n >> 16) & 0xff
+  const g = (n >> 8) & 0xff
+  const b = n & 0xff
+  const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b
+  const MIN_LUM = 170
+  if (lum >= MIN_LUM) return base
+  const t = (MIN_LUM - lum) / 255
+  const lift = (c: number) => Math.round(c + (255 - c) * t)
+  const hex = (c: number) => c.toString(16).padStart(2, '0')
+  return `#${hex(lift(r))}${hex(lift(g))}${hex(lift(b))}`
 }

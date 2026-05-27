@@ -1,8 +1,8 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useSceneStore, selectBubbleArray, selectRailArray, selectFeeders, selectViewport, generateId } from '../scene/store'
 import { screenToWorld, clampZoom } from '../scene/viewport'
 import { hitTest, hitTestRailEndpoint, hitTestBubbleOutputTab, hitTestUnsatisfiedInputTab } from '../editing/hitTest'
-import { BUBBLE_RADIUS, resolveRailPolyline, orthogonalConnector } from '../scene/geometry'
+import { BUBBLE_RADIUS, resolveRailPolyline, orthogonalConnector, resolveParametricPoint, nearestPointOnPolyline } from '../scene/geometry'
 import { useRecipeStore } from '../recipes/store'
 import { useEditingStore } from '../editing/store'
 import { autosave } from '../editing/persistence'
@@ -60,6 +60,7 @@ export default function Canvas() {
   const moveBubble = useSceneStore(s => s.moveBubble)
   const addRail = useSceneStore(s => s.addRail)
   const updateRailPoints = useSceneStore(s => s.updateRailPoints)
+  const updateRailParametricT = useSceneStore(s => s.updateRailParametricT)
   const setOutputBinding = useSceneStore(s => s.setOutputBinding)
 
   const tool = useEditingStore(s => s.tool)
@@ -72,6 +73,7 @@ export default function Canvas() {
   const openProductPicker = useEditingStore(s => s.openProductPicker)
   const openResourcePicker = useEditingStore(s => s.openResourcePicker)
   const addDrawingPoint = useEditingStore(s => s.addDrawingPoint)
+  const popDrawingPoint = useEditingStore(s => s.popDrawingPoint)
   const clearDrawingPoints = useEditingStore(s => s.clearDrawingPoints)
   const resetEditing = useEditingStore(s => s.reset)
 
@@ -94,6 +96,13 @@ export default function Canvas() {
     downClient: { x: number; y: number }
     nearestT: number
     moved: boolean
+    /** Forked rails only: parent rail id, the original parametric t, the
+        resolved fork point at drag start, and the parent's resolved polyline
+        snapshot. Used to slide the fork along its parent during a move drag. */
+    forkParentId?: string
+    forkOrigT?: number
+    forkOrigPoint?: Point
+    forkParentPolyline?: Point[]
   } | null>(null)
   /**
    * Active "emit output onto a bus" drag: started by pressing a bubble's output
@@ -145,6 +154,16 @@ export default function Canvas() {
   // --- Context menu (right-click) ---
   const onContextMenu = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
     e.preventDefault()
+    // While drawing a rail, right-click undoes the last placed vertex (and
+    // cancels the rail once the queue is empty). No menus during draw mode.
+    if (tool === 'draw-rail') {
+      if (drawingPoints.length > 0) {
+        popDrawingPoint()
+      } else {
+        resetEditing()
+      }
+      return
+    }
     const screenPt = getSvgPt(e)
     const hit = hitTest(screenPt, viewport, bubblesMap, railsMap)
     if (!hit) return
@@ -164,10 +183,24 @@ export default function Canvas() {
       })
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [viewport, bubblesMap, railsMap])
+  }, [viewport, bubblesMap, railsMap, tool, drawingPoints])
 
   const getRecipeById = useRecipeStore(s => s.getRecipeById)
   const getRecipesForProduct = useRecipeStore(s => s.getRecipesForProduct)
+
+  // Ctrl+Z while drawing a rail undoes the most recent vertex. The undo log
+  // lives only for the duration of the in-progress rail.
+  useEffect(() => {
+    if (tool !== 'draw-rail') return
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && !e.shiftKey && (e.key === 'z' || e.key === 'Z')) {
+        e.preventDefault()
+        if (drawingPoints.length > 0) popDrawingPoint()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [tool, drawingPoints, popDrawingPoint])
 
   // --- Mouse down ---
   const onMouseDown = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
@@ -233,11 +266,31 @@ export default function Canvas() {
           // Press on a rail body: a drag relocates the whole rail; a click with
           // no drag opens the materials/context menu (decided on mouseup).
           const rail = railsMap[hit.id]
+          // Forked rails can only slide along their parent — capture the
+          // parent's resolved polyline + the fork's current t so move-drag
+          // projects the cursor delta back onto that polyline.
+          let forkParentId: string | undefined
+          let forkOrigT: number | undefined
+          let forkOrigPoint: Point | undefined
+          let forkParentPolyline: Point[] | undefined
+          if (rail.parametricOrigin) {
+            const parent = railsMap[rail.parametricOrigin.parentRailId]
+            if (parent) {
+              forkParentId = parent.id
+              forkOrigT = rail.parametricOrigin.t
+              forkParentPolyline = resolveRailPolyline(parent, railsMap)
+              forkOrigPoint = resolveParametricPoint(parent, forkOrigT)
+            }
+          }
           railDrag.current = {
             railId: hit.id,
             mode: 'move',
             endIndex: -1,
             origPoints: rail.points.map(p => ({ ...p })),
+            forkParentId,
+            forkOrigT,
+            forkOrigPoint,
+            forkParentPolyline,
             startWorld: worldPt,
             downClient: { x: e.clientX, y: e.clientY },
             nearestT: hit.nearestT ?? 0,
@@ -295,11 +348,9 @@ export default function Canvas() {
           const last = drawingPoints[drawingPoints.length - 1]
           addDrawingPoint(last ? orthoSnap(last, worldPt) : worldPt)
         }
-      } else if (e.button === 2) {
-        // Right-click cancels
-        clearDrawingPoints()
-        resetEditing()
       }
+      // (right-click is intercepted upstream by onContextMenu, which performs
+      // the undo for draw-rail mode)
     } else if (tool === 'fork-rail') {
       if (e.button === 0 && forkTarget) {
         // Start a new rail forked from forkTarget
@@ -381,8 +432,30 @@ export default function Canvas() {
         // Relocate: translate the whole polyline by the world-space delta.
         const dx = worldPt.x - drag.startWorld.x
         const dy = worldPt.y - drag.startWorld.y
-        const next = drag.origPoints.map(p => ({ x: p.x + dx, y: p.y + dy }))
-        updateRailPoints(drag.railId, next)
+        if (
+          drag.forkParentPolyline &&
+          drag.forkOrigPoint &&
+          drag.forkOrigT !== undefined
+        ) {
+          // Forked rail: a free 2D move would break orthogonality (the first
+          // point is pinned to the parent). Constrain motion to slide along
+          // the parent — project the cursor delta onto the parent polyline by
+          // finding the nearest point to (origForkPoint + delta), then
+          // translate the whole child by the *actual* shift in fork point.
+          const desired = {
+            x: drag.forkOrigPoint.x + dx,
+            y: drag.forkOrigPoint.y + dy,
+          }
+          const np = nearestPointOnPolyline(drag.forkParentPolyline, desired)
+          const tx = np.point.x - drag.forkOrigPoint.x
+          const ty = np.point.y - drag.forkOrigPoint.y
+          const next = drag.origPoints.map(p => ({ x: p.x + tx, y: p.y + ty }))
+          updateRailPoints(drag.railId, next)
+          updateRailParametricT(drag.railId, np.t)
+        } else {
+          const next = drag.origPoints.map(p => ({ x: p.x + dx, y: p.y + dy }))
+          updateRailPoints(drag.railId, next)
+        }
       }
       if (drag.moved) autosave(bubblesMap, railsMap)
       return

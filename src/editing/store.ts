@@ -21,6 +21,7 @@ export interface EditingStore extends EditingState {
   setPendingRecipe: (recipeId: string | null) => void
   setPendingRailType: (resourceTypes: string[], label?: string | null) => void
   addDrawingPoint: (pt: Point) => void
+  popDrawingPoint: () => void
   clearDrawingPoints: () => void
   setForkTarget: (target: { railId: string; t: number } | null) => void
   openRecipeEditor: (recipeId?: string | null) => void
@@ -54,6 +55,10 @@ export const useEditingStore = create<EditingStore>()((set) => ({
 
   addDrawingPoint(pt) {
     set(state => ({ drawingPoints: [...state.drawingPoints, pt] }))
+  },
+
+  popDrawingPoint() {
+    set(state => ({ drawingPoints: state.drawingPoints.slice(0, -1) }))
   },
 
   clearDrawingPoints() {

@@ -1,6 +1,6 @@
 import type { Rail, Point } from '../scene/types'
 import type { ViewportTransform } from '../scene/types'
-import { getRailColor } from '../scene/colors'
+import { getRailColor, getRailLabelColor } from '../scene/colors'
 import { resolveRailPolyline } from '../scene/geometry'
 import { useSceneStore } from '../scene/store'
 import { useEditingStore } from '../editing/store'
@@ -56,7 +56,7 @@ export default function RailLayer({ rails, viewport }: Props) {
               opacity={rail.isSupply ? 1 : 0.6}
             />
             {/* Resource type label at midpoint */}
-            <RailLabel rail={{ ...rail, points }} color={color} />
+            <RailLabel rail={{ ...rail, points }} color={getRailLabelColor(rail)} />
 
             {/* Draggable endpoint handles (select mode). A fork's first point is
                 parametric (owned by its parent), so it gets no handle. */}
@@ -129,9 +129,9 @@ function RailLabel({ rail, color }: LabelProps) {
   return (
     <text
       x={mid.x}
-      y={mid.y - 8}
+      y={mid.y - 10}
       textAnchor="middle"
-      fontSize={10}
+      fontSize={15}
       fill={color}
       stroke="#1a1a2e"
       strokeWidth={3}
