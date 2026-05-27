@@ -10,11 +10,26 @@ export interface Point {
   y: number
 }
 
-/** Parametric origin for a forked rail: position on parent rail at parameter t ∈ [0,1] */
-export interface ParametricOrigin {
+/**
+ * Tee anchor for a forked rail.
+ *
+ * A tee is resolved at render time by casting a ray from the child's free
+ * endpoint (its sole stored point) along the child's authored direction (the
+ * vector from `points[0]` toward where the junction would be — stored as the
+ * second-to-last segment direction; for the single-segment tees this is just
+ * the ray direction).
+ *
+ * - If the ray hits the parent's resolved polyline, the junction is that hit.
+ * - If it misses, the child renders as an L into parent endpoint
+ *   #`anchorEndIndex` (0 = parent.points[0], 1 = parent.points[last]).
+ *
+ * The anchor is updated by drag handlers whenever the ray currently hits the
+ * parent — it tracks "which side of the parent the ray slid off." The
+ * resolver itself stays pure.
+ */
+export interface Tee {
   parentRailId: string
-  /** Parameter along the parent rail's polyline, 0 = start, 1 = end */
-  t: number
+  anchorEndIndex: 0 | 1
 }
 
 // ============================================================
@@ -73,15 +88,16 @@ export interface Rail {
    */
   isSupply: boolean
   /**
-   * If this rail was forked from another, this records the parametric origin.
-   * The fork point slides along the parent rail when the parent is reshaped.
-   * Null for root rails drawn from scratch.
+   * If this rail is a tee off another rail, this anchors it to its parent.
+   * The junction is computed at resolve time by ray-casting from the child's
+   * free endpoint (see `Tee` and `resolveRailPolyline`). The child renders
+   * attached even when the parent slides past the ray — falling back to an
+   * orthogonal L into the parent's `anchorEndIndex` endpoint.
    *
-   * This is the ONLY anchoring a rail has — rails are never anchored to bubbles.
-   * A bubble's output reaches a bus via a derived output connector, not by
-   * gluing a rail endpoint to the bubble.
+   * Undefined for root rails drawn from scratch. This is the ONLY anchoring
+   * a rail has — rails are never anchored to bubbles.
    */
-  parametricOrigin: ParametricOrigin | null
+  tee?: Tee
 }
 
 /** Which side of a bubble an input tab is drawn on. Derived from feeder direction. */

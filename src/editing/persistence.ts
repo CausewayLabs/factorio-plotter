@@ -6,7 +6,7 @@
  * User recipes are persisted separately by the recipe store.
  */
 
-import type { Bubble, Rail } from '../scene/types'
+import type { Bubble, Rail, Tee } from '../scene/types'
 import type { RecipeMap } from '../recipes/types'
 
 const AUTOSAVE_KEY = 'factorio-plotter-diagram'
@@ -18,24 +18,50 @@ export interface DiagramJson {
 }
 
 /**
- * Normalize a persisted rail to the current shape. Legacy diagrams stored a
- * single `resourceType: string`; rails are now buses with `resourceTypes: []`.
- * Legacy `bubbleOrigin` (anchored-rail model) is dropped — rails are never
- * anchored to bubbles.
+ * Normalize a persisted rail to the current shape.
+ *
+ * Migrations performed:
+ *  - Legacy `resourceType: string` → `resourceTypes: [string]`.
+ *  - Legacy `bubbleOrigin` is dropped (rails are never anchored to bubbles).
+ *  - Legacy `parametricOrigin: { parentRailId, t }` → `tee: { parentRailId,
+ *    anchorEndIndex }` with `anchorEndIndex = t < 0.5 ? 0 : 1`. The legacy
+ *    rail had `points[0]` overridden by the parent at render time, so the
+ *    real free endpoint lived at `points[points.length - 1]`. The new shape
+ *    expects `points[0]` to be the free endpoint and `points[1]` a
+ *    ray-direction reference back toward the parent — so we swap order:
+ *    `points = [legacy.last, legacy.first]`. (Resolver casts the ray from
+ *    points[0] toward points[1].) For degenerate legacy rails with both
+ *    points equal, the ray length is zero and the resolver falls back to the
+ *    stored points; visually broken until the user re-tees, which is fine.
  */
-function normalizeRail(r: Rail & { resourceType?: string }): Rail {
+interface LegacyParametricOrigin { parentRailId: string; t: number }
+type LegacyRail = Rail & {
+  resourceType?: string
+  parametricOrigin?: LegacyParametricOrigin | null
+}
+
+function normalizeRail(r: LegacyRail): Rail {
   const resourceTypes = Array.isArray(r.resourceTypes) && r.resourceTypes.length > 0
     ? r.resourceTypes
     : r.resourceType
       ? [r.resourceType]
       : ['unknown']
+  let points = r.points
+  let tee: Tee | undefined = r.tee
+  if (!tee && r.parametricOrigin) {
+    const anchorEndIndex: 0 | 1 = r.parametricOrigin.t < 0.5 ? 0 : 1
+    tee = { parentRailId: r.parametricOrigin.parentRailId, anchorEndIndex }
+    if (points.length >= 2) {
+      points = [points[points.length - 1], points[0]]
+    }
+  }
   return {
     id: r.id,
     resourceTypes,
     label: r.label,
-    points: r.points,
+    points,
     isSupply: r.isSupply ?? true,
-    parametricOrigin: r.parametricOrigin ?? null,
+    tee,
   }
 }
 

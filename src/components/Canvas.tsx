@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useSceneStore, selectBubbleArray, selectRailArray, selectFeeders, selectViewport, generateId } from '../scene/store'
 import { screenToWorld, clampZoom } from '../scene/viewport'
 import { hitTest, hitTestRailEndpoint, hitTestBubbleOutputTab, hitTestUnsatisfiedInputTab } from '../editing/hitTest'
-import { BUBBLE_RADIUS, resolveRailPolyline, orthogonalConnector, resolveParametricPoint, nearestPointOnPolyline } from '../scene/geometry'
+import { BUBBLE_RADIUS, resolveRailPolyline, orthogonalConnector, pointOnPolylineAtT } from '../scene/geometry'
 import { useRecipeStore } from '../recipes/store'
 import { useEditingStore } from '../editing/store'
 import { autosave } from '../editing/persistence'
@@ -60,7 +60,7 @@ export default function Canvas() {
   const moveBubble = useSceneStore(s => s.moveBubble)
   const addRail = useSceneStore(s => s.addRail)
   const updateRailPoints = useSceneStore(s => s.updateRailPoints)
-  const updateRailParametricT = useSceneStore(s => s.updateRailParametricT)
+  const recomputeTeeAnchors = useSceneStore(s => s.recomputeTeeAnchors)
   const setOutputBinding = useSceneStore(s => s.setOutputBinding)
 
   const tool = useEditingStore(s => s.tool)
@@ -96,13 +96,6 @@ export default function Canvas() {
     downClient: { x: number; y: number }
     nearestT: number
     moved: boolean
-    /** Forked rails only: parent rail id, the original parametric t, the
-        resolved fork point at drag start, and the parent's resolved polyline
-        snapshot. Used to slide the fork along its parent during a move drag. */
-    forkParentId?: string
-    forkOrigT?: number
-    forkOrigPoint?: Point
-    forkParentPolyline?: Point[]
   } | null>(null)
   /**
    * Active "emit output onto a bus" drag: started by pressing a bubble's output
@@ -265,32 +258,15 @@ export default function Canvas() {
         } else if (hit?.kind === 'rail') {
           // Press on a rail body: a drag relocates the whole rail; a click with
           // no drag opens the materials/context menu (decided on mouseup).
+          // Tees are first-class here too — translating a tee shifts its free
+          // endpoint (and its stored ray-direction reference) rigidly; the
+          // resolver re-derives the junction from the new ray geometry.
           const rail = railsMap[hit.id]
-          // Forked rails can only slide along their parent — capture the
-          // parent's resolved polyline + the fork's current t so move-drag
-          // projects the cursor delta back onto that polyline.
-          let forkParentId: string | undefined
-          let forkOrigT: number | undefined
-          let forkOrigPoint: Point | undefined
-          let forkParentPolyline: Point[] | undefined
-          if (rail.parametricOrigin) {
-            const parent = railsMap[rail.parametricOrigin.parentRailId]
-            if (parent) {
-              forkParentId = parent.id
-              forkOrigT = rail.parametricOrigin.t
-              forkParentPolyline = resolveRailPolyline(parent, railsMap)
-              forkOrigPoint = resolveParametricPoint(parent, forkOrigT)
-            }
-          }
           railDrag.current = {
             railId: hit.id,
             mode: 'move',
             endIndex: -1,
             origPoints: rail.points.map(p => ({ ...p })),
-            forkParentId,
-            forkOrigT,
-            forkOrigPoint,
-            forkParentPolyline,
             startWorld: worldPt,
             downClient: { x: e.clientX, y: e.clientY },
             nearestT: hit.nearestT ?? 0,
@@ -335,7 +311,6 @@ export default function Canvas() {
               label: pendingRailLabel ?? undefined,
               points: drawingPoints,
               isSupply: true,
-              parametricOrigin: null,
             }
             addRail(rail)
             autosave(bubblesMap, { ...railsMap, [rail.id]: rail })
@@ -353,18 +328,32 @@ export default function Canvas() {
       // the undo for draw-rail mode)
     } else if (tool === 'fork-rail') {
       if (e.button === 0 && forkTarget) {
-        // Start a new rail forked from forkTarget
+        // Build a tee off forkTarget. The child stores TWO points:
+        //   points[0] = free endpoint (the click, orthogonally snapped so the
+        //               child is perpendicular to the parent at the fork).
+        //   points[1] = ray-direction reference (the fork point on the
+        //               parent at creation time). The resolver casts a ray
+        //               from points[0] toward points[1] and intersects with
+        //               the live parent polyline; points[1] is never rendered.
         const parent = railsMap[forkTarget.railId]
-        const rail: Rail = {
-          id: generateId(),
-          resourceTypes: parent?.resourceTypes ?? ['unknown'],
-          label: parent?.label,
-          points: [worldPt, worldPt], // Will grow as user draws
-          isSupply: true,
-          parametricOrigin: { parentRailId: forkTarget.railId, t: forkTarget.t },
+        if (parent) {
+          const parentPoly = resolveRailPolyline(parent, railsMap)
+          // Resolve the fork point on the parent at click-time t.
+          const forkPt = pointOnPolylineAtT(parentPoly, forkTarget.t)
+          // Orthogonal child: snap click to be axis-aligned with the fork point.
+          const freeEnd = orthoSnap(forkPt, worldPt)
+          const anchorEndIndex: 0 | 1 = forkTarget.t < 0.5 ? 0 : 1
+          const rail: Rail = {
+            id: generateId(),
+            resourceTypes: parent.resourceTypes,
+            label: parent.label,
+            points: [freeEnd, forkPt],
+            isSupply: true,
+            tee: { parentRailId: forkTarget.railId, anchorEndIndex },
+          }
+          addRail(rail)
+          autosave(bubblesMap, { ...railsMap, [rail.id]: rail })
         }
-        addRail(rail)
-        autosave(bubblesMap, { ...railsMap, [rail.id]: rail })
         resetEditing()
       }
     }
@@ -430,33 +419,21 @@ export default function Canvas() {
         updateRailPoints(drag.railId, next)
       } else {
         // Relocate: translate the whole polyline by the world-space delta.
+        // For a tee, this translates both `points[0]` (the free endpoint) and
+        // `points[1]` (the ray-direction reference) by the same vector, so
+        // the ray direction is preserved and the resolver re-derives the
+        // junction (or elbow) from the new ray geometry.
         const dx = worldPt.x - drag.startWorld.x
         const dy = worldPt.y - drag.startWorld.y
-        if (
-          drag.forkParentPolyline &&
-          drag.forkOrigPoint &&
-          drag.forkOrigT !== undefined
-        ) {
-          // Forked rail: a free 2D move would break orthogonality (the first
-          // point is pinned to the parent). Constrain motion to slide along
-          // the parent — project the cursor delta onto the parent polyline by
-          // finding the nearest point to (origForkPoint + delta), then
-          // translate the whole child by the *actual* shift in fork point.
-          const desired = {
-            x: drag.forkOrigPoint.x + dx,
-            y: drag.forkOrigPoint.y + dy,
-          }
-          const np = nearestPointOnPolyline(drag.forkParentPolyline, desired)
-          const tx = np.point.x - drag.forkOrigPoint.x
-          const ty = np.point.y - drag.forkOrigPoint.y
-          const next = drag.origPoints.map(p => ({ x: p.x + tx, y: p.y + ty }))
-          updateRailPoints(drag.railId, next)
-          updateRailParametricT(drag.railId, np.t)
-        } else {
-          const next = drag.origPoints.map(p => ({ x: p.x + dx, y: p.y + dy }))
-          updateRailPoints(drag.railId, next)
-        }
+        const next = drag.origPoints.map(p => ({ x: p.x + dx, y: p.y + dy }))
+        updateRailPoints(drag.railId, next)
       }
+      // After any reshape/translate, the ray geometry may have shifted —
+      // refresh tee anchors. If the dragged rail itself is a tee, update its
+      // parent's children (= just itself). If the dragged rail is a parent,
+      // update its dependents.
+      if (rail.tee) recomputeTeeAnchors(rail.tee.parentRailId)
+      recomputeTeeAnchors(drag.railId)
       if (drag.moved) autosave(bubblesMap, railsMap)
       return
     }
@@ -533,7 +510,6 @@ export default function Canvas() {
             label: undefined,
             points: [emit.startPort, end],
             isSupply: true,
-            parametricOrigin: null,
           }
           addRail(rail)
           setOutputBinding(b.id, product, rail.id)

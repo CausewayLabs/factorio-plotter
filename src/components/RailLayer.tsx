@@ -65,7 +65,8 @@ export default function RailLayer({ rails, viewport }: Props) {
                 points={points}
                 color={color}
                 radius={handleR}
-                showFirst={!rail.parametricOrigin}
+                showFirst={true}
+                showLast={!rail.tee}
               />
             )}
           </g>
@@ -80,12 +81,13 @@ interface HandleProps {
   color: string
   radius: number
   showFirst: boolean
+  showLast: boolean
 }
 
-function RailEndpointHandles({ points, color, radius, showFirst }: HandleProps) {
+function RailEndpointHandles({ points, color, radius, showFirst, showLast }: HandleProps) {
   const ends: Point[] = []
   if (showFirst) ends.push(points[0])
-  ends.push(points[points.length - 1])
+  if (showLast) ends.push(points[points.length - 1])
   return (
     <>
       {ends.map((p, i) => (

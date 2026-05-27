@@ -139,24 +139,159 @@ export function assignSideIndices<T extends { side: InputSide }>(
 }
 
 /**
- * Resolve a rail's world-space polyline, substituting a fork's first point with
- * the live point on its parent (parametric origin). Shared by hit-testing,
- * rendering, the solver, and endpoint editing so a fork's geometry is computed
- * one way everywhere. Rails are never anchored to bubbles, so this depends only
- * on rails.
+ * Resolve a rail's world-space polyline.
+ *
+ * For a plain rail this is just `rail.points`. For a *tee* (`rail.tee`) the
+ * resolver casts a ray from the child's free endpoint (`points[0]`) along the
+ * vector `points[1] - points[0]` (the authored ray direction) and looks for
+ * the first hit on the parent's resolved polyline:
+ *
+ *   - **Hit** → resolved polyline = `[freeEnd, hit]`. Standard tee junction.
+ *   - **Miss** → child renders as an orthogonal L into the parent's
+ *     `anchorEndIndex` endpoint: `[freeEnd, elbow, parentEndpoint]`. Because
+ *     authored rails are H/V, the ray and the parent's tangent at that
+ *     endpoint are perpendicular, so the elbow is always finite and 90°.
+ *
+ * This is a pure function of stored state — drag handlers are responsible for
+ * keeping `tee.anchorEndIndex` in sync with the side the ray slid off (see
+ * `recomputeTeeAnchors` in `scene/store.ts`).
+ *
+ * Shared by hit-testing, rendering, the solver, and endpoint editing so a
+ * tee's geometry is computed one way everywhere.
  */
 export function resolveRailPolyline(
   rail: Rail,
   rails: Record<string, Rail>
 ): Point[] {
-  // Fork origin: first point slides along the parent rail.
-  if (rail.parametricOrigin) {
-    const parent = rails[rail.parametricOrigin.parentRailId]
-    if (!parent) return rail.points
-    const forkPoint = resolveParametricPoint(parent, rail.parametricOrigin.t)
-    return [forkPoint, ...rail.points.slice(1)]
+  if (!rail.tee) return rail.points
+  const parent = rails[rail.tee.parentRailId]
+  if (!parent || rail.points.length < 2) return rail.points
+
+  const freeEnd = rail.points[0]
+  const ref = rail.points[1]
+  const dx = ref.x - freeEnd.x
+  const dy = ref.y - freeEnd.y
+  const len = Math.hypot(dx, dy)
+  if (len === 0) return rail.points
+  const dn: Point = { x: dx / len, y: dy / len }
+
+  const parentPoly = resolveRailPolyline(parent, rails)
+  const hit = rayHitPolyline(freeEnd, dn, parentPoly)
+  if (hit) return [freeEnd, hit]
+
+  // Miss: build an L-elbow into the chosen parent endpoint.
+  const anchorIdx = rail.tee.anchorEndIndex === 0 ? 0 : parentPoly.length - 1
+  const anchorPt = parentPoly[anchorIdx]
+  // Since rays and parent segments are orthogonal, project axis-aligned:
+  // a vertical ray meets the parent's tangent at (freeEnd.x, anchorPt.y) and
+  // vice versa. Picking by the ray's dominant axis covers both cases.
+  const elbow: Point =
+    Math.abs(dn.x) < Math.abs(dn.y)
+      ? { x: freeEnd.x, y: anchorPt.y }
+      : { x: anchorPt.x, y: freeEnd.y }
+  return [freeEnd, elbow, anchorPt]
+}
+
+/**
+ * Resolve the world-space point at parameter t ∈ [0,1] along a polyline by
+ * arc length. Used by the fork-rail tool to find the click point on a parent
+ * rail from a stored t. (Not used for tee resolution itself — that's the
+ * ray-cast above.)
+ */
+export function pointOnPolylineAtT(poly: Point[], t: number): Point {
+  if (poly.length === 0) return { x: 0, y: 0 }
+  if (poly.length === 1) return { ...poly[0] }
+  const lens: number[] = []
+  let total = 0
+  for (let i = 0; i < poly.length - 1; i++) {
+    const l = Math.hypot(poly[i + 1].x - poly[i].x, poly[i + 1].y - poly[i].y)
+    lens.push(l); total += l
   }
-  return rail.points
+  if (total === 0) return { ...poly[0] }
+  const target = Math.max(0, Math.min(1, t)) * total
+  let acc = 0
+  for (let i = 0; i < lens.length; i++) {
+    if (acc + lens[i] >= target) {
+      const u = (target - acc) / lens[i]
+      return {
+        x: poly[i].x + u * (poly[i + 1].x - poly[i].x),
+        y: poly[i].y + u * (poly[i + 1].y - poly[i].y),
+      }
+    }
+    acc += lens[i]
+  }
+  return { ...poly[poly.length - 1] }
+}
+
+/**
+ * Cast a ray from `origin` in unit direction `dn` and return the first hit on
+ * a polyline (any segment, axis-aligned or otherwise). Returns null if the ray
+ * never hits. Tiny positive distances are ignored so a ray that grazes its own
+ * origin doesn't self-hit.
+ */
+export function rayHitPolyline(origin: Point, dn: Point, polyline: Point[]): Point | null {
+  let bestT = Infinity
+  let bestPt: Point | null = null
+  const EPS = 1e-6
+  for (let i = 0; i < polyline.length - 1; i++) {
+    const a = polyline[i]
+    const b = polyline[i + 1]
+    const sx = b.x - a.x
+    const sy = b.y - a.y
+    const det = dn.x * -sy - dn.y * -sx
+    if (Math.abs(det) < EPS) continue // parallel
+    const t = ((a.x - origin.x) * -sy - (a.y - origin.y) * -sx) / det
+    const u = (dn.x * (a.y - origin.y) - dn.y * (a.x - origin.x)) / det
+    if (t < EPS) continue
+    if (u < -EPS || u > 1 + EPS) continue
+    if (t < bestT) {
+      bestT = t
+      bestPt = { x: origin.x + t * dn.x, y: origin.y + t * dn.y }
+    }
+  }
+  return bestPt
+}
+
+/**
+ * For a tee child whose ray currently hits the parent, decide which of the
+ * parent's two endpoints (0 or 1) it should anchor to: whichever the hit is
+ * closer to along the parent's polyline. Used by drag handlers to keep
+ * `tee.anchorEndIndex` in sync so the elbow snaps to the correct side when
+ * the parent later slides past the ray.
+ */
+export function teeAnchorSideForHit(parentPoly: Point[], hit: Point): 0 | 1 {
+  // Walk segments, accumulate length to nearest hit, compare to half-length.
+  let total = 0
+  const segLens: number[] = []
+  for (let i = 0; i < parentPoly.length - 1; i++) {
+    const l = Math.hypot(parentPoly[i + 1].x - parentPoly[i].x, parentPoly[i + 1].y - parentPoly[i].y)
+    segLens.push(l)
+    total += l
+  }
+  if (total === 0) return 0
+  // Find which segment the hit lies on, then distance from start of polyline.
+  let distFromStart = 0
+  let bestSeg = 0
+  let bestSegDist = Infinity
+  for (let i = 0; i < parentPoly.length - 1; i++) {
+    const a = parentPoly[i]
+    const b = parentPoly[i + 1]
+    const dx = b.x - a.x, dy = b.y - a.y
+    const l2 = dx * dx + dy * dy
+    if (l2 === 0) continue
+    const u = Math.max(0, Math.min(1, ((hit.x - a.x) * dx + (hit.y - a.y) * dy) / l2))
+    const projX = a.x + u * dx, projY = a.y + u * dy
+    const d = Math.hypot(hit.x - projX, hit.y - projY)
+    if (d < bestSegDist) {
+      bestSegDist = d
+      bestSeg = i
+      let acc = 0
+      for (let j = 0; j < i; j++) acc += segLens[j]
+      distFromStart = acc + u * Math.hypot(dx, dy)
+    }
+  }
+  void bestSeg
+  return distFromStart >= total / 2 ? 1 : 0
 }
 
 /**
@@ -168,44 +303,6 @@ export function resolveRailPolyline(
 export function orthogonalConnector(from: Point, to: Point): Point[] {
   if (from.x === to.x || from.y === to.y) return [from, to]
   return [from, { x: to.x, y: from.y }, to]
-}
-
-/**
- * Resolve the world-space point at parameter t along a rail polyline.
- * t=0 is first point, t=1 is last point; linear interpolation along segments.
- */
-export function resolveParametricPoint(rail: Rail, t: number): Point {
-  const pts = rail.points
-  if (pts.length === 0) return { x: 0, y: 0 }
-  if (pts.length === 1) return { ...pts[0] }
-
-  // Compute total length and per-segment lengths
-  const segLengths: number[] = []
-  let totalLength = 0
-  for (let i = 0; i < pts.length - 1; i++) {
-    const dx = pts[i + 1].x - pts[i].x
-    const dy = pts[i + 1].y - pts[i].y
-    const len = Math.sqrt(dx * dx + dy * dy)
-    segLengths.push(len)
-    totalLength += len
-  }
-
-  if (totalLength === 0) return { ...pts[0] }
-
-  const target = Math.max(0, Math.min(1, t)) * totalLength
-  let accumulated = 0
-  for (let i = 0; i < segLengths.length; i++) {
-    if (accumulated + segLengths[i] >= target) {
-      const local = (target - accumulated) / segLengths[i]
-      return {
-        x: pts[i].x + local * (pts[i + 1].x - pts[i].x),
-        y: pts[i].y + local * (pts[i + 1].y - pts[i].y),
-      }
-    }
-    accumulated += segLengths[i]
-  }
-
-  return { ...pts[pts.length - 1] }
 }
 
 /**

@@ -105,10 +105,11 @@ export function hitTestRailEndpoint(
     const pts = resolveRailPolyline(rail, rails)
     if (pts.length < 2) continue
 
-    // The first point is only an adjustable handle when it isn't a fork origin
-    // (a fork's parent owns it). Rails are never anchored to bubbles.
-    const anchoredStart = rail.parametricOrigin !== null
-    const candidates: number[] = anchoredStart ? [pts.length - 1] : [0, pts.length - 1]
+    // For a tee, only the free endpoint (points[0]) is a real handle — the
+    // junction/elbow at the other end is derived from the parent and the ray,
+    // and clicking it should not be possible. Plain rails have handles at
+    // both polyline ends as usual.
+    const candidates: number[] = rail.tee ? [0] : [0, pts.length - 1]
     for (const endIndex of candidates) {
       const p = pts[endIndex]
       const dx = worldPt.x - p.x

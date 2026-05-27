@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import type { Bubble, Feeder, InputSlot, OutputConnector, OutputSlot, Point, Rail, ViewportTransform } from './types'
+import { resolveRailPolyline, rayHitPolyline, teeAnchorSideForHit } from './geometry'
 
 // ============================================================
 // Store shape
@@ -54,7 +55,14 @@ export interface SceneStore extends AuthoredState, DerivedState {
   // --- Rail mutations ---
   addRail: (rail: Rail) => void
   updateRailPoints: (id: string, points: Point[]) => void
-  updateRailParametricT: (id: string, t: number) => void
+  /**
+   * For every tee whose parent is `parentId`, recompute `tee.anchorEndIndex`
+   * from the current ray↔parent intersection. No-op for children whose ray
+   * currently misses the parent (the existing anchor is preserved so the
+   * elbow stays on the side the ray slid off). Call this from drag handlers
+   * whenever a parent or child rail moves.
+   */
+  recomputeTeeAnchors: (parentId: string) => void
   deleteRail: (id: string) => void
   setRailSupply: (id: string, isSupply: boolean) => void
   /** Replace the set of resource types a rail/bus carries (must keep ≥1). */
@@ -238,17 +246,32 @@ export const useSceneStore = create<SceneStore>()((set, _get) => ({
     triggerSolverRecompute()
   },
 
-  updateRailParametricT(id, t) {
+  recomputeTeeAnchors(parentId) {
     set(state => {
-      const rail = state.rails[id]
-      if (!rail || !rail.parametricOrigin) return state
-      const clamped = Math.max(0, Math.min(1, t))
-      return {
-        rails: {
-          ...state.rails,
-          [id]: { ...rail, parametricOrigin: { ...rail.parametricOrigin, t: clamped } },
-        },
+      const parent = state.rails[parentId]
+      if (!parent) return state
+      const parentPoly = resolveRailPolyline(parent, state.rails)
+      let next = state.rails
+      let dirty = false
+      for (const child of Object.values(state.rails)) {
+        if (!child.tee || child.tee.parentRailId !== parentId) continue
+        if (child.points.length < 2) continue
+        const freeEnd = child.points[0]
+        const ref = child.points[1]
+        const dx = ref.x - freeEnd.x
+        const dy = ref.y - freeEnd.y
+        const len = Math.hypot(dx, dy)
+        if (len === 0) continue
+        const dn = { x: dx / len, y: dy / len }
+        const hit = rayHitPolyline(freeEnd, dn, parentPoly)
+        if (!hit) continue
+        const side = teeAnchorSideForHit(parentPoly, hit)
+        if (side !== child.tee.anchorEndIndex) {
+          if (!dirty) { next = { ...state.rails }; dirty = true }
+          next[child.id] = { ...child, tee: { ...child.tee, anchorEndIndex: side } }
+        }
       }
+      return dirty ? { rails: next } : state
     })
     triggerSolverRecompute()
   },
