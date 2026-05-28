@@ -4,6 +4,7 @@ import { getRailColor, getRailLabelColor } from '../scene/colors'
 import { resolveRailPolyline } from '../scene/geometry'
 import { useSceneStore } from '../scene/store'
 import { useEditingStore } from '../editing/store'
+import { prettify } from '../recipes/labels'
 
 interface Props {
   rails: Rail[]
@@ -109,7 +110,7 @@ function RailEndpointHandles({ points, color, radius, showFirst, showLast }: Han
 /** Display name for a rail: explicit label, the single type, or "Bus (N)". */
 export function railBusLabel(rail: Rail): string {
   if (rail.label) return `${rail.label} (${rail.resourceTypes.length})`
-  if (rail.resourceTypes.length === 1) return rail.resourceTypes[0]
+  if (rail.resourceTypes.length === 1) return prettify(rail.resourceTypes[0])
   return `Bus (${rail.resourceTypes.length})`
 }
 

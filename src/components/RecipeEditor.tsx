@@ -7,19 +7,12 @@ import { useMemo, useState } from 'react'
 import { useRecipeStore, getBundledMap } from '../recipes/store'
 import type { Recipe } from '../recipes/types'
 import { resolveProductId } from '../recipes/normalize'
+import { prettify } from '../recipes/labels'
 
 interface Props {
   onClose: () => void
   /** Pre-fill editing an existing recipe by id */
   editRecipeId?: string
-}
-
-/** Turn a resource id like "copper-plate" into "Copper Plate". */
-function prettify(id: string): string {
-  return id
-    .split(/[-_\s]+/)
-    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(' ')
 }
 
 /** Derive a kebab-case id from a label string. */
