@@ -5,17 +5,10 @@ import { useRecipeStore } from '../recipes/store'
 import { useSceneStore } from '../scene/store'
 import { getIconCoords, resolveRecipeIconId, SPRITE_SIZE, iconsUrl } from '../recipes/iconAtlas'
 import type { Recipe } from '../recipes/types'
+import { prettify } from '../recipes/labels'
 
 interface Props {
   bubbles: Bubble[]
-}
-
-/** Turn a resource id like "copper-plate" into "Copper Plate". */
-function prettify(id: string): string {
-  return id
-    .split('-')
-    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(' ')
 }
 
 /** Truncate a label to fit a box of the given pixel width (≈5.4px/char at 9.5pt). */
