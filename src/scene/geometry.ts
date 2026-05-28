@@ -26,13 +26,15 @@ export function outputTabTip(box: { x: number; width: number; centerY: number; s
 }
 
 // --- Input box layout ---
-// Each recipe input is drawn as a rectangular tab on the left of the bubble.
-// Tabs stack vertically AND stagger further left with each index, so the
-// vertical feeder drops (which land on each tab's left edge) never overlap.
+// Each recipe input/output is drawn as a rectangular tab beside the bubble.
+// Tabs stack vertically and share one UNIFORM width per side — their outer
+// edge (the feeder/connector attach `port`) therefore lines up across tabs.
+// (Previously each successive tab was staggered wider to spread the feeder
+// drops apart; that read as haphazard. Feeder-drop overlap is now handled by
+// the feeder router, not by tab width.)
 export const INPUT_BOX_HEIGHT = 18
 export const INPUT_BOX_VGAP = 6
-export const INPUT_BOX_BASE_WIDTH = 92
-export const INPUT_BOX_STAGGER = 22
+export const INPUT_BOX_WIDTH = 112
 export const INPUT_BOX_LEAD = 12 // gap between a tab's right edge and the circle's leftmost x
 
 export interface InputBoxGeometry {
@@ -61,10 +63,10 @@ export function bubbleOutputPort(center: Point): Point {
 
 /**
  * Geometry of input box `index` of `total` on a given `side`.
- * Boxes on each side are stacked vertically (centered on the bubble) and each
- * successive box is wider — staggering outward from the bubble so the feeder
- * drop points (the outer-edge `port`) never overlap. Left-side tabs stagger
- * left and attach on their left edge; right-side tabs mirror this.
+ * Boxes on each side are stacked vertically (centered on the bubble) and all
+ * share one uniform width, so their outer-edge `port` (the feeder/connector
+ * attach point) lines up across tabs. Left-side tabs attach on their left
+ * edge; right-side tabs mirror this.
  */
 export function bubbleInputBox(
   center: Point,
@@ -77,7 +79,7 @@ export function bubbleInputBox(
   const stackHeight = n * INPUT_BOX_HEIGHT + (n - 1) * INPUT_BOX_VGAP
   const firstCenterY = center.y - stackHeight / 2 + INPUT_BOX_HEIGHT / 2
   const centerY = firstCenterY + index * pitch
-  const width = INPUT_BOX_BASE_WIDTH + index * INPUT_BOX_STAGGER
+  const width = INPUT_BOX_WIDTH
 
   if (side === 'left') {
     const innerX = center.x - BUBBLE_RADIUS - INPUT_BOX_LEAD

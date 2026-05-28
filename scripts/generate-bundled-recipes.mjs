@@ -208,9 +208,15 @@ await writeFile(new URL('../src/recipes/bundled.json', import.meta.url), JSON.st
 // We negate them to get the sprite's top-left corner in the sheet.
 // ──────────────────────────────────────────────────────────────
 const entries = {}
+// itemColors: authentic FactorioLab per-item color (average icon color),
+// keyed by item id. Consumed by src/scene/colors.ts as the base palette so the
+// color-coding covers every item, not just a hand-maintained subset.
+const itemColors = {}
 if (Array.isArray(iconDefs)) {
   for (const icon of iconDefs) {
-    if (!icon.id || !icon.position) continue
+    if (!icon.id) continue
+    if (icon.color) itemColors[icon.id] = icon.color
+    if (!icon.position) continue
     // Parse "-66px 0px" → x=66, y=0
     const match = icon.position.match(/^(-?\d+)px\s+(-?\d+)px$/)
     if (!match) continue
@@ -222,6 +228,10 @@ if (Array.isArray(iconDefs)) {
 
 const atlas = { spriteSize: SPRITE_SIZE, entries }
 await writeFile(new URL('../src/recipes/iconAtlas.json', import.meta.url), JSON.stringify(atlas, null, 2) + '\n')
+
+// Sort keys for a stable, diff-friendly file.
+const sortedColors = Object.fromEntries(Object.keys(itemColors).sort().map(k => [k, itemColors[k]]))
+await writeFile(new URL('../src/recipes/itemColors.json', import.meta.url), JSON.stringify(sortedColors, null, 2) + '\n')
 
 // Download and write the sprite sheet binary
 const iconsRes = await fetch(ICONS_URL)
