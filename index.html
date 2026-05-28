@@ -5,6 +5,26 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Factorio Plotter</title>
+    <style>
+      :root {
+        /* Offline-safe stack: Inter if installed, else Segoe UI Variable on
+           Win11 (both clean geometric sans), then platform fallbacks. No
+           network fetch — the tool stays fully offline. */
+        --ui-font: 'Inter', 'Segoe UI Variable Text', 'Segoe UI', system-ui,
+          -apple-system, 'Helvetica Neue', Arial, sans-serif;
+      }
+      html, body {
+        margin: 0;
+        height: 100%;
+        background: #1a1a2e;
+        font-family: var(--ui-font);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      #root { height: 100%; }
+      /* SVG <text> does not inherit the document font by default — pin it. */
+      svg text { font-family: var(--ui-font); }
+    </style>
   </head>
   <body>
     <div id="root"></div>

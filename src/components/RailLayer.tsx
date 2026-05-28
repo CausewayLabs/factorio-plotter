@@ -118,6 +118,10 @@ interface LabelProps {
   color: string
 }
 
+/** Canvas background — knockout fill behind labels (matches Canvas.tsx). */
+const CANVAS_BG = '#1a1a2e'
+const RAIL_LABEL_FONT = 15
+
 function RailLabel({ rail, color }: LabelProps) {
   const pts = rail.points
   if (pts.length < 2) return null
@@ -127,20 +131,36 @@ function RailLabel({ rail, color }: LabelProps) {
     x: (pts[0].x + pts[1].x) / 2,
     y: (pts[0].y + pts[1].y) / 2,
   }
+  const text = railBusLabel(rail)
+  // Background knockout so rails/feeders crossing the label don't slice the
+  // text. Width is estimated from glyph count (~0.55em) — exact metrics aren't
+  // available in SVG without measuring, and a slightly generous box is fine.
+  const cy = mid.y - 10
+  const boxW = text.length * RAIL_LABEL_FONT * 0.56 + 12
+  const boxH = RAIL_LABEL_FONT + 6
 
   return (
-    <text
-      x={mid.x}
-      y={mid.y - 10}
-      textAnchor="middle"
-      fontSize={15}
-      fill={color}
-      stroke="#1a1a2e"
-      strokeWidth={3}
-      paintOrder="stroke"
-      style={{ userSelect: 'none', pointerEvents: 'none' }}
-    >
-      {railBusLabel(rail)}
-    </text>
+    <g style={{ pointerEvents: 'none' }}>
+      <rect
+        x={mid.x - boxW / 2}
+        y={cy - boxH / 2}
+        width={boxW}
+        height={boxH}
+        rx={4}
+        fill={CANVAS_BG}
+        opacity={0.85}
+      />
+      <text
+        x={mid.x}
+        y={cy}
+        textAnchor="middle"
+        dominantBaseline="central"
+        fontSize={RAIL_LABEL_FONT}
+        fill={color}
+        style={{ userSelect: 'none' }}
+      >
+        {text}
+      </text>
+    </g>
   )
 }
