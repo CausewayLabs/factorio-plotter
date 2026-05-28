@@ -121,6 +121,12 @@ interface LabelProps {
 /** Canvas background — knockout fill behind labels (matches Canvas.tsx). */
 const CANVAS_BG = '#1a1a2e'
 const RAIL_LABEL_FONT = 15
+const RAIL_LABEL_BOX_H = RAIL_LABEL_FONT + 6
+// On a horizontal rail, lift the label fully above the rail (clearing its
+// ~8px shadow stroke plus a gap) so the line never crosses the text. On a
+// vertical rail the label keeps its original on-line offset.
+const RAIL_HALF = 5
+const RAIL_LABEL_GAP = 5
 
 function RailLabel({ rail, color }: LabelProps) {
   const pts = rail.points
@@ -132,20 +138,25 @@ function RailLabel({ rail, color }: LabelProps) {
     y: (pts[0].y + pts[1].y) / 2,
   }
   const text = railBusLabel(rail)
-  // Background knockout so rails/feeders crossing the label don't slice the
-  // text. Width is estimated from glyph count (~0.55em) — exact metrics aren't
+  // Authored rails are orthogonal, so the first segment is strictly H or V.
+  const isHorizontal = Math.abs(pts[1].y - pts[0].y) <= Math.abs(pts[1].x - pts[0].x)
+  // Horizontal: clear the whole rail (box bottom sits above the rail + gap).
+  // Vertical: keep the original on-line offset.
+  const cy = isHorizontal
+    ? mid.y - (RAIL_HALF + RAIL_LABEL_GAP + RAIL_LABEL_BOX_H / 2)
+    : mid.y - 10
+  // Background knockout so feeders crossing the label don't slice the text.
+  // Width is estimated from glyph count (~0.56em) — exact metrics aren't
   // available in SVG without measuring, and a slightly generous box is fine.
-  const cy = mid.y - 10
   const boxW = text.length * RAIL_LABEL_FONT * 0.56 + 12
-  const boxH = RAIL_LABEL_FONT + 6
 
   return (
     <g style={{ pointerEvents: 'none' }}>
       <rect
         x={mid.x - boxW / 2}
-        y={cy - boxH / 2}
+        y={cy - RAIL_LABEL_BOX_H / 2}
         width={boxW}
-        height={boxH}
+        height={RAIL_LABEL_BOX_H}
         rx={4}
         fill={CANVAS_BG}
         opacity={0.85}
