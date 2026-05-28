@@ -167,9 +167,10 @@ export interface Feeder {
   /** The source the feeder connects from */
   source: FeederSource
   /**
-   * Orthogonal path from source attach-point to bubble input port.
-   * L-shaped or Z-shaped (2–3 segments). Collapses to a single segment
-   * when source is directly aligned.
+   * Orthogonal trunk path from source attach-point to bubble input port,
+   * routed through a globally-reserved grid lane (`solver/feederRouting.ts`):
+   * 2–4 points (L- or Z-shaped). Collapses toward a straight segment when the
+   * reserved lane aligns with the port.
    */
   pathPoints: Point[]
   /** World-space point on the bubble where this feeder terminates */

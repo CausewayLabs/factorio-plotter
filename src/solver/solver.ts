@@ -16,6 +16,7 @@ import type { Recipe } from '../recipes/types'
 import { bubbleInputBox, nearestPointOnPolyline, orthogonalConnector, outputTabTip } from '../scene/geometry'
 import { resolveRailPolyline } from '../scene/geometry'
 import { canonicalProductKey } from '../recipes/normalize'
+import { routeFeeders } from './feederRouting'
 
 // ============================================================
 // Public interface
@@ -63,6 +64,10 @@ export function solveScene(input: SolverInput): SolverOutput {
   for (const rail of railArray) {
     resolvedRailPoints.set(rail.id, resolveRailPolyline(rail, rails))
   }
+
+  // Bubble centers — used by feeder routing to keep a bubble-source trunk on the
+  // emit's outward side (so it never backtracks over the source's output tab).
+  const bubbleCenters = new Map(bubbleArray.map(b => [b.id, b.position]))
 
   // Supply rails available as sources
   const supplyRails = railArray.filter(r => r.isSupply)
@@ -274,6 +279,11 @@ export function solveScene(input: SolverInput): SolverOutput {
       feeder.source = { kind: 'bubble', bubbleId: source.id, attachPoint: outPort }
       feeder.pathPoints = [outPort, feeder.inputPort]
     }
+
+    // Final pass: rewrite every feeder into an orthogonal trunk routed through a
+    // globally-reserved grid lane so parallel feeders never stack — including
+    // feeders coming from different rails. Source attach points are final here.
+    routeFeeders(feeders, resolvedRailPoints, bubbleCenters)
 
     return { feeders, outputConnectors, missingInputs, inputLayouts, outputLayouts }
   }
