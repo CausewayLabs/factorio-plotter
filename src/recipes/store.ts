@@ -2,6 +2,31 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import bundledData from './bundled.json'
 import type { Recipe, RecipeMap, UserRecipeSet } from './types'
+import { prettify } from './labels'
+
+// ============================================================
+// Virtual "raw input" recipes
+// ============================================================
+//
+// "Raw" is modeled as a recipe with empty inputs[] (charter: a product whose
+// recipe is empty is a raw/base resource). The bundled catalog only carries raw
+// recipes for true raw resources (ores, fluids, barrels). To let the user
+// declare ANY product as externally-supplied — e.g. "I bring in holmium plates
+// from off-diagram" — we synthesize a raw recipe on demand for any product that
+// lacks one. The id convention `raw:<productId>` is self-describing and round-
+// trips through persistence (getRecipeById re-synthesizes it on load).
+
+const RAW_PREFIX = 'raw:'
+
+/** Synthesize the virtual raw-input recipe for a product id. */
+export function makeRawRecipe(productId: string): Recipe {
+  return {
+    id: RAW_PREFIX + productId,
+    label: `${prettify(productId)} (raw)`,
+    inputs: [],
+    products: [productId],
+  }
+}
 
 // ============================================================
 // Build the bundled recipe map from JSON
@@ -97,19 +122,29 @@ export const useRecipeStore = create<RecipeStore>()(
       },
 
       getRecipeById(id) {
-        return get().getMergedMap()[id] ?? null
+        const found = get().getMergedMap()[id]
+        if (found) return found
+        // Synthesize virtual raw recipes (raw:<productId>) not in the catalog.
+        if (id.startsWith(RAW_PREFIX)) return makeRawRecipe(id.slice(RAW_PREFIX.length))
+        return null
       },
 
       getRecipesForProduct(productId) {
         const all = Object.values(get().getMergedMap())
         const matching = all.filter(r => r.products.includes(productId))
-        return matching.sort((a, b) => {
+        matching.sort((a, b) => {
           const aPrimary = a.products[0] === productId
           const bPrimary = b.products[0] === productId
           if (aPrimary && !bPrimary) return -1
           if (!aPrimary && bPrimary) return 1
           return a.id.localeCompare(b.id)
         })
+        // Always offer a raw-input option: any product can be declared
+        // externally-supplied. Skip if the catalog already has a raw recipe.
+        if (!matching.some(r => r.inputs.length === 0)) {
+          matching.push(makeRawRecipe(productId))
+        }
+        return matching
       },
 
       getAllProductIds() {

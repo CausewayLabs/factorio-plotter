@@ -4,7 +4,7 @@
  * Default recipes (products[0] match) sort first.
  */
 import { useMemo, useState } from 'react'
-import { useRecipeStore } from '../recipes/store'
+import { useRecipeStore, makeRawRecipe } from '../recipes/store'
 import type { Recipe } from '../recipes/types'
 
 interface Props {
@@ -32,7 +32,10 @@ export default function ProductPicker({ onSelect, onClose }: Props) {
       return allRecipes.map(r => ({ recipe: r, matchedViaProduct: null }))
     }
     const result: RecipeRow[] = []
+    const matchedProducts = new Set<string>()
+    const productsWithRaw = new Set<string>()
     for (const r of allRecipes) {
+      if (r.inputs.length === 0) r.products.forEach(p => productsWithRaw.add(p))
       // Match by recipe label
       if (r.label.toLowerCase().includes(q) || r.id.toLowerCase().includes(q)) {
         result.push({ recipe: r, matchedViaProduct: null })
@@ -42,6 +45,14 @@ export default function ProductPicker({ onSelect, onClose }: Props) {
       const matchedProduct = r.products.find(p => p.toLowerCase().includes(q))
       if (matchedProduct) {
         result.push({ recipe: r, matchedViaProduct: matchedProduct })
+        matchedProducts.add(matchedProduct)
+      }
+    }
+    // For any product matched by name that has no catalog raw recipe, offer a
+    // synthetic "raw input" row so any item can be placed as an external supply.
+    for (const p of matchedProducts) {
+      if (!productsWithRaw.has(p)) {
+        result.push({ recipe: makeRawRecipe(p), matchedViaProduct: p })
       }
     }
     // Sort: primary product matches (products[0] === match) first
