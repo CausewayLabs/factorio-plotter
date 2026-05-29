@@ -718,13 +718,13 @@ export default function Canvas() {
               style={{ padding: '5px 14px', cursor: 'pointer', color: '#c0c0d0', fontSize: 13 }}
               onClick={() => { const pt = quickAdd.worldPt; setQuickAdd(null); openProductPicker(pt) }}
             >
-              + Bubble
+              + Producer
             </div>
             <div
               style={{ padding: '5px 14px', cursor: 'pointer', color: '#c0c0d0', fontSize: 13 }}
               onClick={() => { const pt = quickAdd.worldPt; setQuickAdd(null); openResourcePicker(pt) }}
             >
-              + Rail
+              + Bus
             </div>
           </div>
         </>
