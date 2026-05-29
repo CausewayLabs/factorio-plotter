@@ -57,7 +57,7 @@ export default function ResourcePicker({ onSelect, onClose }: Props) {
     <div style={overlayStyle} onClick={onClose}>
       <div style={panelStyle} onClick={e => e.stopPropagation()}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3 style={{ color: '#e0e0ff', margin: 0, fontSize: 15 }}>Rail / Bus Resource</h3>
+          <h3 style={{ color: '#e0e0ff', margin: 0, fontSize: 15 }}>Bus Resource</h3>
           <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#808080', cursor: 'pointer', fontSize: 18 }}>×</button>
         </div>
 
