@@ -105,11 +105,11 @@ export default function Toolbar() {
       <button style={btnStyle(tool === 'select')} onClick={handleSelectTool} title="Select / Pan (S)">
         Select
       </button>
-      <button style={btnStyle(tool === 'place-bubble')} onClick={handlePlaceBubble} title="Place Bubble (B)">
-        + Bubble
+      <button style={btnStyle(tool === 'place-bubble')} onClick={handlePlaceBubble} title="Place Producer (B)">
+        + Producer
       </button>
-      <button style={btnStyle(tool === 'draw-rail')} onClick={handleDrawRail} title="Draw Rail (R)">
-        + Rail
+      <button style={btnStyle(tool === 'draw-rail')} onClick={handleDrawRail} title="Draw Bus (R)">
+        + Bus
       </button>
 
       <div style={sepStyle} />
@@ -133,9 +133,9 @@ export default function Toolbar() {
       {/* Tool indicator */}
       <div style={{ marginLeft: 8, color: '#606080', fontSize: 11 }}>
         {tool === 'select' && 'Click to select, drag to pan'}
-        {tool === 'place-bubble' && 'Click canvas to place bubble'}
+        {tool === 'place-bubble' && 'Click canvas to place producer'}
         {tool === 'draw-rail' && 'Click to add points, double-click to finish'}
-        {tool === 'fork-rail' && 'Click on a rail to fork it'}
+        {tool === 'fork-rail' && 'Click on a bus to fork it'}
       </div>
     </div>
   )

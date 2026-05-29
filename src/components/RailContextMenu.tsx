@@ -77,7 +77,7 @@ export default function RailContextMenu({ rail, screenPos, nearestT, onClose }: 
       <div style={{ position: 'fixed', inset: 0, zIndex: 299 }} onClick={onClose} />
       <div style={menuStyle} onClick={e => e.stopPropagation()}>
         <div style={sectionStyle}>
-          {liveRail.label ? `${liveRail.label} bus` : materials.length > 1 ? 'Bus' : 'Rail'}
+          {liveRail.label ? `${liveRail.label} bus` : 'Bus'}
           {' · '}{materials.length} material{materials.length === 1 ? '' : 's'}
         </div>
         <div style={{ ...sectionStyle, color: '#404060' }}>
@@ -139,11 +139,11 @@ export default function RailContextMenu({ rail, screenPos, nearestT, onClose }: 
           {liveRail.isSupply ? 'Disable Supply' : 'Enable Supply'}
         </div>
         <div style={itemStyle} onClick={handleFork}>
-          Fork Rail (T-branch)
+          Fork Bus (T-branch)
         </div>
         <div style={divStyle} />
         <div style={{ ...itemStyle, color: '#e06060' }} onClick={handleDelete}>
-          Delete Rail
+          Delete Bus
         </div>
       </div>
     </>

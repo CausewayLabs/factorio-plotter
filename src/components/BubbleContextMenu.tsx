@@ -149,7 +149,7 @@ export default function BubbleContextMenu({ bubble, screenPos, onClose, onOpenRe
           style={{ ...itemStyle, color: '#e06060' }}
           onClick={handleDelete}
         >
-          Delete Bubble
+          Delete Producer
         </div>
       </div>
     </>
