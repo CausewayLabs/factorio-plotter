@@ -137,6 +137,17 @@ export default function Canvas() {
   // Hover affordance in select mode: 'port' → branch-bus, 'endpoint' → resize,
   // 'rail' → move.
   const [hoverMode, setHoverMode] = useState<'port' | 'endpoint' | 'rail' | null>(null)
+  // Multi-select: set of selected bubble ids.
+  const [selectedBubbleIds, setSelectedBubbleIds] = useState<Set<string>>(new Set())
+  // Group-drag anchor: world position at drag start + original positions of each selected bubble.
+  const dragAnchorWorld = useRef<Point | null>(null)
+  const selectedOrigPositions = useRef<Map<string, Point>>(new Map())
+  // Shift+drag on empty canvas: selection-box state.
+  const selectionBoxDrag = useRef<{
+    startWorld: Point
+    startClient: { x: number; y: number }
+    moved: boolean
+  } | null>(null)
 
   function getSvgPt(e: React.MouseEvent): { x: number; y: number } {
     const rect = svgRef.current?.getBoundingClientRect()
@@ -253,8 +264,34 @@ export default function Canvas() {
         }
         const hit = hitTest(screenPt, viewport, bubblesMap, railsMap)
         if (hit?.kind === 'bubble') {
+          if (e.shiftKey) {
+            // Shift+click: toggle this bubble in the selection, don't start a drag.
+            const next = new Set(selectedBubbleIds)
+            if (next.has(hit.id)) next.delete(hit.id)
+            else next.add(hit.id)
+            setSelectedBubbleIds(next)
+            return
+          }
+          // No shift: if the bubble is already in the selection keep the group;
+          // otherwise reset to a single-bubble selection.
+          const newSel = selectedBubbleIds.has(hit.id)
+            ? selectedBubbleIds
+            : new Set([hit.id])
+          if (newSel !== selectedBubbleIds) setSelectedBubbleIds(newSel)
+
           isDraggingBubble.current = hit.id
           lastMouse.current = { x: e.clientX, y: e.clientY }
+
+          // Set up group drag when more than one bubble is selected.
+          if (newSel.size > 1) {
+            dragAnchorWorld.current = worldPt
+            const origins = new Map<string, Point>()
+            for (const id of newSel) {
+              const b = bubblesMap[id]
+              if (b) origins.set(id, { ...b.position })
+            }
+            selectedOrigPositions.current = origins
+          }
         } else if (hit?.kind === 'rail') {
           // Press on a rail body: a drag relocates the whole rail; a click with
           // no drag opens the materials/context menu (decided on mouseup).
@@ -273,9 +310,19 @@ export default function Canvas() {
             moved: false,
           }
         } else {
-          // Pan on empty canvas click
-          isPanning.current = true
-          lastMouse.current = { x: e.clientX, y: e.clientY }
+          if (e.shiftKey) {
+            // Shift+drag on empty canvas: start a selection box.
+            selectionBoxDrag.current = {
+              startWorld: worldPt,
+              startClient: { x: e.clientX, y: e.clientY },
+              moved: false,
+            }
+          } else {
+            // Regular click/drag on empty canvas: clear selection and pan.
+            if (selectedBubbleIds.size > 0) setSelectedBubbleIds(new Set())
+            isPanning.current = true
+            lastMouse.current = { x: e.clientX, y: e.clientY }
+          }
         }
       }
     } else if (tool === 'place-bubble') {
@@ -295,6 +342,7 @@ export default function Canvas() {
           { ...bubblesMap, [bubble.id]: bubble },
           railsMap
         )
+        resetEditing()
       }
     } else if (tool === 'draw-rail') {
       if (e.button === 0) {
@@ -358,7 +406,7 @@ export default function Canvas() {
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tool, viewport, bubblesMap, railsMap, pendingRecipeId, pendingRailResourceTypes, pendingRailLabel, drawingPoints, forkTarget, contextMenu, quickAdd])
+  }, [tool, viewport, bubblesMap, railsMap, pendingRecipeId, pendingRailResourceTypes, pendingRailLabel, drawingPoints, forkTarget, contextMenu, quickAdd, selectedBubbleIds])
 
   // --- Double-click: quick-add menu on empty canvas (select mode) ---
   const onDoubleClick = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
@@ -438,15 +486,29 @@ export default function Canvas() {
       return
     }
 
+    // --- Selection-box drag (select mode): shift+drag on empty canvas ---
+    if (selectionBoxDrag.current) {
+      const drag = selectionBoxDrag.current
+      const dxc = e.clientX - drag.startClient.x
+      const dyc = e.clientY - drag.startClient.y
+      if (!drag.moved && Math.abs(dxc) + Math.abs(dyc) > 4) drag.moved = true
+      return
+    }
+
     if (isDraggingBubble.current) {
       const dx = e.clientX - lastMouse.current.x
       const dy = e.clientY - lastMouse.current.y
       if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
-        const newPos = {
-          x: worldPt.x,
-          y: worldPt.y,
+        if (dragAnchorWorld.current && selectedOrigPositions.current.size > 1) {
+          // Group drag: move all selected bubbles by world-space delta from anchor.
+          const worldDx = worldPt.x - dragAnchorWorld.current.x
+          const worldDy = worldPt.y - dragAnchorWorld.current.y
+          for (const [id, origPos] of selectedOrigPositions.current) {
+            moveBubble(id, { x: origPos.x + worldDx, y: origPos.y + worldDy })
+          }
+        } else {
+          moveBubble(isDraggingBubble.current, { x: worldPt.x, y: worldPt.y })
         }
-        moveBubble(isDraggingBubble.current, newPos)
         lastMouse.current = { x: e.clientX, y: e.clientY }
         autosave(bubblesMap, railsMap)
       }
@@ -481,9 +543,31 @@ export default function Canvas() {
   }, [viewport, panBy, moveBubble, bubblesMap, railsMap, updateRailPoints, tool, hoverMode])
 
   // --- Mouse up ---
-  const onMouseUp = useCallback(() => {
+  const onMouseUp = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
     isPanning.current = false
     isDraggingBubble.current = null
+    dragAnchorWorld.current = null
+    selectedOrigPositions.current = new Map()
+
+    // Finish a selection-box drag: select all bubbles whose centre falls inside.
+    const selBox = selectionBoxDrag.current
+    selectionBoxDrag.current = null
+    if (selBox) setMousePosWorld(p => (p ? { ...p } : p))
+    if (selBox?.moved) {
+      const endPt = screenToWorld(getSvgPt(e), viewport)
+      const x0 = Math.min(selBox.startWorld.x, endPt.x)
+      const y0 = Math.min(selBox.startWorld.y, endPt.y)
+      const x1 = Math.max(selBox.startWorld.x, endPt.x)
+      const y1 = Math.max(selBox.startWorld.y, endPt.y)
+      const boxed = new Set<string>()
+      for (const b of bubbleArray) {
+        if (b.position.x >= x0 && b.position.x <= x1 &&
+            b.position.y >= y0 && b.position.y <= y1) {
+          boxed.add(b.id)
+        }
+      }
+      setSelectedBubbleIds(prev => new Set([...prev, ...boxed]))
+    }
 
     // Finish an emit-output drag: bind the bubble's output to a bus.
     const emit = outputDrag.current
@@ -560,7 +644,7 @@ export default function Canvas() {
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bubblesMap, railsMap])
+  }, [bubblesMap, railsMap, viewport, bubbleArray])
 
   // --- Zoom ---
   const onWheel = useCallback((e: React.WheelEvent<SVGSVGElement>) => {
@@ -601,6 +685,7 @@ export default function Canvas() {
         onDoubleClick={onDoubleClick}
         onWheel={onWheel}
         onContextMenu={onContextMenu}
+        onDragStart={e => e.preventDefault()}
       >
         <g transform={transform}>
           {/* Halo mask: lines (rails + feeders) stop rendering ~15px outside any
@@ -621,7 +706,7 @@ export default function Canvas() {
             <FeederLayer feeders={feeders} />
             <OutputConnectorLayer connectors={outputConnectors} />
           </g>
-          <BubbleLayer bubbles={bubbleArray} />
+          <BubbleLayer bubbles={bubbleArray} selectedIds={selectedBubbleIds} />
 
           {/* Emit-output preview: orthogonal connector from the output port to the cursor */}
           {outputDrag.current && mousePosWorld && (
@@ -669,6 +754,24 @@ export default function Canvas() {
               style={{ pointerEvents: 'none' }}
             />
           )}
+
+          {/* Selection-box preview (shift+drag on empty canvas) */}
+          {selectionBoxDrag.current?.moved && mousePosWorld && (() => {
+            const sw = selectionBoxDrag.current!.startWorld
+            const ew = mousePosWorld
+            const sw2 = 1 / viewport.zoom
+            return (
+              <rect
+                x={Math.min(sw.x, ew.x)} y={Math.min(sw.y, ew.y)}
+                width={Math.abs(ew.x - sw.x)} height={Math.abs(ew.y - sw.y)}
+                fill="rgba(74, 158, 255, 0.08)"
+                stroke="#4a9eff"
+                strokeWidth={sw2}
+                strokeDasharray={`${4 * sw2},${3 * sw2}`}
+                style={{ pointerEvents: 'none' }}
+              />
+            )
+          })()}
         </g>
       </svg>
 

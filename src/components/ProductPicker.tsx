@@ -6,6 +6,7 @@
 import { useMemo, useState } from 'react'
 import { useRecipeStore, makeRawRecipe } from '../recipes/store'
 import type { Recipe } from '../recipes/types'
+import { prettify } from '../recipes/labels'
 
 interface Props {
   onSelect: (recipeId: string) => void
@@ -24,7 +25,10 @@ export default function ProductPicker({ onSelect, onClose }: Props) {
   const [selected, setSelected] = useState<string | null>(null)
   const [highlight, setHighlight] = useState(0)
 
-  const allRecipes = useMemo(() => getAllRecipes(), [getAllRecipes])
+  const allRecipes = useMemo(
+    () => getAllRecipes().filter(r => !r.products.every(p => p.endsWith('-technology'))),
+    [getAllRecipes]
+  )
 
   const rows: RecipeRow[] = useMemo(() => {
     const q = filter.trim().toLowerCase()
@@ -41,8 +45,10 @@ export default function ProductPicker({ onSelect, onClose }: Props) {
         result.push({ recipe: r, matchedViaProduct: null })
         continue
       }
-      // Match by any product name
-      const matchedProduct = r.products.find(p => p.toLowerCase().includes(q))
+      // Match by any product name (compare against both raw id and prettified English name)
+      const matchedProduct = r.products.find(p =>
+        p.toLowerCase().includes(q) || prettify(p).toLowerCase().includes(q)
+      )
       if (matchedProduct) {
         result.push({ recipe: r, matchedViaProduct: matchedProduct })
         matchedProducts.add(matchedProduct)
@@ -136,7 +142,7 @@ export default function ProductPicker({ onSelect, onClose }: Props) {
                   {recipe.label}
                   {matchedViaProduct && (
                     <span style={{ fontSize: 10, color: '#6080c0', background: '#1a2040', borderRadius: 3, padding: '1px 5px' }}>
-                      via {matchedViaProduct}
+                      via {prettify(matchedViaProduct)}
                     </span>
                   )}
                 </span>

@@ -9,6 +9,7 @@ import { prettify } from '../recipes/labels'
 
 interface Props {
   bubbles: Bubble[]
+  selectedIds: Set<string>
 }
 
 /** Truncate a label to fit a box of the given pixel width (≈5.4px/char at 9.5pt). */
@@ -30,7 +31,7 @@ interface InputDesc {
  * Renders all bubbles as SVG circles with labels, output resource indicators,
  * staggered input tabs (satisfied/unsatisfied styled), and missing badges.
  */
-export default function BubbleLayer({ bubbles }: Props) {
+export default function BubbleLayer({ bubbles, selectedIds }: Props) {
   const resolveRecipe = useRecipeStore(s => s.resolveRecipe)
   const getRecipeById = useRecipeStore(s => s.getRecipeById)
   const missingInputs = useSceneStore(s => s.missingInputs)
@@ -78,6 +79,7 @@ export default function BubbleLayer({ bubbles }: Props) {
             primaryProduct={primaryProduct}
             hasMissing={hasMissing}
             recipe={recipe ?? null}
+            selected={selectedIds.has(bubble.id)}
           />
         )
       })}
@@ -93,11 +95,12 @@ interface BubbleNodeProps {
   primaryProduct: string
   hasMissing: boolean
   recipe: Recipe | null
+  selected: boolean
 }
 
 const UNSAT_COLOR = '#e0556a'
 
-function BubbleNode({ bubble, inputs, outputs, label, primaryProduct, hasMissing, recipe }: BubbleNodeProps) {
+function BubbleNode({ bubble, inputs, outputs, label, primaryProduct, hasMissing, recipe, selected }: BubbleNodeProps) {
   const cx = bubble.position.x
   const cy = bubble.position.y
   const primaryColor = getResourceColor(primaryProduct)
@@ -120,6 +123,19 @@ function BubbleNode({ bubble, inputs, outputs, label, primaryProduct, hasMissing
             <circle cx={cx} cy={cy} r={clipR} />
           </clipPath>
         </defs>
+      )}
+
+      {/* Selection ring — rendered behind the main circle */}
+      {selected && (
+        <circle
+          cx={cx} cy={cy} r={BUBBLE_RADIUS + 6}
+          fill="none"
+          stroke="#e0e8ff"
+          strokeWidth={1.5}
+          strokeDasharray="4,3"
+          opacity={0.7}
+          style={{ pointerEvents: 'none' }}
+        />
       )}
 
       {/* Main circle — stroke tinted by primary product */}

@@ -28,6 +28,10 @@
 - [x] (planned: 2026-05-23, completed: 2026-05-23) Left-click a rail/bus (select tool) opens its panel showing the carried-material chips (reuses RailContextMenu) — "click a bus to see its items."
 - [ ] (planned: 2026-05-24, deferred — only-me for now, revisit if multi-user) Bus consolidation affordance: nudge users toward pushing every product onto a single multi-item bus rather than drawing one rail per product (real Factorio buses are bundles of parallel lines, which a single multi-resource rail already represents). Pure usability/onboarding; the data model already supports it.
 
+## Multi-select
+
+- [x] (planned: 2026-05-30, completed: 2026-05-30) **Multi-select + group move.** Shift+click a bubble toggles it in/out of `selectedBubbleIds` (Canvas local `useState<Set<string>>`). Click a bubble outside the current selection resets to single-bubble selection. Drag a bubble that is already in the selection → group drag: delta from `dragAnchorWorld` applied to all selected bubbles' original positions (`selectedOrigPositions` ref). Shift+drag on empty canvas → dashed selection-box rect (stroke scaled by `1/viewport.zoom`); mouseup selects all bubbles whose centre falls inside, merged into existing selection. Click (no drag) on empty canvas clears selection. Selected bubbles render a dashed white ring (`BUBBLE_RADIUS + 6`, `stroke: #e0e8ff`, `strokeDasharray: 4,3`, `opacity: 0.7`) in `BubbleLayer`. — decision: selection state lives in Canvas (not scene store) because it doesn't persist and the scene store is already owned by the solver/persistence boundary. `BubbleLayer` received a new `selectedIds: Set<string>` prop.
+
 ## Toggles
 
 - [x] (planned: 2026-05-23, completed: 2026-05-23) Rail supply ↔ non-supply (private) toggle (rail context menu); retriggers recompute.
