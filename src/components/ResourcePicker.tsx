@@ -19,14 +19,7 @@ export default function ResourcePicker({ onSelect, onClose }: Props) {
   const [customType, setCustomType] = useState('')
   const [highlight, setHighlight] = useState(0)
 
-  const allProducts = getAllProductIds().filter(p => {
-    const recipes = getRecipesForProduct(p)
-    if (recipes.length === 0) return true
-    return recipes.some(r =>
-      !r.products.every(prod => prod.endsWith('-technology')) &&
-      !(r.inputs.length > 0 && r.inputs.every(i => i.endsWith('-science-pack')))
-    )
-  })
+  const allProducts = getAllProductIds()
   const filtered = filter.trim()
     ? allProducts.filter(p => p.toLowerCase().includes(filter.toLowerCase()))
     : allProducts

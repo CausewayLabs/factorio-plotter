@@ -18,6 +18,14 @@ import { prettify } from './labels'
 
 const RAW_PREFIX = 'raw:'
 
+/** True for FactorioLab research/technology recipes that shouldn't appear in any picker. */
+function isResearchRecipe(r: Recipe): boolean {
+  return (
+    r.products.every(p => p.endsWith('-technology')) ||
+    (r.inputs.length > 0 && r.inputs.every(i => i.endsWith('-science-pack')))
+  )
+}
+
 /** Synthesize the virtual raw-input recipe for a product id. */
 export function makeRawRecipe(productId: string): Recipe {
   return {
@@ -118,7 +126,7 @@ export const useRecipeStore = create<RecipeStore>()(
       },
 
       getAllRecipes() {
-        return Object.values(get().getMergedMap())
+        return Object.values(get().getMergedMap()).filter(r => !isResearchRecipe(r))
       },
 
       getRecipeById(id) {
@@ -150,6 +158,7 @@ export const useRecipeStore = create<RecipeStore>()(
       getAllProductIds() {
         const ids = new Set<string>()
         for (const r of Object.values(get().getMergedMap())) {
+          if (isResearchRecipe(r)) continue
           for (const p of r.products) ids.add(p)
         }
         return [...ids].sort()
