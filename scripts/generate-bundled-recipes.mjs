@@ -63,6 +63,11 @@ function isExcluded(r) {
   }
   if (/barrel/.test(r.id)) return true
   if (isMining(r)) return true
+  // Research/technology recipes: products end in -technology, or all inputs are science packs
+  const outputs = Object.keys(r.out)
+  if (outputs.every(p => p.endsWith('-technology'))) return true
+  const inputs = Object.keys(r.in ?? {})
+  if (inputs.length > 0 && inputs.every(i => i.endsWith('-science-pack'))) return true
   return false
 }
 
