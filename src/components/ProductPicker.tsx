@@ -26,7 +26,10 @@ export default function ProductPicker({ onSelect, onClose }: Props) {
   const [highlight, setHighlight] = useState(0)
 
   const allRecipes = useMemo(
-    () => getAllRecipes().filter(r => !r.products.every(p => p.endsWith('-technology'))),
+    () => getAllRecipes().filter(r =>
+      !r.products.every(p => p.endsWith('-technology')) &&
+      !(r.inputs.length > 0 && r.inputs.every(i => i.endsWith('-science-pack')))
+    ),
     [getAllRecipes]
   )
 
