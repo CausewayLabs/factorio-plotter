@@ -62,6 +62,15 @@ for (const id of fluidIds) {
 }
 const normFluid = id => fluidTempMap.get(id) ?? id
 
+// Research/technology items are unlock nodes, not factory producers. FactorioLab
+// gives each a `category: 'technology'` item (id ends in `-technology`). Their
+// recipes are already dropped by isExcluded, but the items pass would otherwise
+// synthesise a `<id>-default` leaf for each (they have no producing recipe). We
+// track them here and skip them in every leaf-emitting pass, so regen does NOT
+// re-introduce the ~260 research leaves that were curated out of the catalog.
+const technologyIds = new Set(items.filter(i => i.category === 'technology').map(i => i.id))
+const isTechnology = id => technologyIds.has(id)
+
 // ──────────────────────────────────────────────────────────────
 // Recycler allowlist — the only recycler recipes we keep.
 // ──────────────────────────────────────────────────────────────
@@ -173,6 +182,8 @@ const emittedRecipeIds = new Set()
 
 for (const item of items) {
   const id = item.id
+  if (isTechnology(id)) continue // research nodes are not catalog producers
+  if (fluidTempMap.has(id)) continue // temperature variant normalised into its base fluid; no own leaf
   const name = title(item.name)
   const isRaw = rawItems.has(id)
 
@@ -230,6 +241,7 @@ const producedIds = new Set(out.flatMap(r => r.products))
 const referenced = new Set(out.flatMap(r => r.inputs))
 for (const id of referenced) {
   if (producedIds.has(id)) continue
+  if (isTechnology(id)) continue // never synthesise a research-node leaf
   const name = title((itemName.get(id) ?? id).replace(/-/g, ' '))
   out.push({ id: `${id}-default`, label: name, inputs: [], products: [id] })
   producedIds.add(id)

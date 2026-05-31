@@ -3883,6 +3883,16 @@
     ]
   },
   {
+    "id": "steam",
+    "label": "Boiler : Steam",
+    "inputs": [
+      "water"
+    ],
+    "products": [
+      "steam"
+    ]
+  },
+  {
     "id": "acid-neutralisation",
     "label": "Acid Neutralisation",
     "inputs": [
@@ -3896,16 +3906,6 @@
   {
     "id": "heat-exchanger-steam-boil",
     "label": "Heat Exchanger : Steam",
-    "inputs": [
-      "water"
-    ],
-    "products": [
-      "steam"
-    ]
-  },
-  {
-    "id": "steam",
-    "label": "Boiler : Steam",
     "inputs": [
       "water"
     ],
@@ -4217,126 +4217,6 @@
     "inputs": [],
     "products": [
       "lithium-brine"
-    ]
-  },
-  {
-    "id": "steam-power-default",
-    "label": "Steam Power",
-    "inputs": [],
-    "products": [
-      "steam-power"
-    ]
-  },
-  {
-    "id": "electronics-default",
-    "label": "Electronics",
-    "inputs": [],
-    "products": [
-      "electronics"
-    ]
-  },
-  {
-    "id": "steel-axe-default",
-    "label": "Steel Axe",
-    "inputs": [],
-    "products": [
-      "steel-axe"
-    ]
-  },
-  {
-    "id": "oil-processing-default",
-    "label": "Oil Processing",
-    "inputs": [],
-    "products": [
-      "oil-processing"
-    ]
-  },
-  {
-    "id": "recycling-default",
-    "label": "Recycling",
-    "inputs": [],
-    "products": [
-      "recycling"
-    ]
-  },
-  {
-    "id": "space-platform-default",
-    "label": "Space Platform",
-    "inputs": [],
-    "products": [
-      "space-platform"
-    ]
-  },
-  {
-    "id": "calcite-processing-default",
-    "label": "Calcite Processing",
-    "inputs": [],
-    "products": [
-      "calcite-processing"
-    ]
-  },
-  {
-    "id": "tungsten-steel-default",
-    "label": "Tungsten Steel",
-    "inputs": [],
-    "products": [
-      "tungsten-steel"
-    ]
-  },
-  {
-    "id": "agriculture-default",
-    "label": "Agriculture",
-    "inputs": [],
-    "products": [
-      "agriculture"
-    ]
-  },
-  {
-    "id": "artificial-soil-default",
-    "label": "Artificial Soil",
-    "inputs": [],
-    "products": [
-      "artificial-soil"
-    ]
-  },
-  {
-    "id": "bacteria-cultivation-default",
-    "label": "Bacteria Cultivation",
-    "inputs": [],
-    "products": [
-      "bacteria-cultivation"
-    ]
-  },
-  {
-    "id": "bioflux-processing-default",
-    "label": "Bioflux Processing",
-    "inputs": [],
-    "products": [
-      "bioflux-processing"
-    ]
-  },
-  {
-    "id": "biter-egg-handling-default",
-    "label": "Biter Egg Handling",
-    "inputs": [],
-    "products": [
-      "biter-egg-handling"
-    ]
-  },
-  {
-    "id": "holmium-processing-default",
-    "label": "Holmium Processing",
-    "inputs": [],
-    "products": [
-      "holmium-processing"
-    ]
-  },
-  {
-    "id": "lithium-processing-default",
-    "label": "Lithium Processing",
-    "inputs": [],
-    "products": [
-      "lithium-processing"
     ]
   },
   {
