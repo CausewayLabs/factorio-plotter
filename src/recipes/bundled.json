@@ -3873,16 +3873,6 @@
     ]
   },
   {
-    "id": "steam-condensation-steam-165",
-    "label": "Steam Condensation",
-    "inputs": [
-      "steam-165"
-    ],
-    "products": [
-      "water"
-    ]
-  },
-  {
     "id": "ice-melting",
     "label": "Ice Melting",
     "inputs": [
@@ -3920,7 +3910,7 @@
       "water"
     ],
     "products": [
-      "steam-165"
+      "steam"
     ]
   },
   {
@@ -4003,20 +3993,6 @@
       "coal",
       "heavy-oil",
       "steam"
-    ],
-    "products": [
-      "heavy-oil",
-      "light-oil",
-      "petroleum-gas"
-    ]
-  },
-  {
-    "id": "coal-liquefaction-steam-165",
-    "label": "Coal Liquefaction",
-    "inputs": [
-      "coal",
-      "heavy-oil",
-      "steam-165"
     ],
     "products": [
       "heavy-oil",

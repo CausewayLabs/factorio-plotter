@@ -47,6 +47,22 @@ const { items, recipes, icons: iconDefs } = data
 const itemName = new Map(items.map(i => [i.id, i.name]))
 
 // ──────────────────────────────────────────────────────────────
+// Fluid temperature-variant normalization.
+// FactorioLab models a fluid at a distinct temperature as its own item, e.g.
+// `steam` is "Steam (500°C)" while `steam-165` is "Steam (165°C)". Our shape-only
+// planner treats temperature variants as the SAME resource, so we collapse
+// `<fluid>-<temp>` back to the base fluid id. We only collapse when BOTH the
+// variant and its base are in the `fluids` category — this leaves tiered items
+// such as `efficiency-module-2` or `assembling-machine-2` untouched.
+const fluidIds = new Set(items.filter(i => i.category === 'fluids').map(i => i.id))
+const fluidTempMap = new Map()
+for (const id of fluidIds) {
+  const m = id.match(/^(.+)-\d+$/)
+  if (m && fluidIds.has(m[1])) fluidTempMap.set(id, m[1])
+}
+const normFluid = id => fluidTempMap.get(id) ?? id
+
+// ──────────────────────────────────────────────────────────────
 // Recycler allowlist — the only recycler recipes we keep.
 // ──────────────────────────────────────────────────────────────
 const RECYCLER_ALLOWLIST = new Set(['scrap-recycling', 'nuclear-fuel-recycling'])
@@ -94,13 +110,18 @@ const recipeEntries = []
 for (const r of recipes) {
   if (isExcluded(r)) continue
 
-  const inputs = Object.keys(r.in ?? {})
-  const products = Object.keys(r.out)
+  // Normalize fluid temperature variants (steam-165 → steam) on both sides.
+  // Dedupe after mapping so a recipe touching two temps of one fluid collapses cleanly.
+  const rawProducts = Object.keys(r.out)
+  const inputs = [...new Set(Object.keys(r.in ?? {}).map(normFluid))]
+  const products = [...new Set(rawProducts.map(normFluid))]
 
   // Determine a human label for this recipe entry.
   // If the recipe id matches a single product id, use the item name.
-  // Otherwise use the recipe's own name.
-  const singleProductMatch = products.length === 1 && products[0] === r.id
+  // Otherwise use the recipe's own name. We test against the RAW (pre-normalization)
+  // product so e.g. the boiler recipe (id `steam`, raw product `steam-165`) keeps its
+  // descriptive "Boiler : Steam" label instead of collapsing to the bare item name.
+  const singleProductMatch = rawProducts.length === 1 && rawProducts[0] === r.id
   const label = singleProductMatch
     ? title(itemName.get(products[0]) ?? r.name)
     : title(r.name)
@@ -116,6 +137,27 @@ for (const r of recipes) {
   })
 
   for (const p of products) coveredProducts.add(p)
+}
+
+// ──────────────────────────────────────────────────────────────
+// Drop temperature-variant recipe clones.
+// FactorioLab emits a separate recipe per consumed fluid temperature, e.g.
+// `coal-liquefaction` (steam @500) and `coal-liquefaction-steam-165` (steam @165).
+// After normalization these are structurally identical, so we drop the
+// `-<variant>` clone whenever a non-suffixed sibling with the same shape exists.
+// Genuinely distinct alternates (e.g. Boiler vs Heat Exchanger, both water→steam)
+// are NOT clones — their ids don't carry a fluid-temp suffix — so they survive.
+{
+  const variantSuffixes = [...fluidTempMap.keys()].map(v => `-${v}`)
+  const structKey = e => `${[...e.inputs].sort().join(',')}=>${[...e.products].sort().join(',')}`
+  const baseShapes = new Set(
+    recipeEntries.filter(e => !variantSuffixes.some(s => e.id.endsWith(s))).map(structKey)
+  )
+  const kept = recipeEntries.filter(
+    e => !(variantSuffixes.some(s => e.id.endsWith(s)) && baseShapes.has(structKey(e)))
+  )
+  recipeEntries.length = 0
+  recipeEntries.push(...kept)
 }
 
 // ──────────────────────────────────────────────────────────────
